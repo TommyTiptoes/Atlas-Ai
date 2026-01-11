@@ -1,0 +1,496 @@
+<Window x:Class="MinimalApp.SecuritySuite.SecuritySuiteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AI Security System" Height="800" Width="1400"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" ShowInTaskbar="True"
+        ResizeMode="CanResizeWithGrip">
+
+    <Window.Resources>
+        <FontFamily x:Key="TechFont">Segoe UI, Arial</FontFamily>
+        <FontFamily x:Key="MonoFont">Cascadia Code, Consolas</FontFamily>
+        
+        <!-- Deep space colors -->
+        <Color x:Key="BgDeep">#050810</Color>
+        <Color x:Key="BgDark">#0A0E18</Color>
+        <Color x:Key="CyanGlow">#00D4FF</Color>
+        <Color x:Key="OrangeGlow">#FF6B00</Color>
+        <Color x:Key="GreenGlow">#00FF88</Color>
+        <Color x:Key="RedGlow">#FF3366</Color>
+        <Color x:Key="PurpleGlow">#8B5CF6</Color>
+        
+        <SolidColorBrush x:Key="BgDeepBrush" Color="{StaticResource BgDeep}"/>
+        <SolidColorBrush x:Key="CyanBrush" Color="{StaticResource CyanGlow}"/>
+        <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource OrangeGlow}"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenGlow}"/>
+        <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedGlow}"/>
+        
+        <!-- Animated glow effect -->
+        <Storyboard x:Key="PulseGlow" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="1" Duration="0:0:1" AutoReverse="True"/>
+        </Storyboard>
+        
+        <!-- Scan line animation -->
+        <Storyboard x:Key="ScanLine" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" From="0" To="600" Duration="0:0:3"/>
+        </Storyboard>
+        
+        <!-- Tech button style -->
+        <Style x:Key="TechButton" TargetType="Button">
+            <Setter Property="Background" Value="#1A00D4FF"/>
+            <Setter Property="Foreground" Value="#00D4FF"/>
+            <Setter Property="BorderBrush" Value="#4D00D4FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontFamily" Value="{StaticResource TechFont}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" 
+                                CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#00D4FF" BlurRadius="10" ShadowDepth="0" Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3300D4FF"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#00D4FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="12" BorderThickness="1" BorderBrush="#3300D4FF">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#050810" Offset="0"/>
+                <GradientStop Color="#0A1020" Offset="0.5"/>
+                <GradientStop Color="#050810" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect Color="#00D4FF" BlurRadius="40" ShadowDepth="0" Opacity="0.4"/>
+        </Border.Effect>
+        
+        <Grid>
+            <!-- Scanlines overlay -->
+            <Rectangle Opacity="0.02" IsHitTestVisible="False">
+                <Rectangle.Fill>
+                    <DrawingBrush TileMode="Tile" Viewport="0,0,4,4" ViewportUnits="Absolute">
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing Brush="#2000D4FF">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,2,4,1"/>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+
+                <!-- HEADER -->
+                <Border Grid.Row="0" Background="#CC050810" BorderBrush="#3300D4FF" BorderThickness="0,0,0,1" MouseLeftButtonDown="TitleBar_MouseDown">
+                    <Grid Margin="20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Title with glow -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="8" Height="8" CornerRadius="4" Background="#00D4FF" Margin="0,0,12,0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="10" ShadowDepth="0"/>
+                                </Border.Effect>
+                            </Border>
+                            <TextBlock Text="AI SECURITY SYSTEM" Foreground="#00D4FF" FontSize="18" FontWeight="Bold" 
+                                       FontFamily="{StaticResource TechFont}" VerticalAlignment="Center">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                            <TextBlock x:Name="StatusIndicator" Text=" ACTIVE" Foreground="#00FF88" FontSize="14" 
+                                       FontFamily="{StaticResource MonoFont}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                            <Border Width="8" Height="8" CornerRadius="4" Background="#00D4FF" Margin="12,0,0,0">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="10" ShadowDepth="0"/>
+                                </Border.Effect>
+                            </Border>
+                        </StackPanel>
+                        
+                        <!-- Header stats -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="SYS://ATLAS/SEC/v2.1" Foreground="#4D94A3B8" FontFamily="{StaticResource MonoFont}" FontSize="10"/>
+                        </StackPanel>
+                        
+                        <!-- Close button -->
+                        <Button Grid.Column="2" Click="Close_Click" Width="40" Height="40" 
+                                Background="Transparent" BorderThickness="0" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border" Background="Transparent" CornerRadius="20">
+                                        <TextBlock Text="✕" Foreground="#6B7280" FontSize="16" 
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#1AFF3366"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- MAIN CONTENT -->
+                <Grid Grid.Row="1" Margin="20,20,20,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="320"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- LEFT PANEL - Stats & Controls -->
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0">
+                        <StackPanel>
+                            <!-- CPU/RAM/Storage Gauges -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <TextBlock Text="SYSTEM RESOURCES" Foreground="#00D4FF" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                    
+                                    <!-- CPU Gauge -->
+                                    <Grid Margin="0,0,0,16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Canvas Grid.Column="0" Width="60" Height="60">
+                                            <Ellipse Width="60" Height="60" Stroke="#1A00D4FF" StrokeThickness="4"/>
+                                            <Ellipse x:Name="CpuRing" Width="60" Height="60" Stroke="#00D4FF" StrokeThickness="4" 
+                                                     StrokeDashArray="3.5 10" StrokeDashCap="Round">
+                                                <Ellipse.Effect>
+                                                    <DropShadowEffect Color="#00D4FF" BlurRadius="8" ShadowDepth="0"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                            <TextBlock x:Name="CpuText" Text="23%" Canvas.Left="15" Canvas.Top="18" 
+                                                       Foreground="#00D4FF" FontSize="14" FontWeight="Bold"/>
+                                        </Canvas>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0,0,0">
+                                            <TextBlock Text="CPU USAGE" Foreground="#94A3B8" FontSize="9"/>
+                                            <TextBlock x:Name="CpuDetail" Text="Intel Core i9" Foreground="#64748B" FontSize="8"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <!-- RAM Gauge -->
+                                    <Grid Margin="0,0,0,16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Canvas Grid.Column="0" Width="60" Height="60">
+                                            <Ellipse Width="60" Height="60" Stroke="#1AFF6B00" StrokeThickness="4"/>
+                                            <Ellipse x:Name="RamRing" Width="60" Height="60" Stroke="#FF6B00" StrokeThickness="4" 
+                                                     StrokeDashArray="5 10" StrokeDashCap="Round">
+                                                <Ellipse.Effect>
+                                                    <DropShadowEffect Color="#FF6B00" BlurRadius="8" ShadowDepth="0"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                            <TextBlock x:Name="RamText" Text="58%" Canvas.Left="15" Canvas.Top="18" 
+                                                       Foreground="#FF6B00" FontSize="14" FontWeight="Bold"/>
+                                        </Canvas>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0,0,0">
+                                            <TextBlock Text="RAM USAGE" Foreground="#94A3B8" FontSize="9"/>
+                                            <TextBlock x:Name="RamDetail" Text="18.6 / 32 GB" Foreground="#64748B" FontSize="8"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <!-- Storage Gauge -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Canvas Grid.Column="0" Width="60" Height="60">
+                                            <Ellipse Width="60" Height="60" Stroke="#1A00FF88" StrokeThickness="4"/>
+                                            <Ellipse x:Name="StorageRing" Width="60" Height="60" Stroke="#00FF88" StrokeThickness="4" 
+                                                     StrokeDashArray="6 10" StrokeDashCap="Round">
+                                                <Ellipse.Effect>
+                                                    <DropShadowEffect Color="#00FF88" BlurRadius="8" ShadowDepth="0"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                            <TextBlock x:Name="StorageText" Text="72%" Canvas.Left="15" Canvas.Top="18" 
+                                                       Foreground="#00FF88" FontSize="14" FontWeight="Bold"/>
+                                        </Canvas>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0,0,0">
+                                            <TextBlock Text="STORAGE" Foreground="#94A3B8" FontSize="9"/>
+                                            <TextBlock x:Name="StorageDetail" Text="720 GB Free" Foreground="#64748B" FontSize="8"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Scan Buttons -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <TextBlock Text="SCAN OPTIONS" Foreground="#00D4FF" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                    <UniformGrid Columns="2" Rows="3">
+                                        <Button Content="QUICK SCAN" Style="{StaticResource TechButton}" Margin="0,0,4,8" Click="QuickScan_Click"/>
+                                        <Button Content="FULL SCAN" Style="{StaticResource TechButton}" Margin="4,0,0,8" Click="RunScan_Click"/>
+                                        <Button Content="QUARANTINE" Style="{StaticResource TechButton}" Margin="0,0,4,8"/>
+                                        <Button Content="CLEANUP" Style="{StaticResource TechButton}" Margin="4,0,0,8"/>
+                                        <Button Content="HISTORY" Style="{StaticResource TechButton}" Margin="0,0,4,0"/>
+                                        <Button Content="DIAGNOSTIC" Style="{StaticResource TechButton}" Margin="4,0,0,0"/>
+                                    </UniformGrid>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- System Status -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <TextBlock Text="SYSTEM STATUS" Foreground="#00D4FF" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="Firewall" Foreground="#94A3B8" FontSize="10"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="ACTIVE" Foreground="#00FF88" FontSize="10" FontWeight="SemiBold"/>
+                                        <TextBlock Grid.Row="1" Text="Real-time Protection" Foreground="#94A3B8" FontSize="10" Margin="0,8,0,0"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="ACTIVE" Foreground="#00FF88" FontSize="10" FontWeight="SemiBold" Margin="0,8,0,0"/>
+                                        <TextBlock Grid.Row="2" Text="Definitions" Foreground="#94A3B8" FontSize="10" Margin="0,8,0,0"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="DefsStatus" Text="UP TO DATE" Foreground="#00FF88" FontSize="10" FontWeight="SemiBold" Margin="0,8,0,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <!-- CENTER - Holographic Scanner -->
+                    <Grid Grid.Column="1" Margin="10,0">
+                        <Canvas x:Name="HologramCanvas" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!-- Outer rotating ring -->
+                            <Ellipse x:Name="OuterRing1" Width="400" Height="400" Canvas.Left="-200" Canvas.Top="-200"
+                                     Stroke="#2000D4FF" StrokeThickness="2" StrokeDashArray="1 2">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform x:Name="OuterRing1Rotate" CenterX="200" CenterY="200"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            
+                            <!-- Second ring -->
+                            <Ellipse x:Name="OuterRing2" Width="350" Height="350" Canvas.Left="-175" Canvas.Top="-175"
+                                     Stroke="#3000D4FF" StrokeThickness="1.5" StrokeDashArray="2 3">
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform x:Name="OuterRing2Rotate" CenterX="175" CenterY="175"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            
+                            <!-- Inner glowing ring -->
+                            <Ellipse x:Name="InnerRing" Width="280" Height="280" Canvas.Left="-140" Canvas.Top="-140"
+                                     Stroke="#00D4FF" StrokeThickness="3">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="20" ShadowDepth="0" Opacity="0.8"/>
+                                </Ellipse.Effect>
+                                <Ellipse.RenderTransform>
+                                    <RotateTransform x:Name="InnerRingRotate" CenterX="140" CenterY="140"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                            
+                            <!-- Scan sweep -->
+                            <Path x:Name="ScanSweep" Fill="#2000D4FF">
+                                <Path.Effect>
+                                    <BlurEffect Radius="5"/>
+                                </Path.Effect>
+                            </Path>
+                            
+                            <!-- Center core -->
+                            <Ellipse Width="120" Height="120" Canvas.Left="-60" Canvas.Top="-60">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#4000D4FF" Offset="0"/>
+                                        <GradientStop Color="#1000D4FF" Offset="0.7"/>
+                                        <GradientStop Color="#00000000" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            
+                            <!-- Glowing cube in center -->
+                            <Border x:Name="CenterCube" Width="50" Height="50" Canvas.Left="-25" Canvas.Top="-25" 
+                                    Background="#1A00D4FF" BorderBrush="#00D4FF" BorderThickness="2" CornerRadius="4">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="30" ShadowDepth="0" Opacity="0.8"/>
+                                </Border.Effect>
+                                <Border.RenderTransform>
+                                    <RotateTransform x:Name="CubeRotate" CenterX="25" CenterY="25"/>
+                                </Border.RenderTransform>
+                            </Border>
+                            
+                            <!-- Progress text -->
+                            <TextBlock x:Name="ScanProgress" Text="0%" Canvas.Left="-30" Canvas.Top="80" 
+                                       Foreground="#00D4FF" FontSize="28" FontWeight="Bold" FontFamily="{StaticResource MonoFont}">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="10" ShadowDepth="0"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                            <TextBlock x:Name="ScanStatusText" Text="READY" Canvas.Left="-25" Canvas.Top="115" 
+                                       Foreground="#64748B" FontSize="11" FontFamily="{StaticResource MonoFont}"/>
+                            
+                            <!-- Orbiting particles -->
+                            <Ellipse x:Name="Particle1" Width="8" Height="8" Fill="#00D4FF" Canvas.Left="130" Canvas.Top="0">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="10" ShadowDepth="0"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <Ellipse x:Name="Particle2" Width="6" Height="6" Fill="#FF6B00" Canvas.Left="-130" Canvas.Top="50">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#FF6B00" BlurRadius="8" ShadowDepth="0"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            <Ellipse x:Name="Particle3" Width="5" Height="5" Fill="#00FF88" Canvas.Left="80" Canvas.Top="-100">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#00FF88" BlurRadius="6" ShadowDepth="0"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                        </Canvas>
+                        
+                        <!-- Threat alert overlay -->
+                        <Border x:Name="ThreatAlert" Visibility="Collapsed" Background="#1AFF3366" BorderBrush="#4DFF3366" 
+                                BorderThickness="1" CornerRadius="8" Padding="16" VerticalAlignment="Bottom" Margin="20,0,20,20">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="⚠" Foreground="#FF3366" FontSize="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="MALWARE THREAT DETECTED" Foreground="#FF3366" FontSize="12" FontWeight="Bold"/>
+                                </StackPanel>
+                                <TextBlock x:Name="ThreatDetails" Text="" Foreground="#94A3B8" FontSize="10" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                                <Button x:Name="SecureNowBtn" Content="SECURE NOW" Style="{StaticResource TechButton}" 
+                                        Background="#1AFF3366" BorderBrush="#4DFF3366" Foreground="#FF3366" 
+                                        HorizontalAlignment="Right" Margin="0,12,0,0" Click="SecureNow_Click"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <!-- RIGHT PANEL - Threats & Network -->
+                    <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Margin="10,0,0,0">
+                        <StackPanel>
+                            <!-- Threat List -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <Grid Margin="0,0,0,12">
+                                        <TextBlock Text="DETECTED THREATS" Foreground="#FF3366" FontSize="10" FontWeight="SemiBold"/>
+                                        <TextBlock x:Name="ThreatCount" Text="0" Foreground="#FF3366" FontSize="10" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                    <Border x:Name="ThreatListPanel" Background="#0D0A0E18" CornerRadius="4" Padding="8" MinHeight="150">
+                                        <StackPanel x:Name="ThreatList">
+                                            <TextBlock Text="No threats detected" Foreground="#4D94A3B8" FontSize="10" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Resource States -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <TextBlock Text="RESOURCE STATES" Foreground="#00D4FF" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                    <Canvas x:Name="ResourceGraph" Height="80" Background="#0D0A0E18"/>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Threat" Foreground="#64748B" FontSize="8" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="Scan" Foreground="#64748B" FontSize="8" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="Secure" Foreground="#64748B" FontSize="8" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="3" Text="Shield" Foreground="#64748B" FontSize="8" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Global Network Threats -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                        <Ellipse Width="8" Height="8" Fill="#00FF88" Margin="0,0,8,0">
+                                            <Ellipse.Effect>
+                                                <DropShadowEffect Color="#00FF88" BlurRadius="6" ShadowDepth="0"/>
+                                            </Ellipse.Effect>
+                                        </Ellipse>
+                                        <TextBlock Text="GLOBAL NETWORK THREATS" Foreground="#00D4FF" FontSize="10" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <Canvas x:Name="NetworkMap" Height="100" Background="#0D0A0E18" ClipToBounds="True">
+                                        <!-- World map dots will be drawn here -->
+                                    </Canvas>
+                                    <TextBlock x:Name="NetworkStatus" Text="Monitoring 847 global threat sources" 
+                                               Foreground="#64748B" FontSize="9" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Activity Log -->
+                            <Border Background="#0D0A1428" BorderBrush="#3300D4FF" BorderThickness="1" CornerRadius="8" Padding="16">
+                                <StackPanel>
+                                    <TextBlock Text="ACTIVITY LOG" Foreground="#00D4FF" FontSize="10" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                    <ScrollViewer MaxHeight="120" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel x:Name="ActivityLog">
+                                            <TextBlock Text="[READY] System initialized" Foreground="#64748B" FontSize="9" FontFamily="{StaticResource MonoFont}"/>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <!-- FOOTER - Action Buttons -->
+                <Border Grid.Row="2" Background="#CC050810" BorderBrush="#3300D4FF" BorderThickness="0,1,0,0">
+                    <Grid Margin="20,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Status bar -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock x:Name="FooterStatus" Text="COGNITIVE_INTEGRITY_SCAN: READY" 
+                                       Foreground="#00D4FF" FontFamily="{StaticResource MonoFont}" FontSize="11"/>
+                            <StackPanel x:Name="ProgressDots" Orientation="Horizontal" Margin="16,0,0,0"/>
+                            <TextBlock x:Name="HexProgress" Text="0x00" Foreground="#8B5CF6" 
+                                       FontFamily="{StaticResource MonoFont}" FontSize="11" Margin="16,0,0,0"/>
+                        </StackPanel>
+                        
+                        <!-- Footer buttons -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Content="CONFIGURE" Style="{StaticResource TechButton}" Margin="0,0,8,0"/>
+                            <Button Content="SETTINGS" Style="{StaticResource TechButton}" Margin="0,0,8,0"/>
+                            <Button Content="SECURE" Style="{StaticResource TechButton}" Margin="0,0,8,0" 
+                                    Background="#1A00FF88" BorderBrush="#4D00FF88" Foreground="#00FF88"/>
+                            <Button Content="SPORE" Style="{StaticResource TechButton}" Margin="0,0,8,0"/>
+                            <Button Content="HELP" Style="{StaticResource TechButton}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

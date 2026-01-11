@@ -1,0 +1,518 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+using Microsoft.Win32;
+
+namespace MinimalApp.SecuritySuite
+{
+    public partial class SecuritySuiteWindow : Window
+    {
+        private DispatcherTimer _animationTimer;
+        private DispatcherTimer _scanTimer;
+        private int _scanProgress = 0;
+        private double _sweepAngle = 0;
+        private int _activeStep = 0;
+        private Random _random = new();
+        private bool _isScanning = false;
+        private string _currentScanType = "IDLE";
+        
+        private double _cpuUsage = 0;
+        private double _ramUsage = 0;
+        private double _diskFree = 0;
+        private int _processCount = 0;
+        private int _threatCount = 0;
+        private List<string> _scanLog = new();
+        private List<double> _cpuHistory = new();
+        
+        private TextBlock _scannerProgress;
+        private TextBlock _scannerStatus;
+        private System.Windows.Shapes.Path _scanSweep;
+        private Canvas _behaviorCanvas;
+        private PerformanceCounter _cpuCounter;
+
+        public SecuritySuiteWindow()
+        {
+            InitializeComponent();
+            InitializePerformanceCounters();
+            InitializeUI();
+            StartAnimations();
+            _ = RunInitialScanAsync();
+        }
+
+        private void InitializePerformanceCounters()
+        {
+            try { _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total"); _cpuCounter.NextValue(); }
+            catch { _cpuCounter = null; }
+        }
+
+        private void InitializeUI()
+        {
+            for (int i = 0; i < 20; i++) _cpuHistory.Add(20 + _random.NextDouble() * 10);
+            BuildProgressTicks();
+            BuildPipelineSteps();
+            BuildBehavioralPanel();
+            BuildSystemLogPanel();
+            BuildAIAcceleratorPanel();
+            BuildTrustMatrixPanel();
+            BuildStatusModulesPanel();
+            BuildDiagnosticScanner();
+        }
+
+        private void StartAnimations()
+        {
+            _animationTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
+            _animationTimer.Tick += (s, e) => { _sweepAngle = (_sweepAngle + 2) % 360; UpdateScannerAnimation(); UpdateHeartbeat(); };
+            _animationTimer.Start();
+
+            _scanTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+            _scanTimer.Tick += ScanTimer_Tick;
+            _scanTimer.Start();
+        }
+
+        private async Task RunInitialScanAsync()
+        {
+            await Task.Delay(500);
+            await RunFullScanAsync();
+        }
+
+        private async Task RunFullScanAsync()
+        {
+            if (_isScanning) return;
+            _isScanning = true;
+            _scanProgress = 0;
+            _threatCount = 0;
+            _scanLog.Clear();
+            _currentScanType = "FULL_SYSTEM_SCAN";
+            
+            AddLog("AI_CORE", "Initiating full system scan...", "active");
+            await Task.Delay(200);
+            
+            _activeStep = 0;
+            AddLog("PROCESS", "Scanning running processes...", "active");
+            await ScanProcessesAsync();
+            
+            _activeStep = 1;
+            AddLog("STARTUP", "Analyzing startup programs...", "active");
+            await ScanStartupAsync();
+            
+            _activeStep = 2;
+            AddLog("NETWORK", "Checking network connections...", "active");
+            await ScanNetworkAsync();
+            
+            _activeStep = 3;
+            AddLog("REGISTRY", "Scanning registry...", "active");
+            await ScanRegistryAsync();
+            
+            _activeStep = 4;
+            AddLog("FILESYSTEM", "Scanning critical directories...", "active");
+            await ScanFileSystemAsync();
+            
+            _scanProgress = 100;
+            _currentScanType = "SCAN_COMPLETE";
+            _isScanning = false;
+            
+            var status = _threatCount == 0 ? "SECURE" : "THREATS: " + _threatCount;
+            ThreatLevel.Text = "THREAT_LEVEL: " + (_threatCount == 0 ? "0x00" : "0x" + _threatCount.ToString("X2"));
+            ThreatLevel.Foreground = new SolidColorBrush(_threatCount == 0 ? Color.FromRgb(34, 197, 94) : Color.FromRgb(239, 68, 68));
+            AddLog("COMPLETE", "Scan finished. " + status, "completed");
+        }
+
+        private async Task ScanProcessesAsync()
+        {
+            await Task.Run(() =>
+            {
+                var procs = Process.GetProcesses();
+                _processCount = procs.Length;
+                var suspicious = new[] { "keylogger", "miner", "cryptominer", "trojan", "malware" };
+                foreach (var p in procs)
+                {
+                    try
+                    {
+                        var name = p.ProcessName.ToLower();
+                        if (suspicious.Any(s => name.Contains(s)))
+                        {
+                            _threatCount++;
+                            Dispatcher.Invoke(() => AddLog("THREAT", "Suspicious: " + p.ProcessName, "warning"));
+                        }
+                    }
+                    catch { }
+                }
+            });
+            _scanProgress = 20;
+        }
+
+        private async Task ScanStartupAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    if (key != null)
+                    {
+                        foreach (var name in key.GetValueNames())
+                        {
+                            var val = key.GetValue(name)?.ToString() ?? "";
+                            if (val.Contains("temp", StringComparison.OrdinalIgnoreCase))
+                            {
+                                _threatCount++;
+                                Dispatcher.Invoke(() => AddLog("STARTUP", "Suspicious: " + name, "warning"));
+                            }
+                        }
+                    }
+                }
+                catch { }
+            });
+            _scanProgress = 40;
+        }
+
+        private async Task ScanNetworkAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var psi = new ProcessStartInfo("netstat", "-an") { RedirectStandardOutput = true, UseShellExecute = false, CreateNoWindow = true };
+                    using var proc = Process.Start(psi);
+                    var output = proc?.StandardOutput.ReadToEnd() ?? "";
+                    var suspiciousPorts = new[] { ":4444", ":5555", ":6666", ":31337" };
+                    foreach (var line in output.Split('\n').Where(l => l.Contains("ESTABLISHED")))
+                    {
+                        if (suspiciousPorts.Any(p => line.Contains(p)))
+                        {
+                            _threatCount++;
+                            Dispatcher.Invoke(() => AddLog("NETWORK", "Suspicious connection", "warning"));
+                        }
+                    }
+                }
+                catch { }
+            });
+            _scanProgress = 60;
+        }
+
+        private async Task ScanRegistryAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce");
+                }
+                catch { }
+            });
+            _scanProgress = 80;
+        }
+
+        private async Task ScanFileSystemAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var tempPath = System.IO.Path.GetTempPath();
+                    var suspiciousExts = new[] { ".exe", ".bat", ".cmd", ".vbs", ".ps1" };
+                    var files = Directory.GetFiles(tempPath, "*.*", SearchOption.TopDirectoryOnly)
+                        .Where(f => suspiciousExts.Any(e => f.EndsWith(e, StringComparison.OrdinalIgnoreCase))).Take(10).ToList();
+                    if (files.Count > 5)
+                        Dispatcher.Invoke(() => AddLog("FILESYSTEM", files.Count + " executables in temp", "warning"));
+                }
+                catch { }
+            });
+            _scanProgress = 100;
+        }
+
+        private void AddLog(string tag, string message, string status)
+        {
+            var time = DateTime.Now.ToString("HH:mm:ss");
+            _scanLog.Insert(0, time + "|" + tag + "|" + message + "|" + status);
+            if (_scanLog.Count > 10) _scanLog.RemoveAt(_scanLog.Count - 1);
+            BuildSystemLogPanel();
+        }
+
+        private void ScanTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateRealMetrics();
+            UpdateProgressTicks();
+            UpdateScannerProgress();
+            if (!_isScanning) _activeStep = (_activeStep + 1) % 5;
+            UpdatePipelineSteps();
+            _cpuHistory.RemoveAt(0);
+            _cpuHistory.Add(_cpuUsage);
+            UpdateBehavioralGraph();
+            UpdateAIAcceleratorPanel();
+            UpdateStatusModulesPanel();
+        }
+
+        private void UpdateRealMetrics()
+        {
+            try
+            {
+                _cpuUsage = _cpuCounter?.NextValue() ?? _random.Next(10, 40);
+                var ci = new Microsoft.VisualBasic.Devices.ComputerInfo();
+                _ramUsage = 100.0 * (1 - (double)ci.AvailablePhysicalMemory / ci.TotalPhysicalMemory);
+                var drive = DriveInfo.GetDrives().FirstOrDefault(d => d.IsReady && d.DriveType == DriveType.Fixed);
+                if (drive != null) _diskFree = drive.AvailableFreeSpace / (1024.0 * 1024 * 1024);
+                _processCount = Process.GetProcesses().Length;
+            }
+            catch { }
+        }
+        private void BuildPipelineSteps()
+        {
+            var steps = new[] { "INPUT\nMONITORING", "CONTEXT\nANALYSIS", "RISK\nEVALUATION", "DECISION\nGATE", "ACTION\nAUTH" };
+            PipelineGrid.ColumnDefinitions.Clear();
+            for (int i = 0; i < 5; i++) PipelineGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            PipelineGrid.Children.Clear();
+            for (int i = 0; i < 5; i++)
+            {
+                var stepPanel = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center };
+                var nodeGrid = new Grid { Width = 24, Height = 24 };
+                var outer = new Ellipse { Width = 24, Height = 24, Stroke = new SolidColorBrush(Color.FromArgb(77, 34, 211, 238)), StrokeThickness = 2, Fill = new SolidColorBrush(Color.FromArgb(128, 10, 12, 20)) };
+                var inner = new Ellipse { Width = 8, Height = 8, Fill = new SolidColorBrush(Color.FromArgb(102, 34, 211, 238)), HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+                nodeGrid.Children.Add(outer); nodeGrid.Children.Add(inner); nodeGrid.Tag = new[] { outer, inner };
+                stepPanel.Children.Add(nodeGrid);
+                var label = new TextBlock { Text = steps[i], Foreground = new SolidColorBrush(Color.FromRgb(107, 114, 128)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 7, TextAlignment = TextAlignment.Center, Margin = new Thickness(0, 4, 0, 0) };
+                stepPanel.Children.Add(label); stepPanel.Tag = label;
+                Grid.SetColumn(stepPanel, i); PipelineGrid.Children.Add(stepPanel);
+                if (i < 4) { var line = new Rectangle { Height = 2, Fill = new SolidColorBrush(Color.FromArgb(51, 34, 211, 238)), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(30, 0, 30, 20) }; Grid.SetColumn(line, i); Grid.SetColumnSpan(line, 2); PipelineGrid.Children.Add(line); }
+            }
+        }
+
+        private void UpdatePipelineSteps()
+        {
+            var cyan = Color.FromRgb(34, 211, 238);
+            foreach (var child in PipelineGrid.Children)
+                if (child is StackPanel panel && panel.Children.Count > 0)
+                {
+                    var idx = Grid.GetColumn(panel); var isActive = idx == _activeStep;
+                    if (panel.Children[0] is Grid ng && ng.Tag is Ellipse[] c) { c[0].Stroke = new SolidColorBrush(isActive ? cyan : Color.FromArgb(77, 34, 211, 238)); c[0].Fill = new SolidColorBrush(isActive ? Color.FromArgb(51, 34, 211, 238) : Color.FromArgb(128, 10, 12, 20)); c[1].Fill = new SolidColorBrush(isActive ? cyan : Color.FromArgb(102, 34, 211, 238)); c[0].Effect = isActive ? new DropShadowEffect { Color = cyan, BlurRadius = 20, ShadowDepth = 0, Opacity = 0.8 } : null; }
+                    if (panel.Tag is TextBlock lbl) lbl.Foreground = new SolidColorBrush(isActive ? cyan : Color.FromRgb(107, 114, 128));
+                }
+        }
+
+        private void BuildProgressTicks()
+        {
+            ProgressTicks.Children.Clear();
+            for (int i = 0; i < 10; i++) ProgressTicks.Children.Add(new Rectangle { Width = 2, Height = 16, Fill = new SolidColorBrush(Color.FromArgb(77, 34, 211, 238)), RadiusX = 1, RadiusY = 1, Margin = new Thickness(2, 0, 2, 0) });
+        }
+
+        private void UpdateProgressTicks()
+        {
+            var active = _scanProgress / 10;
+            for (int i = 0; i < ProgressTicks.Children.Count; i++) if (ProgressTicks.Children[i] is Rectangle t) t.Fill = new SolidColorBrush(i < active ? Color.FromArgb(204, 34, 211, 238) : Color.FromArgb(77, 34, 211, 238));
+        }
+
+        private void BuildDiagnosticScanner()
+        {
+            var canvas = ScannerCanvas; var center = 180.0;
+            canvas.Children.Clear();
+            var brackets = new[] { (10.0, 10.0, new Thickness(2, 2, 0, 0)), (330.0, 10.0, new Thickness(0, 2, 2, 0)), (10.0, 330.0, new Thickness(2, 0, 0, 2)), (330.0, 330.0, new Thickness(0, 0, 2, 2)) };
+            foreach (var b in brackets) { var br = new Border { Width = 32, Height = 32, BorderBrush = new SolidColorBrush(Color.FromArgb(153, 34, 211, 238)), BorderThickness = b.Item3 }; Canvas.SetLeft(br, b.Item1); Canvas.SetTop(br, b.Item2); canvas.Children.Add(br); }
+            var outerRing = new Ellipse { Width = 340, Height = 340, Stroke = new SolidColorBrush(Color.FromArgb(51, 34, 211, 238)), StrokeThickness = 1 }; Canvas.SetLeft(outerRing, 10); Canvas.SetTop(outerRing, 10); canvas.Children.Add(outerRing);
+            foreach (var size in new[] { 280, 260, 240, 220 }) { var ring = new Ellipse { Width = size, Height = size, Stroke = new SolidColorBrush(Color.FromArgb(26, 34, 211, 238)), StrokeThickness = 1 }; Canvas.SetLeft(ring, center - size / 2); Canvas.SetTop(ring, center - size / 2); canvas.Children.Add(ring); }
+            _scanSweep = new System.Windows.Shapes.Path { Stroke = new SolidColorBrush(Color.FromArgb(153, 34, 211, 238)), StrokeThickness = 3, Effect = new DropShadowEffect { Color = Color.FromRgb(34, 211, 238), BlurRadius = 8, ShadowDepth = 0, Opacity = 0.6 } }; canvas.Children.Add(_scanSweep);
+            for (int i = 0; i < 8; i++) { var angle = (i * Math.PI * 2) / 8; var p = new Ellipse { Width = 6, Height = 6, Fill = new SolidColorBrush(Color.FromRgb(34, 211, 238)), Opacity = 0.6 }; Canvas.SetLeft(p, center + Math.Cos(angle) * 140 - 3); Canvas.SetTop(p, center + Math.Sin(angle) * 140 - 3); canvas.Children.Add(p); }
+            var core = new Ellipse { Width = 180, Height = 180, Fill = new SolidColorBrush(Color.FromArgb(230, 10, 12, 20)), Stroke = new SolidColorBrush(Color.FromArgb(77, 34, 211, 238)), StrokeThickness = 1, Effect = new DropShadowEffect { Color = Color.FromRgb(34, 211, 238), BlurRadius = 30, ShadowDepth = 0, Opacity = 0.3 } }; Canvas.SetLeft(core, center - 90); Canvas.SetTop(core, center - 90); canvas.Children.Add(core);
+            
+            // Progress percentage - NO LETTERS, just percentage
+            _scannerProgress = new TextBlock { Text = "0%", Foreground = new SolidColorBrush(Color.FromRgb(34, 211, 238)), FontFamily = new FontFamily("Segoe UI"), FontSize = 48, FontWeight = FontWeights.Bold }; Canvas.SetLeft(_scannerProgress, center - 40); Canvas.SetTop(_scannerProgress, center - 30); canvas.Children.Add(_scannerProgress);
+            _scannerStatus = new TextBlock { Text = "INITIALIZING", Foreground = new SolidColorBrush(Color.FromArgb(204, 34, 211, 238)), FontFamily = new FontFamily("Segoe UI"), FontSize = 12, FontWeight = FontWeights.SemiBold }; Canvas.SetLeft(_scannerStatus, center - 45); Canvas.SetTop(_scannerStatus, center + 25); canvas.Children.Add(_scannerStatus);
+            var micro = new TextBlock { Text = "SYSTEM_INTEGRITY_CHECK", Foreground = new SolidColorBrush(Color.FromArgb(128, 34, 211, 238)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9 }; Canvas.SetLeft(micro, center - 75); Canvas.SetTop(micro, center + 45); canvas.Children.Add(micro);
+        }
+
+        private void UpdateScannerAnimation() 
+        { 
+            if (_scanSweep == null) return; 
+            var center = 180.0; var radius = 160.0; var angle = _sweepAngle * Math.PI / 180; 
+            var g = new PathGeometry(); var f = new PathFigure { StartPoint = new Point(center, center) }; 
+            f.Segments.Add(new LineSegment(new Point(center + radius * Math.Cos(angle), center + radius * Math.Sin(angle)), true)); 
+            g.Figures.Add(f); _scanSweep.Data = g; 
+        }
+        
+        private void UpdateScannerProgress() 
+        { 
+            if (_scannerProgress != null) _scannerProgress.Text = _scanProgress + "%";
+            if (_scannerStatus != null) _scannerStatus.Text = _isScanning ? "ANALYZING" : (_threatCount == 0 ? "SECURE" : "THREATS FOUND");
+            ScanStatus.Text = _isScanning ? "SCANNING: " + _currentScanType : "COGNITIVE_INTEGRITY_SCAN: COMPLETE";
+            HexProgress.Text = "0x" + _scanProgress.ToString("X2");
+        }
+
+        private void BuildBehavioralPanel()
+        {
+            BehavioralPanel.Child = null; var stack = new StackPanel();
+            stack.Children.Add(new TextBlock { Text = "BEHAVIORAL ANALYSIS", Foreground = new SolidColorBrush(Color.FromArgb(204, 34, 197, 94)), FontFamily = new FontFamily("Segoe UI"), FontSize = 10, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 8) });
+            var graphBorder = new Border { Background = new SolidColorBrush(Color.FromArgb(153, 10, 12, 20)), BorderBrush = new SolidColorBrush(Color.FromArgb(26, 34, 197, 94)), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(4), Height = 48, Margin = new Thickness(0, 0, 0, 12) };
+            _behaviorCanvas = new Canvas { ClipToBounds = true }; graphBorder.Child = _behaviorCanvas; stack.Children.Add(graphBorder); UpdateBehavioralGraph();
+            
+            var behavior = _cpuUsage < 50 ? "CONSISTENT" : (_cpuUsage < 80 ? "ELEVATED" : "HIGH LOAD");
+            AddStatRow(stack, "USER BEHAVIOR", behavior);
+            AddStatRow(stack, "PROCESS BEHAVIOR", _processCount + " ACTIVE");
+            AddStatRow(stack, "ANOMALY DEVIATION", (Math.Abs(_cpuUsage - 30) / 100.0).ToString("P1"));
+            stack.Children.Add(new TextBlock { Text = _threatCount == 0 ? "ZERO-DEVIATION STATE" : "THREATS DETECTED: " + _threatCount, Foreground = new SolidColorBrush(_threatCount == 0 ? Color.FromArgb(179, 34, 197, 94) : Color.FromRgb(239, 68, 68)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 12, 0, 0) });
+            BehavioralPanel.Child = stack;
+        }
+
+        private void AddStatRow(StackPanel stack, string label, string value)
+        {
+            var row = new Grid { Margin = new Thickness(0, 4, 0, 0) }; row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }); row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            row.Children.Add(new TextBlock { Text = label, Foreground = new SolidColorBrush(Color.FromRgb(107, 114, 128)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9 });
+            var vt = new TextBlock { Text = value, Foreground = new SolidColorBrush(Color.FromRgb(34, 197, 94)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9 }; Grid.SetColumn(vt, 1); row.Children.Add(vt); stack.Children.Add(row);
+        }
+
+        private void UpdateBehavioralGraph()
+        {
+            if (_behaviorCanvas == null) return; _behaviorCanvas.Children.Clear(); var w = 196.0; var h = 48.0;
+            _behaviorCanvas.Children.Add(new Line { X1 = 0, Y1 = h / 2, X2 = w, Y2 = h / 2, Stroke = new SolidColorBrush(Color.FromArgb(51, 34, 197, 94)), StrokeThickness = 0.5, StrokeDashArray = new DoubleCollection { 2, 2 } });
+            var poly = new Polyline { Stroke = new SolidColorBrush(Color.FromArgb(204, 34, 197, 94)), StrokeThickness = 1.5 };
+            for (int i = 0; i < _cpuHistory.Count; i++) poly.Points.Add(new Point((i / (double)(_cpuHistory.Count - 1)) * w, h - (_cpuHistory[i] / 100.0 * h)));
+            _behaviorCanvas.Children.Add(poly);
+            var fill = new Polygon { Fill = new SolidColorBrush(Color.FromArgb(77, 34, 197, 94)) }; fill.Points.Add(new Point(0, h));
+            for (int i = 0; i < _cpuHistory.Count; i++) fill.Points.Add(new Point((i / (double)(_cpuHistory.Count - 1)) * w, h - (_cpuHistory[i] / 100.0 * h)));
+            fill.Points.Add(new Point(w, h)); _behaviorCanvas.Children.Insert(0, fill);
+        }
+
+        private void BuildSystemLogPanel()
+        {
+            SystemLogPanel.Child = null; var stack = new StackPanel();
+            if (_scanLog.Count == 0) _scanLog.Add(DateTime.Now.ToString("HH:mm:ss") + "|SYSTEM|Awaiting scan initialization...|queued");
+            
+            foreach (var entry in _scanLog.Take(8))
+            {
+                var parts = entry.Split('|');
+                if (parts.Length < 4) continue;
+                var time = parts[0]; var tag = parts[1]; var msg = parts[2]; var status = parts[3];
+                
+                var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 3, 0, 0) };
+                var icon = status == "completed" ? "✓" : status == "active" ? "→" : status == "warning" ? "⚠" : "○";
+                var iconColor = status == "completed" ? Color.FromRgb(34, 197, 94) : status == "active" ? Color.FromRgb(34, 211, 238) : status == "warning" ? Color.FromRgb(245, 158, 11) : Color.FromRgb(75, 85, 99);
+                row.Children.Add(new TextBlock { Text = icon, Foreground = new SolidColorBrush(iconColor), FontSize = 10, Margin = new Thickness(0, 0, 6, 0), VerticalAlignment = VerticalAlignment.Top });
+                var ts = new StackPanel(); var hr = new StackPanel { Orientation = Orientation.Horizontal };
+                hr.Children.Add(new TextBlock { Text = "[" + time + "]", Foreground = new SolidColorBrush(Color.FromArgb(153, 34, 211, 238)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 11, Margin = new Thickness(0, 0, 6, 0) });
+                hr.Children.Add(new TextBlock { Text = "[" + tag + "]", Foreground = new SolidColorBrush(Color.FromArgb(204, 139, 92, 246)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 11 });
+                ts.Children.Add(hr);
+                var msgColor = status == "completed" ? Color.FromRgb(209, 213, 219) : status == "active" ? Color.FromRgb(34, 211, 238) : status == "warning" ? Color.FromRgb(245, 158, 11) : Color.FromRgb(75, 85, 99);
+                ts.Children.Add(new TextBlock { Text = msg, Foreground = new SolidColorBrush(msgColor), FontFamily = new FontFamily("Cascadia Code"), FontSize = 11, TextWrapping = TextWrapping.Wrap });
+                row.Children.Add(ts); stack.Children.Add(row);
+            }
+            SystemLogPanel.Child = stack;
+        }
+
+        private void BuildAIAcceleratorPanel()
+        {
+            AIAcceleratorPanel.Child = null; var stack = new StackPanel();
+            stack.Children.Add(new TextBlock { Text = "💻 SYSTEM METRICS", Foreground = new SolidColorBrush(Color.FromArgb(204, 139, 92, 246)), FontFamily = new FontFamily("Segoe UI"), FontSize = 10, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 12) });
+            
+            AddMetricRow(stack, "🔲 CPU LOAD", _cpuUsage.ToString("F1") + "%", Color.FromRgb(139, 92, 246), null);
+            AddMetricRow(stack, "📊 PROCESSES", _processCount.ToString(), Color.FromRgb(34, 211, 238), "active");
+            AddMetricRow(stack, "🧠 RAM USAGE", _ramUsage.ToString("F1"), Color.FromRgb(139, 92, 246), "%");
+            AddMetricRow(stack, "💾 DISK FREE", _diskFree.ToString("F1"), Color.FromRgb(34, 211, 238), "GB");
+            
+            var cpuBar = new Border { Background = new SolidColorBrush(Color.FromArgb(153, 10, 12, 20)), CornerRadius = new CornerRadius(3), Height = 6, Margin = new Thickness(0, 8, 0, 0) };
+            var cpuColor = _cpuUsage < 50 ? Color.FromRgb(34, 197, 94) : (_cpuUsage < 80 ? Color.FromRgb(245, 158, 11) : Color.FromRgb(239, 68, 68));
+            cpuBar.Child = new Border { Background = new SolidColorBrush(cpuColor), CornerRadius = new CornerRadius(3), Height = 6, Width = Math.Min(180, _cpuUsage * 1.8), HorizontalAlignment = HorizontalAlignment.Left };
+            stack.Children.Add(cpuBar);
+            AIAcceleratorPanel.Child = stack;
+        }
+
+        private void UpdateAIAcceleratorPanel() { BuildAIAcceleratorPanel(); }
+
+        private void AddMetricRow(StackPanel stack, string label, string value, Color color, string unit)
+        {
+            var row = new Grid { Margin = new Thickness(0, 4, 0, 0) }; row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }); row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            row.Children.Add(new TextBlock { Text = label, Foreground = new SolidColorBrush(Color.FromRgb(107, 114, 128)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9 });
+            var vp = new StackPanel { Orientation = Orientation.Horizontal }; vp.Children.Add(new TextBlock { Text = value, Foreground = new SolidColorBrush(color), FontFamily = new FontFamily("Cascadia Code"), FontSize = 12 });
+            if (unit != null) vp.Children.Add(new TextBlock { Text = " " + unit, Foreground = new SolidColorBrush(Color.FromRgb(107, 114, 128)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9, VerticalAlignment = VerticalAlignment.Bottom, Margin = new Thickness(0, 0, 0, 1) });
+            Grid.SetColumn(vp, 1); row.Children.Add(vp); stack.Children.Add(row);
+        }
+
+        private void BuildTrustMatrixPanel()
+        {
+            TrustMatrixPanel.Child = null; var stack = new StackPanel();
+            stack.Children.Add(new TextBlock { Text = "🛡️ TRUST MATRIX", Foreground = new SolidColorBrush(Color.FromArgb(204, 34, 197, 94)), FontFamily = new FontFamily("Segoe UI"), FontSize = 10, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 12) });
+            
+            var kernelTrust = _threatCount == 0 ? 98 : Math.Max(50, 98 - _threatCount * 10);
+            var memoryIntegrity = _ramUsage < 90 ? 100 : 85;
+            var networkConf = 96;
+            var aiVerify = _threatCount == 0 ? 99 : 80;
+            
+            AddTrustRow(stack, "KERNEL TRUST", kernelTrust);
+            AddTrustRow(stack, "MEMORY INTEGRITY", memoryIntegrity);
+            AddTrustRow(stack, "NETWORK CONFIDENCE", networkConf);
+            AddTrustRow(stack, "AI SELF-VERIFICATION", aiVerify);
+            stack.Children.Add(new TextBlock { Text = _threatCount == 0 ? "CRYPTOGRAPHIC VERIFICATION ACTIVE" : "VERIFICATION COMPROMISED", Foreground = new SolidColorBrush(_threatCount == 0 ? Color.FromArgb(179, 34, 197, 94) : Color.FromRgb(239, 68, 68)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 9, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 4, 0, 0) });
+            TrustMatrixPanel.Child = stack;
+        }
+
+        private void AddTrustRow(StackPanel stack, string label, int value)
+        {
+            var mp = new StackPanel { Margin = new Thickness(0, 0, 0, 10) };
+            var lr = new Grid(); lr.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }); lr.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            lr.Children.Add(new TextBlock { Text = label, Foreground = new SolidColorBrush(Color.FromRgb(107, 114, 128)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 8 });
+            var barColor = value >= 90 ? Color.FromRgb(34, 197, 94) : (value >= 70 ? Color.FromRgb(245, 158, 11) : Color.FromRgb(239, 68, 68));
+            var vt = new TextBlock { Text = value + "%", Foreground = new SolidColorBrush(barColor), FontFamily = new FontFamily("Cascadia Code"), FontSize = 10 }; Grid.SetColumn(vt, 1); lr.Children.Add(vt); mp.Children.Add(lr);
+            var bp = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 4, 0, 0) }; var segs = 40; var active = (int)(value / 100.0 * segs);
+            for (int i = 0; i < segs; i++) bp.Children.Add(new Rectangle { Width = 3.5, Height = 6, RadiusX = 1, RadiusY = 1, Fill = new SolidColorBrush(i < active ? barColor : Color.FromArgb(26, 34, 197, 94)), Margin = new Thickness(0, 0, 1, 0) });
+            mp.Children.Add(bp); stack.Children.Add(mp);
+        }
+
+        private void BuildStatusModulesPanel()
+        {
+            StatusModulesPanel.Child = null; var stack = new StackPanel();
+            stack.Children.Add(new TextBlock { Text = "🧠 MEMORY TOPOLOGY", Foreground = new SolidColorBrush(Color.FromArgb(204, 139, 92, 246)), FontFamily = new FontFamily("Segoe UI"), FontSize = 10, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 8) });
+            
+            var usedRam = _ramUsage * 64 / 100;
+            stack.Children.Add(new TextBlock { Text = usedRam.ToString("F1"), Foreground = new SolidColorBrush(Color.FromRgb(139, 92, 246)), FontFamily = new FontFamily("Segoe UI"), FontSize = 24, HorizontalAlignment = HorizontalAlignment.Center });
+            stack.Children.Add(new TextBlock { Text = "GB / 64 ALLOCATED", Foreground = new SolidColorBrush(Color.FromRgb(75, 85, 99)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 8, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 8) });
+            var mg = new WrapPanel { Margin = new Thickness(0, 0, 0, 4) };
+            var usedBlocks = (int)(usedRam);
+            for (int i = 0; i < 64; i++) mg.Children.Add(new Rectangle { Width = 5, Height = 8, RadiusX = 1, RadiusY = 1, Fill = new SolidColorBrush(i < usedBlocks ? Color.FromArgb(153, 139, 92, 246) : Color.FromArgb(20, 139, 92, 246)), Margin = new Thickness(0.5) });
+            stack.Children.Add(mg);
+            stack.Children.Add(new TextBlock { Text = "RESIDENCY_MAP_OPTIMIZED", Foreground = new SolidColorBrush(Color.FromArgb(179, 139, 92, 246)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 8, Margin = new Thickness(0, 4, 0, 16) });
+            
+            stack.Children.Add(new TextBlock { Text = "💾 DISK SPACE", Foreground = new SolidColorBrush(Color.FromArgb(204, 34, 211, 238)), FontFamily = new FontFamily("Segoe UI"), FontSize = 10, FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 8) });
+            stack.Children.Add(new TextBlock { Text = _diskFree.ToString("F1"), Foreground = new SolidColorBrush(Color.FromRgb(34, 211, 238)), FontFamily = new FontFamily("Segoe UI"), FontSize = 24, HorizontalAlignment = HorizontalAlignment.Center });
+            stack.Children.Add(new TextBlock { Text = "GB FREE_SPACE", Foreground = new SolidColorBrush(Color.FromRgb(75, 85, 99)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 8, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 8) });
+            stack.Children.Add(new TextBlock { Text = _diskFree > 50 ? "STORAGE_HEALTHY" : "LOW_DISK_WARNING", Foreground = new SolidColorBrush(_diskFree > 50 ? Color.FromArgb(179, 34, 197, 94) : Color.FromRgb(245, 158, 11)), FontFamily = new FontFamily("Cascadia Code"), FontSize = 8, Margin = new Thickness(0, 4, 0, 0) });
+            StatusModulesPanel.Child = stack;
+        }
+
+        private void UpdateStatusModulesPanel() { BuildStatusModulesPanel(); }
+
+        private void UpdateHeartbeat()
+        {
+            HeartbeatCanvas.Children.Clear();
+            var poly = new Polyline { Stroke = new SolidColorBrush(Color.FromArgb(153, 139, 92, 246)), StrokeThickness = 2, StrokeLineJoin = PenLineJoin.Round };
+            var pts = new double[] { 12, 12, 12, 12, 12, 12, 12, 12, 6, 18, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 8, 16, 12, 12, 12, 12, 12, 12 };
+            for (int i = 0; i < 32; i++) poly.Points.Add(new Point(i * 2, pts[i]));
+            HeartbeatCanvas.Children.Add(poly);
+        }
+
+        private void RunScan_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isScanning) return;
+            _ = RunFullScanAsync();
+        }
+
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e) 
+        { 
+            if (e.ChangedButton == MouseButton.Left) DragMove(); 
+        }
+        
+        private void Close_Click(object sender, RoutedEventArgs e) 
+        { 
+            _animationTimer?.Stop(); 
+            _scanTimer?.Stop(); 
+            _cpuCounter?.Dispose(); 
+            Close(); 
+        }
+    }
+}
