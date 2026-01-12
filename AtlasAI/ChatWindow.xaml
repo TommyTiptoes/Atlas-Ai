@@ -1191,11 +1191,11 @@
                      PAGE OVERLAYS - Hidden by default, shown via ShowPage()
                      These overlay the entire main stage when visible
                 ═══════════════════════════════════════════════════════════ -->
-                <pages:CommandsPage x:Name="CommandsPageRoot" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
-                <pages:MemoryPage x:Name="MemoryPageRoot" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
-                <pages:SecurityPage x:Name="SecurityPageRoot" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
-                <pages:CreatePage x:Name="CreatePageRoot" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
-                <pages:CodePage x:Name="CodePageRoot" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
+                <pages:CommandsPage x:Name="CommandsPageRoot" Grid.Column="0" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
+                <pages:MemoryPage x:Name="MemoryPageRoot" Grid.Column="0" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
+                <pages:SecurityPage x:Name="SecurityPageRoot" Grid.Column="0" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
+                <pages:CreatePage x:Name="CreatePageRoot" Grid.Column="0" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
+                <pages:CodePage x:Name="CodePageRoot" Grid.Column="0" Grid.ColumnSpan="6" Visibility="Collapsed" Panel.ZIndex="100"/>
             </Grid>
 
             <!-- ═══════════════════════════════════════════════════════════════
