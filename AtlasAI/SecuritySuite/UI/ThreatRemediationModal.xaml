@@ -1,0 +1,253 @@
+<Window x:Class="MinimalApp.SecuritySuite.UI.ThreatRemediationModal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Threat Remediation" Height="650" Width="800"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Topmost="True">
+
+    <Window.Resources>
+        <FontFamily x:Key="MonoFont">Cascadia Code, Consolas, Courier New</FontFamily>
+        
+        <Color x:Key="BgDeep">#0A0C14</Color>
+        <Color x:Key="BgPanel">#12121A</Color>
+        <Color x:Key="CyanAccent">#22D3EE</Color>
+        <Color x:Key="VioletAccent">#8B5CF6</Color>
+        <Color x:Key="GreenAccent">#22C55E</Color>
+        <Color x:Key="YellowAccent">#F59E0B</Color>
+        <Color x:Key="RedAccent">#EF4444</Color>
+        <Color x:Key="GrayMuted">#6B7280</Color>
+        
+        <SolidColorBrush x:Key="BgDeepBrush" Color="{StaticResource BgDeep}"/>
+        <SolidColorBrush x:Key="BgPanelBrush" Color="{StaticResource BgPanel}"/>
+        <SolidColorBrush x:Key="CyanBrush" Color="{StaticResource CyanAccent}"/>
+        <SolidColorBrush x:Key="VioletBrush" Color="{StaticResource VioletAccent}"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenAccent}"/>
+        <SolidColorBrush x:Key="YellowBrush" Color="{StaticResource YellowAccent}"/>
+        <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedAccent}"/>
+        <SolidColorBrush x:Key="GrayBrush" Color="{StaticResource GrayMuted}"/>
+        
+        <!-- Checkbox Style -->
+        <Style x:Key="CyanCheckBox" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#f1f5f9"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="checkBorder" Width="18" Height="18" CornerRadius="4"
+                                    BorderBrush="#4D22D3EE" BorderThickness="2" Background="#1A22D3EE">
+                                <TextBlock x:Name="checkMark" Text="✓" Foreground="#22D3EE" 
+                                           FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Visibility="Collapsed"/>
+                            </Border>
+                            <ContentPresenter Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="checkMark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="checkBorder" Property="Background" Value="#3322D3EE"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="checkBorder" Property="BorderBrush" Value="#22D3EE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Action Button Style -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Background" Value="#1A22D3EE"/>
+            <Setter Property="Foreground" Value="#22D3EE"/>
+            <Setter Property="BorderBrush" Value="#4D22D3EE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#3322D3EE"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#22D3EE"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- Dim background overlay -->
+    <Grid>
+        <Border Background="#CC000000"/>
+        
+        <!-- Modal Card -->
+        <Border CornerRadius="16" Background="{StaticResource BgDeepBrush}" 
+                BorderThickness="1" BorderBrush="#4D22D3EE"
+                Width="750" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Border.Effect>
+                <DropShadowEffect Color="#22D3EE" BlurRadius="60" ShadowDepth="0" Opacity="0.4"/>
+            </Border.Effect>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Header -->
+                <Border Grid.Row="0" Background="#CC0A0C14" BorderBrush="#4D22D3EE" 
+                        BorderThickness="0,0,0,1" CornerRadius="16,16,0,0" Padding="20,16">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="⚠️" FontSize="20" Margin="0,0,12,0"/>
+                            <StackPanel>
+                                <TextBlock x:Name="HeaderTitle" Text="THREATS DETECTED" 
+                                           Foreground="{StaticResource YellowBrush}" 
+                                           FontSize="16" FontWeight="SemiBold"/>
+                                <TextBlock x:Name="HeaderSubtitle" Text="Atlas AI found items requiring attention" 
+                                           Foreground="{StaticResource GrayBrush}" FontSize="11" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                        <Button Click="Close_Click" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Width="28" Height="28" Background="Transparent" BorderThickness="0" 
+                                Cursor="Hand" Content="✕" Foreground="#6B7280" FontSize="14"/>
+                    </Grid>
+                </Border>
+                
+                <!-- AI Message -->
+                <Border Grid.Row="1" Background="#1A8B5CF6" BorderBrush="#4D8B5CF6" 
+                        BorderThickness="1" CornerRadius="8" Margin="20,16,20,0" Padding="16">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="36" Height="36" CornerRadius="18" Background="#338B5CF6" Margin="0,0,12,0">
+                            <TextBlock Text="🤖" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="AIMessage" Text="I found threats that should not be ignored. Do you want me to take action?" 
+                                       Foreground="#f1f5f9" FontSize="13" TextWrapping="Wrap" MaxWidth="600"/>
+                            <TextBlock x:Name="SeverityText" Text="Severity: Moderate" 
+                                       Foreground="{StaticResource YellowBrush}" FontSize="11" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Findings List -->
+                <Border Grid.Row="2" Background="#B312121A" BorderBrush="#3322D3EE" 
+                        BorderThickness="1" CornerRadius="8" Margin="20,16,20,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- List Header -->
+                        <Border Grid.Row="0" Background="#1A22D3EE" CornerRadius="8,8,0,0" Padding="12,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="80"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox x:Name="SelectAllCheckbox" Grid.Column="0" Style="{StaticResource CyanCheckBox}"
+                                          Checked="SelectAll_Checked" Unchecked="SelectAll_Unchecked"/>
+                                <TextBlock Grid.Column="1" Text="FILE" Foreground="#94a3b8" FontSize="10" 
+                                           FontFamily="{StaticResource MonoFont}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="TYPE" Foreground="#94a3b8" FontSize="10" 
+                                           FontFamily="{StaticResource MonoFont}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="SEVERITY" Foreground="#94a3b8" FontSize="10" 
+                                           FontFamily="{StaticResource MonoFont}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        
+                        <!-- Scrollable List -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="FindingsList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#1A22D3EE" BorderThickness="0,0,0,1" Padding="12,10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="100"/>
+                                                    <ColumnDefinition Width="80"/>
+                                                </Grid.ColumnDefinitions>
+                                                
+                                                <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" 
+                                                          Style="{StaticResource CyanCheckBox}"
+                                                          Checked="Item_CheckChanged" Unchecked="Item_CheckChanged"/>
+                                                
+                                                <StackPanel Grid.Column="1" Margin="0,0,8,0">
+                                                    <TextBlock Text="{Binding FileName}" Foreground="#f1f5f9" 
+                                                               FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding FilePath}" Foreground="#64748b" 
+                                                               FontSize="10" TextTrimming="CharacterEllipsis"
+                                                               ToolTip="{Binding FilePath}"/>
+                                                </StackPanel>
+                                                
+                                                <TextBlock Grid.Column="2" Text="{Binding Category}" 
+                                                           Foreground="#94a3b8" FontSize="11" 
+                                                           FontFamily="{StaticResource MonoFont}"
+                                                           VerticalAlignment="Center"/>
+                                                
+                                                <Border Grid.Column="3" Background="{Binding SeverityBackground}" 
+                                                        CornerRadius="4" Padding="8,4" HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding SeverityText}" 
+                                                               Foreground="{Binding SeverityForeground}" 
+                                                               FontSize="10" FontWeight="SemiBold"/>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+                
+                <!-- Action Buttons -->
+                <Border Grid.Row="3" Background="#CC0A0C14" BorderBrush="#4D22D3EE" 
+                        BorderThickness="0,1,0,0" CornerRadius="0,0,16,16" Padding="20,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock x:Name="SelectionCount" Grid.Column="0" Text="0 items selected" 
+                                   Foreground="#64748b" FontSize="12" VerticalAlignment="Center"/>
+                        
+                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                            <Button x:Name="KeepBtn" Content="Keep (Monitor)" Click="Keep_Click" 
+                                    Style="{StaticResource ActionButton}" Margin="0,0,12,0"
+                                    Background="#1A6B7280" BorderBrush="#4D6B7280" Foreground="#94a3b8"/>
+                            
+                            <Button x:Name="QuarantineBtn" Content="🛡️ Quarantine" Click="Quarantine_Click" 
+                                    Style="{StaticResource ActionButton}" Margin="0,0,12,0"
+                                    Background="#1A22C55E" BorderBrush="#4D22C55E" Foreground="#22C55E"/>
+                            
+                            <Button x:Name="DeleteBtn" Content="🗑️ Delete" Click="Delete_Click" 
+                                    Style="{StaticResource ActionButton}"
+                                    Background="#1AEF4444" BorderBrush="#4DEF4444" Foreground="#EF4444"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

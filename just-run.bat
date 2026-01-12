@@ -1,0 +1,3 @@
+@echo off
+echo Starting Atlas AI...
+start "" "AtlasAI\bin\Debug\net8.0-windows\win-x64\VisualAIAssistant.exe"

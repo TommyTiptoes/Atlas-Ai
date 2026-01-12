@@ -1,0 +1,172 @@
+<UserControl x:Class="MinimalApp.Controls.TopNavBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="56" d:DesignWidth="1200">
+    
+    <UserControl.Resources>
+        <!-- Nav Tab Button Style -->
+        <Style x:Key="NavTabBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#94a3b8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" 
+                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#10ffffff"/>
+                                <Setter Property="Foreground" Value="#f1f5f9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Active Nav Tab Style -->
+        <Style x:Key="NavTabBtnActive" TargetType="Button" BasedOn="{StaticResource NavTabBtn}">
+            <Setter Property="Background" Value="#208b5cf6"/>
+            <Setter Property="Foreground" Value="#c4b5fd"/>
+        </Style>
+        
+        <!-- Window Control Button -->
+        <Style x:Key="WindowControlBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#94a3b8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#15ffffff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Close Button (red hover) -->
+        <Style x:Key="CloseBtn" TargetType="Button" BasedOn="{StaticResource WindowControlBtn}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="Transparent" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#30ef4444"/>
+                                <Setter Property="Foreground" Value="#ef4444"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Border Background="#800c0c12" BorderBrush="#08ffffff" BorderThickness="0,0,0,1">
+        <!-- Corner brackets -->
+        <Grid>
+            <Border Width="12" Height="12" BorderThickness="2,2,0,0" BorderBrush="#5022d3ee"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Border Width="12" Height="12" BorderThickness="0,2,2,0" BorderBrush="#508b5cf6"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Left: Logo & Status -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Logo -->
+                    <Border Width="36" Height="36" CornerRadius="8" Margin="0,0,12,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#8b5cf6" Offset="0"/>
+                                <GradientStop Color="#22d3ee" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock Text="AT" FontSize="14" FontWeight="Bold" Foreground="White"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    
+                    <!-- Status indicator -->
+                    <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="#22c55e" 
+                             Margin="-20,0,8,0" VerticalAlignment="Top" HorizontalAlignment="Right">
+                        <Ellipse.Effect>
+                            <DropShadowEffect Color="#22c55e" BlurRadius="6" ShadowDepth="0" Opacity="0.8"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                    
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="ATLAS AI" FontSize="14" FontWeight="SemiBold" 
+                                   Foreground="#f1f5f9"/>
+                        <TextBlock x:Name="StatusText" Text="ONLINE" FontSize="9" 
+                                   Foreground="#22c55e" FontFamily="Consolas"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                <!-- Center: Navigation Tabs -->
+                <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Background="#08ffffff" BorderBrush="#10ffffff" BorderThickness="1"
+                        CornerRadius="8" Padding="4">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ChatTab" Content="Chat" Tag="chat" Click="NavTab_Click"
+                                Style="{StaticResource NavTabBtnActive}"/>
+                        <Button x:Name="CommandsTab" Content="Commands" Tag="commands" Click="NavTab_Click"
+                                Style="{StaticResource NavTabBtn}"/>
+                        <Button x:Name="MemoryTab" Content="Memory" Tag="memory" Click="NavTab_Click"
+                                Style="{StaticResource NavTabBtn}"/>
+                        <Button x:Name="SecurityTab" Content="Security" Tag="security" Click="NavTab_Click"
+                                Style="{StaticResource NavTabBtn}"/>
+                        <Button x:Name="CreateTab" Content="Create" Tag="create" Click="NavTab_Click"
+                                Style="{StaticResource NavTabBtn}"/>
+                        <Button x:Name="CodeTab" Content="Code" Tag="code" Click="NavTab_Click"
+                                Style="{StaticResource NavTabBtn}"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Right: Date/Time & Window Controls -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Date/Time -->
+                    <TextBlock x:Name="DateTimeText" Text="Fri, Jan 9 · 10:30 AM" 
+                               FontSize="11" Foreground="#64748b" FontFamily="Consolas"
+                               VerticalAlignment="Center" Margin="0,0,16,0"/>
+                    
+                    <!-- Window Controls -->
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="MinimizeBtn" Content="─" FontSize="10" 
+                                Style="{StaticResource WindowControlBtn}" Click="Minimize_Click"/>
+                        <Button x:Name="MaximizeBtn" Content="□" FontSize="9" 
+                                Style="{StaticResource WindowControlBtn}" Click="Maximize_Click"/>
+                        <Button x:Name="CloseBtn" Content="✕" FontSize="10" Foreground="#94a3b8"
+                                Style="{StaticResource CloseBtn}" Click="Close_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
