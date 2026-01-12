@@ -1,6 +1,35 @@
+# Build results
 bin/
 obj/
+publish/
+
+# Visual Studio
 .vs/
-.env
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Logs
 *.log
-node_modules/
+
+# Environment / secrets
+.env
+appsettings.Development.json
+appsettings.Local.json
+
+# NuGet
+packages/
+*.nupkg
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.bak
+*.tmp
