@@ -12728,43 +12728,38 @@ Before we begin, what would you like me to call you?";
         #endregion
         
         /// <summary>
-        /// Handle TopNavBar tab changes
+        /// Handle TopNavBar tab changes - switches pages in-window (no new windows)
         /// </summary>
         private void TopNavBar_TabChanged(object? sender, string tabName)
         {
             try
             {
                 Debug.WriteLine($"[TopNavBar] Tab changed to: {tabName}");
-                
-                switch (tabName)
-                {
-                    case "chat":
-                        // Already on chat, do nothing
-                        break;
-                    case "commands":
-                        // Show commands/tools panel
-                        ShowToast("Commands panel coming soon", UI.ToastType.Info);
-                        break;
-                    case "memory":
-                        Memory_Click(null, new RoutedEventArgs());
-                        break;
-                    case "security":
-                        SecuritySuite_Click(null, new RoutedEventArgs());
-                        break;
-                    case "create":
-                        // Open social media / image generation
-                        SocialMediaConsole_Click(null, new RoutedEventArgs());
-                        break;
-                    case "code":
-                        // Open code editor
-                        QuickAction_Click(new Button { Tag = "code" }, new RoutedEventArgs());
-                        break;
-                }
+                ShowPage(tabName);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[TopNavBar] Error handling tab change: {ex.Message}");
             }
+        }
+        
+        /// <summary>
+        /// Show a specific page by name, hiding all others (single-window navigation)
+        /// </summary>
+        private void ShowPage(string pageName)
+        {
+            // Normalize page name to lowercase for comparison
+            var page = pageName?.ToLowerInvariant() ?? "chat";
+            
+            // Set visibility for each page
+            ChatPageRoot.Visibility     = page == "chat"     ? Visibility.Visible : Visibility.Collapsed;
+            CommandsPageRoot.Visibility = page == "commands" ? Visibility.Visible : Visibility.Collapsed;
+            MemoryPageRoot.Visibility   = page == "memory"   ? Visibility.Visible : Visibility.Collapsed;
+            SecurityPageRoot.Visibility = page == "security" ? Visibility.Visible : Visibility.Collapsed;
+            CreatePageRoot.Visibility   = page == "create"   ? Visibility.Visible : Visibility.Collapsed;
+            CodePageRoot.Visibility     = page == "code"     ? Visibility.Visible : Visibility.Collapsed;
+            
+            Debug.WriteLine($"[Navigation] Showing page: {page}");
         }
         
         /// <summary>
