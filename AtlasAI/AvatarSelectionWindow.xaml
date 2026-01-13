@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.AvatarSelectionWindow"
+<Window x:Class="AtlasAI.AvatarSelectionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Avatar Selection - Ready Player Me" Height="600" Width="800"

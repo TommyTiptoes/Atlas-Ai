@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.SecuritySuite.Models;
+using AtlasAI.SecuritySuite.Models;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Schedules automatic definition updates and scans

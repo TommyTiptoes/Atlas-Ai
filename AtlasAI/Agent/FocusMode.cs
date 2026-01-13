@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace MinimalApp.Agent
+namespace AtlasAI.Agent
 {
     /// <summary>
     /// Focus Mode - Block distractions and track productivity.

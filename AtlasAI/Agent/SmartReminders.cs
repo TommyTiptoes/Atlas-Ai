@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace MinimalApp.Agent
+namespace AtlasAI.Agent
 {
     /// <summary>
     /// Smart Reminders - Natural language reminders with voice alerts.

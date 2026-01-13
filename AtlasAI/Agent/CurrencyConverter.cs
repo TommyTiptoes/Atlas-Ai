@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MinimalApp.Agent
+namespace AtlasAI.Agent
 {
     /// <summary>
     /// Currency Converter - Convert between currencies using live rates.

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,9 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using MinimalApp.ScreenCapture;
+using AtlasAI.ScreenCapture;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class CaptureHistoryWindow : Window
     {

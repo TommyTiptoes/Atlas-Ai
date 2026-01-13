@@ -1,7 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MinimalApp.AI
+namespace AtlasAI.AI
 {
     public enum AIProviderType
     {

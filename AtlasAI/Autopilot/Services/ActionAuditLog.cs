@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.Autopilot.Models;
+using AtlasAI.Autopilot.Models;
 
-namespace MinimalApp.Autopilot.Services
+namespace AtlasAI.Autopilot.Services
 {
     /// <summary>
     /// Full audit trail for all autopilot actions - "Why did you do this?"

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace MinimalApp.Controls
+namespace AtlasAI.Controls
 {
     public partial class StatusPanelControl : UserControl, INotifyPropertyChanged
     {

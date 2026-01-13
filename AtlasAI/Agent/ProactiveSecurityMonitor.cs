@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Microsoft.Win32;
 
-namespace MinimalApp.Agent
+namespace AtlasAI.Agent
 {
     /// <summary>
     /// Proactive Security Monitor - Watches for new installations, detects bloatware,

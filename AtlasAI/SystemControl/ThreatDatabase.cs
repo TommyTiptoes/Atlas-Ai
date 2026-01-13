@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     /// <summary>
     /// Updateable threat definitions database with online sync capability

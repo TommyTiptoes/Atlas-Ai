@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.UI.CommandPalette"
+<Window x:Class="AtlasAI.UI.CommandPalette"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Command Palette"

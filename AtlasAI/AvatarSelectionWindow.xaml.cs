@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AtlasAI.Avatar;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class AvatarSelectionWindow : Window
     {

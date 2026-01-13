@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MinimalApp.Integrations
+namespace AtlasAI.Integrations
 {
     public partial class IntegrationHubWindow : Window
     {

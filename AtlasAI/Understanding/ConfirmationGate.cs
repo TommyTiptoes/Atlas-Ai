@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace MinimalApp.Understanding
+namespace AtlasAI.Understanding
 {
     /// <summary>
     /// Manages confirmation requirements for destructive actions.

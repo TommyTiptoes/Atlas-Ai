@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MinimalApp.ActionHistory;
+using AtlasAI.ActionHistory;
 
-namespace MinimalApp.Agent
+namespace AtlasAI.Agent
 {
     /// <summary>
     /// AI Security Intelligence Layer - Routes security detections through AI for

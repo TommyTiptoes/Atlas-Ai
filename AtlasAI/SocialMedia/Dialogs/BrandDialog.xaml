@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.SocialMedia.BrandDialog"
+<Window x:Class="AtlasAI.SocialMedia.BrandDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Add Brand" Height="500" Width="400"

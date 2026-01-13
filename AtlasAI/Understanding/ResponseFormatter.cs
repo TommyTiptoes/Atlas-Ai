@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MinimalApp.Understanding
+namespace AtlasAI.Understanding
 {
     /// <summary>
     /// Formats responses to be concise, helpful, and human-like.

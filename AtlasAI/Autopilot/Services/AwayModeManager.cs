@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.Autopilot.Models;
+using AtlasAI.Autopilot.Models;
 
-namespace MinimalApp.Autopilot.Services
+namespace AtlasAI.Autopilot.Services
 {
     /// <summary>
     /// Manages Away Mode - tracks user absence and generates session summaries

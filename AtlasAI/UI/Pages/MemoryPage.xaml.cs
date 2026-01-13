@@ -1,6 +1,6 @@
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace MinimalApp.UI.Pages
+namespace AtlasAI.UI.Pages
 {
     public partial class MemoryPage : UserControl
     {

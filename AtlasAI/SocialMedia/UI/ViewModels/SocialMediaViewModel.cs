@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MinimalApp.AI;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.AI;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia.UI.ViewModels
+namespace AtlasAI.SocialMedia.UI.ViewModels
 {
     public class SocialMediaViewModel : INotifyPropertyChanged
     {

@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MinimalApp.SocialMedia.Models;
-using MinimalApp.SocialMedia.Services;
+using AtlasAI.SocialMedia.Models;
+using AtlasAI.SocialMedia.Services;
 
-namespace MinimalApp.SocialMedia
+namespace AtlasAI.SocialMedia
 {
     /// <summary>
     /// Voice command integration for Social Media Console

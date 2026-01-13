@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MinimalApp.ActionHistory;
+using AtlasAI.ActionHistory;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     public static class SystemTool
     {

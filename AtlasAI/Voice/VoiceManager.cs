@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// Central voice management system for Atlas AI.

@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.Understanding
+namespace AtlasAI.Understanding
 {
     /// <summary>
     /// Core models for the Understanding & Reasoning Layer

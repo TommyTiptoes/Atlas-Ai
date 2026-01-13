@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.CaptureHistoryWindow"
+<Window x:Class="AtlasAI.CaptureHistoryWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="📸 Screenshot History - Atlas AI" Height="600" Width="900"

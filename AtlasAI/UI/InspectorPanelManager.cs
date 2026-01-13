@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using MinimalApp.InAppAssistant;
+using AtlasAI.InAppAssistant;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     /// <summary>
     /// Manages the collapsible right-side Inspector panel

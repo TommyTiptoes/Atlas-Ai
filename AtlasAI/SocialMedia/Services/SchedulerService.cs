@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia.Services
+namespace AtlasAI.SocialMedia.Services
 {
     /// <summary>
     /// Queue-based scheduling service with approval workflow

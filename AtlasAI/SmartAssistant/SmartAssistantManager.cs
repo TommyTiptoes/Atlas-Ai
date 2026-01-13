@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MinimalApp.SmartAssistant.Models;
-using MinimalApp.SmartAssistant.Services;
-using MinimalApp.SmartAssistant.UI;
+using AtlasAI.SmartAssistant.Models;
+using AtlasAI.SmartAssistant.Services;
+using AtlasAI.SmartAssistant.UI;
 
-namespace MinimalApp.SmartAssistant
+namespace AtlasAI.SmartAssistant
 {
     /// <summary>
     /// Central manager for all smart assistant features

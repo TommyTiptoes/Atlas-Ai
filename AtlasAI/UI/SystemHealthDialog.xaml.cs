@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.NetworkInformation;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     public partial class SystemHealthDialog : Window
     {

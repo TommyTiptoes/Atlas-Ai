@@ -1,7 +1,7 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MinimalApp.SecuritySuite.ViewModels
+namespace AtlasAI.SecuritySuite.ViewModels
 {
     /// <summary>
     /// Base class for all ViewModels with INotifyPropertyChanged

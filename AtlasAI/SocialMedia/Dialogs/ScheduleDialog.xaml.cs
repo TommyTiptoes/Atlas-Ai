@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Windows;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia
+namespace AtlasAI.SocialMedia
 {
     public partial class ScheduleDialog : Window
     {

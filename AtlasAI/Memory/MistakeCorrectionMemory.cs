@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Memory
+namespace AtlasAI.Memory
 {
     /// <summary>
     /// Learns from user corrections to avoid repeating mistakes

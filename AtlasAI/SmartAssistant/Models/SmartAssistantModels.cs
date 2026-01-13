@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.SmartAssistant.Models
+namespace AtlasAI.SmartAssistant.Models
 {
     // ============ INTENT LEARNING & HABIT MEMORY ============
     

@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.SmartAssistant.Models;
+using AtlasAI.SmartAssistant.Models;
 
-namespace MinimalApp.SmartAssistant.Services
+namespace AtlasAI.SmartAssistant.Services
 {
     /// <summary>
     /// Executes multi-step task plans with progress tracking and rollback capability

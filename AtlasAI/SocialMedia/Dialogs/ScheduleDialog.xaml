@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.SocialMedia.ScheduleDialog"
+<Window x:Class="AtlasAI.SocialMedia.ScheduleDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Schedule Post" Height="300" Width="350"

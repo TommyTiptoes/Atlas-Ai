@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MinimalApp.AI;
+using AtlasAI.AI;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     /// <summary>
     /// AI-powered command executor that intelligently understands and executes ANY user request

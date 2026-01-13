@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Speech.Recognition;
 using System.Threading.Tasks;
 using NAudio.CoreAudioApi;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     public class WakeWordDetector : IDisposable
     {

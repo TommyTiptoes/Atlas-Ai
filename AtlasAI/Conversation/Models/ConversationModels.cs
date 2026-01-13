@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.Conversation.Models
+namespace AtlasAI.Conversation.Models
 {
     /// <summary>
     /// Represents a chat session (like ChatGPT conversations)

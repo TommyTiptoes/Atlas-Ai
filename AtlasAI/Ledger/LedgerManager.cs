@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Ledger
+namespace AtlasAI.Ledger
 {
     /// <summary>
     /// Manages the system event ledger - tracks all detected system changes

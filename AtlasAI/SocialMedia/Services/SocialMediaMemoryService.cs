@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia.Services
+namespace AtlasAI.SocialMedia.Services
 {
     /// <summary>
     /// Persistent storage for social media data - brands, content, campaigns

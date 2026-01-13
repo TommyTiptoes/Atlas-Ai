@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class ClipboardWindow : Window
     {

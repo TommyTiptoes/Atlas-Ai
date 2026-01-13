@@ -1,8 +1,8 @@
-<UserControl x:Class="MinimalApp.SocialMedia.UI.SocialMediaPanel"
+<UserControl x:Class="AtlasAI.SocialMedia.UI.SocialMediaPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="clr-namespace:MinimalApp.SocialMedia.UI.ViewModels"
-             xmlns:conv="clr-namespace:MinimalApp.SocialMedia.UI.Converters"
+             xmlns:vm="clr-namespace:AtlasAI.SocialMedia.UI.ViewModels"
+             xmlns:conv="clr-namespace:AtlasAI.SocialMedia.UI.Converters"
              Background="#0A0E14">
     
     <UserControl.Resources>

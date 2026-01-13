@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace MinimalApp.SocialMedia.UI
+namespace AtlasAI.SocialMedia.UI
 {
     public partial class SocialMediaWindow : Window
     {

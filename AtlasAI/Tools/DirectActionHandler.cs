@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MinimalApp.Voice;
+using AtlasAI.Voice;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     /// <summary>
     /// Handles requests DIRECTLY without going through AI chat.
@@ -851,7 +851,7 @@ namespace MinimalApp.Tools
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var mainWindow = System.Windows.Application.Current.MainWindow as MinimalApp.ChatWindow;
+                    var mainWindow = System.Windows.Application.Current.MainWindow as AtlasAI.ChatWindow;
                     mainWindow?.ToggleScanOrbit();
                 });
                 return "✓ Toggling Scan Mode";
@@ -868,7 +868,7 @@ namespace MinimalApp.Tools
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                 {
-                    var mainWindow = System.Windows.Application.Current.MainWindow as MinimalApp.ChatWindow;
+                    var mainWindow = System.Windows.Application.Current.MainWindow as AtlasAI.ChatWindow;
                     mainWindow?.ToggleSecurityNotifications(enabled);
                 });
                 return enabled ? "✓ Security notifications enabled" : "✓ Security notifications disabled";
@@ -885,7 +885,7 @@ namespace MinimalApp.Tools
             {
                 System.Windows.Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    var mainWindow = System.Windows.Application.Current.MainWindow as MinimalApp.ChatWindow;
+                    var mainWindow = System.Windows.Application.Current.MainWindow as AtlasAI.ChatWindow;
                     if (mainWindow != null)
                         await mainWindow.RunManualHealthScanAsync();
                 });

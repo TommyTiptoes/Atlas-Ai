@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Understanding
+namespace AtlasAI.Understanding
 {
     /// <summary>
     /// Main entry point for the Understanding & Reasoning Layer.

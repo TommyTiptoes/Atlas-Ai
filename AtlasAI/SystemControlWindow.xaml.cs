@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MinimalApp.SystemControl;
+using AtlasAI.SystemControl;
 using Wpf.Ui.Controls;
 using MessageBox = System.Windows.MessageBox;
 using MessageBoxButton = System.Windows.MessageBoxButton;
@@ -29,7 +29,7 @@ using ScrollViewer = System.Windows.Controls.ScrollViewer;
 using ColumnDefinition = System.Windows.Controls.ColumnDefinition;
 using System.Windows.Shapes;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class SystemControlWindow : FluentWindow
     {

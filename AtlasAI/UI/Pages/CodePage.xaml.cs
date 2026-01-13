@@ -1,7 +1,7 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MinimalApp.UI.Pages
+namespace AtlasAI.UI.Pages
 {
     public partial class CodePage : UserControl
     {

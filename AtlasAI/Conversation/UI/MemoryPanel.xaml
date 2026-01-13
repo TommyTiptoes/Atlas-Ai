@@ -1,4 +1,4 @@
-<UserControl x:Class="MinimalApp.Conversation.UI.MemoryPanel"
+<UserControl x:Class="AtlasAI.Conversation.UI.MemoryPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="#0d1117">

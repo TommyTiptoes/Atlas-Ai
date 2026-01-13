@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.SmartAssistant.Models;
+using AtlasAI.SmartAssistant.Models;
 
-namespace MinimalApp.SmartAssistant.Services
+namespace AtlasAI.SmartAssistant.Services
 {
     /// <summary>
     /// Records user actions and allows replay as automated tasks

@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.SecuritySuite.UI.ThreatRemediationModal"
+<Window x:Class="AtlasAI.SecuritySuite.UI.ThreatRemediationModal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Threat Remediation" Height="650" Width="800"

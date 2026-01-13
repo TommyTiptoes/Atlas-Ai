@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -8,9 +8,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.SecuritySuite.Models;
+using AtlasAI.SecuritySuite.Models;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// VirusTotal API client for real threat intelligence

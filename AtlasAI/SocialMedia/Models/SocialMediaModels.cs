@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.SocialMedia.Models
+namespace AtlasAI.SocialMedia.Models
 {
     // ==================== ENUMS ====================
     

@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using Microsoft.Win32;
-using MinimalApp.Ledger;
+using AtlasAI.Ledger;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Watches startup entries (Registry Run keys + Startup folders) for changes.

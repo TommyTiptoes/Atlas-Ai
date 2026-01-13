@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// ElevenLabs voice settings for optimal AI assistant pacing and tone

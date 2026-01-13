@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,7 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Microsoft.Win32;
 
-namespace MinimalApp.Controls
+namespace AtlasAI.Controls
 {
     /// <summary>
     /// Orbiting scan icons that rotate around the Atlas orb.

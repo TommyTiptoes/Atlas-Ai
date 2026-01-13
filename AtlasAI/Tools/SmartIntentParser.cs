@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     /// <summary>
     /// AI-powered intent parser that understands natural language commands

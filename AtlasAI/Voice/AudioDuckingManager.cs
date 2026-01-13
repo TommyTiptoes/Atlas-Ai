@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// Manages audio ducking - automatically lowers/pauses music when voice commands are detected

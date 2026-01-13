@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Coding
+namespace AtlasAI.Coding
 {
     /// <summary>
     /// Executes coding tool commands from AI responses

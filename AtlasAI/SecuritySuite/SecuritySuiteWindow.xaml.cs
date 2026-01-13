@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 
-namespace MinimalApp.SecuritySuite
+namespace AtlasAI.SecuritySuite
 {
     public partial class SecuritySuiteWindow : Window
     {

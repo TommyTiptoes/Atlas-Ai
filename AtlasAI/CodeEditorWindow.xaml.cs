@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,10 +12,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
-using MinimalApp.AI;
-using MinimalApp.Coding;
+using AtlasAI.AI;
+using AtlasAI.Coding;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class CodeEditorWindow : Window
     {

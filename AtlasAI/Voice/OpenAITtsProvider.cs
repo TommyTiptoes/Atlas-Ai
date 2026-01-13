@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// OpenAI TTS Provider - Premium cloud voices with excellent quality.

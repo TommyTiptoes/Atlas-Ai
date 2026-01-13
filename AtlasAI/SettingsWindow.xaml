@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.SettingsWindow"
+<Window x:Class="AtlasAI.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Atlas Settings" Height="750" Width="600"

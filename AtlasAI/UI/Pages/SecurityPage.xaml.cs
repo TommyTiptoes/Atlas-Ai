@@ -1,8 +1,8 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using MinimalApp.SecuritySuite;
+using AtlasAI.SecuritySuite;
 
-namespace MinimalApp.UI.Pages
+namespace AtlasAI.UI.Pages
 {
     public partial class SecurityPage : UserControl
     {

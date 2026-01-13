@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.CodeEditorWindow"
+<Window x:Class="AtlasAI.CodeEditorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Atlas Code" Height="900" Width="1500"

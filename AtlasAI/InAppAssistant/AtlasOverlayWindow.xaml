@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.InAppAssistant.AtlasOverlayWindow"
+<Window x:Class="AtlasAI.InAppAssistant.AtlasOverlayWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Atlas Assistant"

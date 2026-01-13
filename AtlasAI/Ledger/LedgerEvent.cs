@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.Ledger
+namespace AtlasAI.Ledger
 {
     /// <summary>
     /// Categories of system events that Atlas monitors

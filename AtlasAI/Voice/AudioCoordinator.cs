@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// Coordinates audio systems to prevent interference between voice recording and audio monitoring

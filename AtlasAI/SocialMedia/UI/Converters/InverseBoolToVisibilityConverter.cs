@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace MinimalApp.SocialMedia.UI.Converters
+namespace AtlasAI.SocialMedia.UI.Converters
 {
     public class InverseBoolToVisibilityConverter : IValueConverter
     {

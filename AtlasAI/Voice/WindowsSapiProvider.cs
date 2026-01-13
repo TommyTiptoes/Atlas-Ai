@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// Windows SAPI Provider - Built-in Windows voices with INSTANT playback.

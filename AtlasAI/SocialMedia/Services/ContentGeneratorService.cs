@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MinimalApp.AI;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.AI;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia.Services
+namespace AtlasAI.SocialMedia.Services
 {
     /// <summary>
     /// AI-powered content generation for social media platforms

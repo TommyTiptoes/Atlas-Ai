@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.SecuritySuite.SecuritySuiteWindow"
+<Window x:Class="AtlasAI.SecuritySuite.SecuritySuiteWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Atlas AI Security Agent" Height="700" Width="900"

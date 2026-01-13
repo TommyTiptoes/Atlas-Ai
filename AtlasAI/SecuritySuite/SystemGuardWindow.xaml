@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.SecuritySuite.SystemGuardWindow"
+<Window x:Class="AtlasAI.SecuritySuite.SystemGuardWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="AI System Guard" Height="900" Width="1500"

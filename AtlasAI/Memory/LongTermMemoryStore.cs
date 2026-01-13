@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Data.Sqlite;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Memory
+namespace AtlasAI.Memory
 {
     /// <summary>
     /// Long-term memory storage for Atlas - persists across sessions

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using MinimalApp.SecuritySuite.Models;
-using MinimalApp.SecuritySuite.Services;
-using MinimalApp.Ledger;
+using AtlasAI.SecuritySuite.Models;
+using AtlasAI.SecuritySuite.Services;
+using AtlasAI.Ledger;
 
-namespace MinimalApp.SecuritySuite.ViewModels
+namespace AtlasAI.SecuritySuite.ViewModels
 {
     /// <summary>
     /// Converter for string comparison to visibility

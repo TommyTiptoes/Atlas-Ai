@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using MinimalApp.SecuritySuite.Models;
-using MinimalApp.SecuritySuite.Services;
+using AtlasAI.SecuritySuite.Models;
+using AtlasAI.SecuritySuite.Services;
 
-namespace MinimalApp.SecuritySuite.UI
+namespace AtlasAI.SecuritySuite.UI
 {
     /// <summary>
     /// View model for a finding item in the remediation list

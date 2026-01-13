@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -6,9 +6,9 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.Ledger;
+using AtlasAI.Ledger;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Watches the Windows hosts file for changes and creates ledger events with revert capability.

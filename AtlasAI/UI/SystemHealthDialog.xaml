@@ -1,4 +1,4 @@
-<Window x:Class="MinimalApp.UI.SystemHealthDialog"
+<Window x:Class="AtlasAI.UI.SystemHealthDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="System Health" Height="500" Width="420"

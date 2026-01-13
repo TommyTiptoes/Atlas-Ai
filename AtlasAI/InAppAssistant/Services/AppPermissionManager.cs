@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using MinimalApp.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Models;
 
-namespace MinimalApp.InAppAssistant.Services
+namespace AtlasAI.InAppAssistant.Services
 {
     /// <summary>
     /// Manages per-app permissions for in-app actions

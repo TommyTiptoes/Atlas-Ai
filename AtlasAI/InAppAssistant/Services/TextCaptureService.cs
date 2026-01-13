@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 
-namespace MinimalApp.InAppAssistant.Services
+namespace AtlasAI.InAppAssistant.Services
 {
     /// <summary>
     /// Captures selected text from the active application using UI Automation

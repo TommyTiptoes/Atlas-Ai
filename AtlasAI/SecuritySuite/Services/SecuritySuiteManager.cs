@@ -1,13 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.SecuritySuite.Models;
-using MinimalApp.SystemControl;
+using AtlasAI.SecuritySuite.Models;
+using AtlasAI.SystemControl;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Main coordinator for the Security Suite - ties all services together

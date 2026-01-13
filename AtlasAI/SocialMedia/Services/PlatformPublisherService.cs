@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia.Services
+namespace AtlasAI.SocialMedia.Services
 {
     /// <summary>
     /// Platform-specific publishing service

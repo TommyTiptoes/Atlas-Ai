@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     /// <summary>
     /// Command Palette - Quick action launcher (Ctrl+K)

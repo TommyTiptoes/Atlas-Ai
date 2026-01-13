@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     /// <summary>
     /// Comprehensive Windows knowledge base - all settings URIs, commands, and paths

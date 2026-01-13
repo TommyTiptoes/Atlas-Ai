@@ -1,12 +1,12 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using MinimalApp.Conversation.Models;
-using MinimalApp.Conversation.Services;
+using AtlasAI.Conversation.Models;
+using AtlasAI.Conversation.Services;
 
-namespace MinimalApp.Conversation.UI
+namespace AtlasAI.Conversation.UI
 {
     public partial class MemoryPanel : UserControl
     {

@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Memory
+namespace AtlasAI.Memory
 {
     /// <summary>
     /// Tracks tool/skill usage patterns to improve recommendations

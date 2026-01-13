@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Memory
+namespace AtlasAI.Memory
 {
     /// <summary>
     /// Indexes the user's file system so Atlas can find and open any folder/file by name.

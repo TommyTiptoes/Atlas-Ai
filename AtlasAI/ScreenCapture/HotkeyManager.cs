@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
-namespace MinimalApp.ScreenCapture
+namespace AtlasAI.ScreenCapture
 {
     public class HotkeyManager : IDisposable
     {

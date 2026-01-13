@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     public partial class ProcessManagerWindow : Window
     {

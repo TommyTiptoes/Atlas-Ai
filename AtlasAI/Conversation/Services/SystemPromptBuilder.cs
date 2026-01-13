@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Text;
-using MinimalApp.Conversation.Models;
+using AtlasAI.Conversation.Models;
 
-namespace MinimalApp.Conversation.Services
+namespace AtlasAI.Conversation.Services
 {
     /// <summary>
     /// Builds the system prompt for Atlas AI based on user profile, style, and context

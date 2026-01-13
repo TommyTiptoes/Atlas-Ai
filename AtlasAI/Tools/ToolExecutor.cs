@@ -1,16 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.ActionHistory;
-using MinimalApp.SystemControl;
-using MinimalApp.SecuritySuite.Services;
-using MinimalApp.SecuritySuite.Models;
+using AtlasAI.ActionHistory;
+using AtlasAI.SystemControl;
+using AtlasAI.SecuritySuite.Services;
+using AtlasAI.SecuritySuite.Models;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     public static class ToolExecutor
     {
@@ -931,7 +931,7 @@ namespace MinimalApp.Tools
         public static async Task<string?> TryExecuteToolWithCancellationAsync(
             string userMessage, 
             CancellationToken ct,
-            Action<MinimalApp.SystemControl.UnifiedScanner>? onScannerCreated = null)
+            Action<AtlasAI.SystemControl.UnifiedScanner>? onScannerCreated = null)
         {
             // Strip context prefix if present - handle multiple formats:
             // Format 1: "[Context: ...]\n\nUser: message" 
@@ -1043,7 +1043,7 @@ namespace MinimalApp.Tools
                 // Otherwise, run our spyware/malware scan with cancellation support
                 try
                 {
-                    var scanner = new MinimalApp.SystemControl.UnifiedScanner();
+                    var scanner = new AtlasAI.SystemControl.UnifiedScanner();
                     onScannerCreated?.Invoke(scanner); // Allow caller to track the scanner for cancellation
                     
                     System.Diagnostics.Debug.WriteLine("[ToolExecutor] Starting scan with progress hooks...");
@@ -1738,7 +1738,7 @@ namespace MinimalApp.Tools
                 {
                     try
                     {
-                        var scanner = new MinimalApp.SystemControl.UnifiedScanner();
+                        var scanner = new AtlasAI.SystemControl.UnifiedScanner();
                         var result = await scanner.PerformDeepScanAsync();
                         
                         if (result.Threats.Count == 0)
@@ -2041,7 +2041,7 @@ namespace MinimalApp.Tools
                         System.Diagnostics.Debug.WriteLine($"[ExecuteFromUnderstanding] System scan: {scanType}");
                         try
                         {
-                            var scanner = new MinimalApp.SystemControl.UnifiedScanner();
+                            var scanner = new AtlasAI.SystemControl.UnifiedScanner();
                             var scanResult = await scanner.PerformDeepScanAsync();
                             
                             if (scanResult.Threats.Count == 0)
