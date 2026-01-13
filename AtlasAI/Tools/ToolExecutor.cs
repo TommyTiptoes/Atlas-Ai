@@ -45,12 +45,16 @@ namespace AtlasAI.Tools
             System.Diagnostics.Debug.WriteLine($"[ToolExecutor] ========== PROCESSING: {msg} ==========");
 
             // ==================== FIX THREATS - Handle "fix", "fix it", "fix the problem", "remove threats" ====================
-            // This MUST be checked FIRST before greetings since "fix" is a short word
-            if (msg == "fix" || msg == "fixit" || msg.StartsWith("fix ") || 
+            // IMPORTANT: Only trigger for actual threat-fixing commands, NOT general coding/help questions
+            // Skip if message contains coding-related words (user wants code help, not threat removal)
+            var isCodingQuestion = ContainsAny(msg, "code", "script", "powershell", "python", "program", "write", 
+                "create", "generate", "give me", "show me", "can you", "how to", "how do", "help me");
+            
+            if (!isCodingQuestion && (msg == "fix" || msg == "fixit" || 
                 ContainsAny(msg, "fix it", "fix the problem", "fix problems", "remove threats", "remove the threats",
                 "clean it", "clean them", "delete threats", "fix threats", "remove them", "get rid of them",
                 "fix my computer", "fix my pc", "clean my computer", "clean my pc", "remove all threats",
-                "fix them", "fix those", "fix that", "fix the threats", "fix the issues", "fix issues"))
+                "fix them", "fix those", "fix that", "fix the threats", "fix the issues", "fix issues")))
             {
                 System.Diagnostics.Debug.WriteLine($"[ToolExecutor] FIX IT COMMAND DETECTED - calling FixDetectedThreatsAsync");
                 System.Diagnostics.Debug.WriteLine($"[ToolExecutor] _lastScanResult is null: {_lastScanResult == null}");
@@ -2205,7 +2209,10 @@ namespace AtlasAI.Tools
             
             // Questions about the AI
             var aboutAi = new[] { "who are you", "what are you", "what can you do", "tell me about yourself",
-                "what's your name", "whats your name" };
+                "what's your name", "whats your name", "can you code", "can you program", "can you write code",
+                "can you help me", "can you assist", "do you know", "are you able", "could you help",
+                "give me", "show me how", "teach me", "explain", "what is", "what are", "how does",
+                "how do i", "how can i", "why does", "why is", "when should", "where can" };
             
             // Check if message starts with or contains greetings
             foreach (var greeting in greetings)

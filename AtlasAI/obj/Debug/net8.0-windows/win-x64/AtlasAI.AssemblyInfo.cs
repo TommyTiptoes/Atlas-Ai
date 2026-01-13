@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VisualAIAssistant")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+173ee3b1098bb731bef9a0832c2fe124de82a9ac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c3e5dd8c83b2cc4efdff406ded444c1a2799a0a")]
 [assembly: System.Reflection.AssemblyProductAttribute("VisualAIAssistant")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VisualAIAssistant")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

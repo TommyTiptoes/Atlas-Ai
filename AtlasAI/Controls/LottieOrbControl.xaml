@@ -5,13 +5,19 @@
              Width="220" Height="220">
     
     <Grid>
-        <!-- Lottie Animation -->
+        <!-- Lottie Animation with GPU acceleration -->
         <lottie:LottieAnimationView x:Name="LottieAnimation"
                                     AutoPlay="True"
                                     RepeatCount="-1"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Width="200" Height="200"/>
+                                    Width="200" Height="200"
+                                    RenderOptions.BitmapScalingMode="LowQuality"
+                                    RenderOptions.CachingHint="Cache">
+            <lottie:LottieAnimationView.CacheMode>
+                <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+            </lottie:LottieAnimationView.CacheMode>
+        </lottie:LottieAnimationView>
         
         <!-- State Label Overlay -->
         <TextBlock x:Name="StateLabel"

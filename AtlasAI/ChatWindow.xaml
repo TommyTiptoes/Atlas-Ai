@@ -695,11 +695,11 @@
                                                        ScanCompleted="ScanOrbit_ScanCompleted"
                                                        ScanStarted="ScanOrbit_ScanStarted"/>
                             
-                            <!-- Original particle orb (default) -->
-                            <controls:AtlasCoreControl x:Name="AtlasCore" ShowStateLabel="True" Visibility="Visible"/>
+                            <!-- Original particle orb (hidden by default) -->
+                            <controls:AtlasCoreControl x:Name="AtlasCore" ShowStateLabel="True" Visibility="Collapsed"/>
                             
-                            <!-- New Lottie orb (hidden by default) -->
-                            <controls:LottieOrbControl x:Name="LottieOrb" Visibility="Collapsed"/>
+                            <!-- New Lottie orb (visible by default) -->
+                            <controls:LottieOrbControl x:Name="LottieOrb" Visibility="Visible"/>
                             
                             <!-- ═══════════════════════════════════════════════════════
                                  SUMMONED RADIAL CONTROLS - 8 buttons evenly spaced in circle

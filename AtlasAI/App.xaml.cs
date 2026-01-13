@@ -38,6 +38,9 @@ namespace AtlasAI
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            // Force hardware GPU rendering for smooth animations
+            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
+            
             // Single instance check
             bool createdNew;
             _singleInstanceMutex = new Mutex(true, "AtlasAI_SingleInstance_Mutex", out createdNew);
