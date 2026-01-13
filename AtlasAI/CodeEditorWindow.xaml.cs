@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -292,7 +292,7 @@ namespace AtlasAI
             PopulateTreeItem(rootItem, rootPath, 0);
             FileTree.Items.Add(rootItem);
             
-            WorkspaceLabel.Text = $"EXPLORER: {Path.GetFileName(rootPath)}";
+            SidePanelTitle.Text = $"EXPLORER: {Path.GetFileName(rootPath)}";
         }
 
         private void PopulateTreeItem(TreeViewItem parent, string path, int depth)
@@ -604,9 +604,9 @@ namespace AtlasAI
         private void ShowTerminal()
         {
             _terminalVisible = true;
-            TerminalRow.Height = new GridLength(220);
+            BottomPanelRow.Height = new GridLength(220);
             TerminalPanel.Visibility = Visibility.Visible;
-            TerminalSplitter.Visibility = Visibility.Visible;
+            BottomSplitter.Visibility = Visibility.Visible;
             TerminalToggle.Content = "⌨ Terminal ✓";
             
             // Initialize terminal with welcome message
@@ -635,9 +635,9 @@ namespace AtlasAI
         private void HideTerminal()
         {
             _terminalVisible = false;
-            TerminalRow.Height = new GridLength(0);
+            BottomPanelRow.Height = new GridLength(0);
             TerminalPanel.Visibility = Visibility.Collapsed;
-            TerminalSplitter.Visibility = Visibility.Collapsed;
+            BottomSplitter.Visibility = Visibility.Collapsed;
             TerminalToggle.Content = "⌨ Terminal";
         }
 
@@ -989,6 +989,18 @@ namespace AtlasAI
                 {
                     StatusText.Text = $"No files found matching: {query}";
                 }
+            }
+        }
+
+        
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Update placeholder visibility
+            if (SearchPlaceholder != null)
+            {
+                SearchPlaceholder.Visibility = string.IsNullOrEmpty(SearchBox.Text) 
+                    ? Visibility.Visible 
+                    : Visibility.Collapsed;
             }
         }
 
@@ -1757,6 +1769,98 @@ Be concise. Execute actions. Confirm results.";
             catch (Exception ex)
             {
                 Debug.WriteLine($"[CodeEditor] Error loading session: {ex.Message}");
+            }
+        }
+
+        #endregion
+        #region Missing Event Handlers for New XAML
+
+        /// <summary>
+        /// Show Problems panel in bottom panel
+        /// </summary>
+        
+        private void ShowBottomPanel(string panel)
+        {
+            BottomPanel.Visibility = Visibility.Visible;
+            BottomPanelRow.Height = new GridLength(200);
+            BottomSplitter.Visibility = Visibility.Visible;
+            _terminalVisible = true;
+
+            ProblemsPanel.Visibility = panel == "problems" ? Visibility.Visible : Visibility.Collapsed;
+            OutputPanel.Visibility = panel == "output" ? Visibility.Visible : Visibility.Collapsed;
+            TerminalPanel.Visibility = panel == "terminal" ? Visibility.Visible : Visibility.Collapsed;
+
+            ProblemsTabBtn.Foreground = new SolidColorBrush(panel == "problems" ? Color.FromRgb(34, 211, 238) : Color.FromRgb(100, 116, 139));
+            OutputTabBtn.Foreground = new SolidColorBrush(panel == "output" ? Color.FromRgb(34, 211, 238) : Color.FromRgb(100, 116, 139));
+            TerminalTabBtn.Foreground = new SolidColorBrush(panel == "terminal" ? Color.FromRgb(34, 211, 238) : Color.FromRgb(100, 116, 139));
+            
+            if (panel == "terminal")
+            {
+                if (TerminalRichOutput.Document.Blocks.Count == 0)
+                {
+                    WriteTerminalWelcome();
+                }
+                UpdateTerminalPrompt();
+                TerminalInput.Focus();
+            }
+        }
+
+        private void ShowProblems_Click(object sender, RoutedEventArgs e)
+        {
+            ShowBottomPanel("problems");
+        }
+
+        /// <summary>
+        /// Show Output panel in bottom panel
+        /// </summary>
+        private void ShowOutput_Click(object sender, RoutedEventArgs e)
+        {
+            ShowBottomPanel("output");
+        }
+
+        /// <summary>
+        /// Show Terminal panel in bottom panel
+        /// </summary>
+        private void ShowTerminal_Click(object sender, RoutedEventArgs e)
+        {
+            ShowBottomPanel("terminal");
+        }
+
+        /// <summary>
+        /// Attach current code to AI chat
+        /// </summary>
+        private void AttachCode_Click(object sender, RoutedEventArgs e)
+        {
+            if (_activeTab == null)
+            {
+                StatusText.Text = "No file open to attach";
+                return;
+            }
+
+            var content = CodeEditor.Text;
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                StatusText.Text = "No code to attach";
+                return;
+            }
+
+            _attachedFileContent = content;
+            _attachedFileName = _activeTab.FileName;
+            
+            AddAIMessage("system", $"📋 Attached current code: {_activeTab.FileName}");
+            StatusText.Text = $"Attached: {_activeTab.FileName}";
+        }
+
+        /// <summary>
+        /// Handle AI input text changed for placeholder visibility
+        /// </summary>
+        private void AIInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (AIInputPlaceholder != null)
+            {
+                AIInputPlaceholder.Visibility = string.IsNullOrEmpty(AIInput.Text) 
+                    ? Visibility.Visible 
+                    : Visibility.Collapsed;
             }
         }
 

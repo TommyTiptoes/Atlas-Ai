@@ -5,49 +5,59 @@
         MinHeight="600" MinWidth="900"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Background="#0d1117"
+        Background="#050508"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="CanResize"
-        ShowInTaskbar="False"
+        ShowInTaskbar="True"
         AllowDrop="True"
         Drop="Window_Drop"
         DragOver="Window_DragOver"
         Loaded="Window_Loaded">
     
     <Window.Resources>
-        <!-- Kiro-style toolbar button -->
-        <Style x:Key="ToolBtn" TargetType="Button">
+        <!-- Neon Futuristic Button Style -->
+        <Style x:Key="NeonBtn" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#8b949e"/>
+            <Setter Property="Foreground" Value="#94a3b8"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Padding" Value="12,8"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable, Segoe UI"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="bd" Background="{TemplateBinding Background}" 
-                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                CornerRadius="6" Padding="{TemplateBinding Padding}"
+                                BorderBrush="#ffffff08" BorderThickness="1">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#21262d"/>
-                                <Setter Property="Foreground" Value="#e6edf3"/>
+                                <Setter TargetName="bd" Property="Background" Value="#1a1a24"/>
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#22d3ee30"/>
+                                <Setter Property="Foreground" Value="#22d3ee"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <!-- Accent button (Run, Send) -->
-        <Style x:Key="AccentBtn" TargetType="Button">
-            <Setter Property="Background" Value="#238636"/>
-            <Setter Property="Foreground" Value="White"/>
+
+        <!-- Cyan Accent Button -->
+        <Style x:Key="CyanAccentBtn" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#22d3ee" Offset="0"/>
+                        <GradientStop Color="#06b6d4" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#050508"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="Padding" Value="16,10"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -55,12 +65,22 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="bd" Background="{TemplateBinding Background}" 
-                                CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#22d3ee" BlurRadius="12" ShadowDepth="0" Opacity="0.3"/>
+                            </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#2ea043"/>
+                                <Setter TargetName="bd" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#67e8f9" Offset="0"/>
+                                            <GradientStop Color="#22d3ee" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -68,222 +88,453 @@
             </Setter>
         </Style>
         
-        <!-- Tree view item style -->
-        <Style x:Key="TreeItemStyle" TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="#c9d1d9"/>
+        <!-- Violet Accent Button -->
+        <Style x:Key="VioletAccentBtn" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#8b5cf6" Offset="0"/>
+                        <GradientStop Color="#6366f1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" 
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#8b5cf6" BlurRadius="12" ShadowDepth="0" Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#a78bfa" Offset="0"/>
+                                            <GradientStop Color="#8b5cf6" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Tab Button Style -->
+        <Style x:Key="TabBtn" TargetType="Button">
+            <Setter Property="Background" Value="#12121a"/>
+            <Setter Property="Foreground" Value="#64748b"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}"
+                                BorderBrush="#ffffff08" BorderThickness="0,0,1,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#1a1a24"/>
+                                <Setter Property="Foreground" Value="#f1f5f9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Tree View Item Style -->
+        <Style x:Key="NeonTreeItem" TargetType="TreeViewItem">
+            <Setter Property="Foreground" Value="#94a3b8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="8,5"/>
             <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#1f6feb30"/>
+                    <Setter Property="Background" Value="#22d3ee15"/>
+                    <Setter Property="Foreground" Value="#22d3ee"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#21262d"/>
+                    <Setter Property="Background" Value="#1a1a24"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
+        <!-- Bottom Panel Tab Style -->
+        <Style x:Key="PanelTabBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#64748b"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" 
+                                Padding="{TemplateBinding Padding}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#1a1a24"/>
+                                <Setter Property="Foreground" Value="#f1f5f9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    
-    <Border CornerRadius="10" Background="#0d1117" BorderBrush="#30363d" BorderThickness="1">
+
+    <!-- Main Window Content -->
+    <Border CornerRadius="12" BorderBrush="#ffffff10" BorderThickness="1">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#050508" Offset="0"/>
+                <GradientStop Color="#0a0a12" Offset="0.5"/>
+                <GradientStop Color="#08080e" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
+                <RowDefinition Height="52"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="28"/>
+                <RowDefinition Height="32"/>
             </Grid.RowDefinitions>
             
-            <!-- Top Header Bar - Kiro style -->
-            <Border Grid.Row="0" Background="#161b22" BorderBrush="#30363d" BorderThickness="0,0,0,1"
+            <!-- ═══════════════════════════════════════════════════════════════
+                 TOP HEADER BAR - Neon Futuristic Style
+            ═══════════════════════════════════════════════════════════════ -->
+            <Border Grid.Row="0" BorderBrush="#ffffff08" BorderThickness="0,0,0,1"
                     MouseLeftButtonDown="Header_MouseLeftButtonDown">
-                <Grid Margin="12,0">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#0c0c14" Offset="0"/>
+                        <GradientStop Color="#10101a" Offset="0.5"/>
+                        <GradientStop Color="#0c0c14" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                
+                <Grid Margin="16,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     
-                    <!-- Left: Logo + Actions -->
+                    <!-- Left: Logo + File Actions -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Atlas Code" FontSize="15" FontWeight="SemiBold" Foreground="#e6edf3" 
-                                   VerticalAlignment="Center" Margin="0,0,20,0"/>
-                        <Button Content="📂 Open Folder" Style="{StaticResource ToolBtn}" Click="OpenFolder_Click"/>
-                        <Button Content="📄 New File" Style="{StaticResource ToolBtn}" Click="NewFile_Click"/>
-                        <Button Content="💾 Save" Style="{StaticResource ToolBtn}" Click="SaveFile_Click"/>
-                        <Button Content="💾 Save As" Style="{StaticResource ToolBtn}" Click="SaveAs_Click"/>
-                        <Button Content="💾 Save All" Style="{StaticResource ToolBtn}" Click="SaveAll_Click"/>
+                        <!-- Neon Logo -->
+                        <Border Margin="0,0,16,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚡" FontSize="18" VerticalAlignment="Center" Margin="0,0,6,0">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="#22d3ee" BlurRadius="8" ShadowDepth="0" Opacity="0.6"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Text="ATLAS CODE" FontSize="14" FontWeight="Bold" VerticalAlignment="Center">
+                                    <TextBlock.Foreground>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#22d3ee" Offset="0"/>
+                                            <GradientStop Color="#8b5cf6" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                        
+                        <Rectangle Width="1" Height="24" Fill="#ffffff10" Margin="0,0,12,0"/>
+                        
+                        <Button Content="📂 Open" Style="{StaticResource NeonBtn}" Click="OpenFolder_Click" ToolTip="Open Folder (Ctrl+O)"/>
+                        <Button Content="📄 New" Style="{StaticResource NeonBtn}" Click="NewFile_Click" ToolTip="New File (Ctrl+N)"/>
+                        <Button Content="💾 Save" Style="{StaticResource NeonBtn}" Click="SaveFile_Click" ToolTip="Save (Ctrl+S)"/>
+                        <Button Content="💾 Save All" Style="{StaticResource NeonBtn}" Click="SaveAll_Click" ToolTip="Save All (Ctrl+Shift+S)"/>
                     </StackPanel>
-                    
-                    <!-- Center: Search -->
+
+                    <!-- Center: Search Bar -->
                     <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
-                            Background="#0d1117" BorderBrush="#30363d" BorderThickness="1" CornerRadius="6"
-                            Width="400">
-                        <TextBox x:Name="SearchBox" Background="Transparent" Foreground="#c9d1d9" 
-                                 BorderThickness="0" Padding="12,8" FontSize="13"
-                                 CaretBrush="#58a6ff" KeyDown="SearchBox_KeyDown">
-                            <TextBox.Style>
-                                <Style TargetType="TextBox">
+                            CornerRadius="8" Width="420">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#12121a" Offset="0"/>
+                                <GradientStop Color="#16161f" Offset="0.5"/>
+                                <GradientStop Color="#12121a" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#22d3ee20" Offset="0"/>
+                                <GradientStop Color="#8b5cf620" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Border.BorderThickness>1</Border.BorderThickness>
+                        
+                        <Grid>
+                            <TextBlock Text="🔍 Search files, commands... (Ctrl+P)" Foreground="#475569" 
+                                       FontSize="13" VerticalAlignment="Center" Margin="14,0"
+                                       IsHitTestVisible="False" x:Name="SearchPlaceholder"/>
+                            <TextBox x:Name="SearchBox" Background="Transparent" Foreground="#f1f5f9" 
+                                     BorderThickness="0" Padding="14,10" FontSize="13"
+                                     CaretBrush="#22d3ee" KeyDown="SearchBox_KeyDown"
+                                     TextChanged="SearchBox_TextChanged"/>
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Right: Run + Window Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="▶ Run" Style="{StaticResource CyanAccentBtn}" Click="RunCode_Click" ToolTip="Run Code (F5)"/>
+                        <Button x:Name="TerminalToggle" Content="⌨ Terminal" Style="{StaticResource NeonBtn}" Click="ToggleTerminal_Click" Margin="8,0,0,0"/>
+                        
+                        <Rectangle Width="1" Height="24" Fill="#ffffff10" Margin="16,0"/>
+                        
+                        <Button Content="─" Style="{StaticResource NeonBtn}" Click="Minimize_Click" Width="40" Padding="0,8"/>
+                        <Button Content="□" Style="{StaticResource NeonBtn}" Click="Maximize_Click" Width="40" Padding="0,8"/>
+                        <Button x:Name="CloseBtn" Content="✕" Click="Close_Click" Width="40" Padding="0,8">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource NeonBtn}">
                                     <Style.Triggers>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <VisualBrush Stretch="None" AlignmentX="Left">
-                                                        <VisualBrush.Visual>
-                                                            <TextBlock Text="🔍 Search files... (Ctrl+P)" Foreground="#484f58" Margin="12,0"/>
-                                                        </VisualBrush.Visual>
-                                                    </VisualBrush>
-                                                </Setter.Value>
-                                            </Setter>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="#ef4444"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBox.Style>
-                        </TextBox>
-                    </Border>
-                    
-                    <!-- Right: Run + Window controls -->
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button Content="▶ Run" Style="{StaticResource AccentBtn}" Click="RunCode_Click"/>
-                        <Button x:Name="TerminalToggle" Content="⌨ Terminal" Style="{StaticResource ToolBtn}" Click="ToggleTerminal_Click" Margin="8,0,0,0"/>
-                        <Rectangle Width="1" Height="20" Fill="#30363d" Margin="12,0"/>
-                        <Button Content="─" Style="{StaticResource ToolBtn}" Click="Minimize_Click" Width="36"/>
-                        <Button Content="□" Style="{StaticResource ToolBtn}" Click="Maximize_Click" Width="36"/>
-                        <Button Content="✕" Style="{StaticResource ToolBtn}" Click="Close_Click" Width="36"/>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
-            
-            <!-- Main Content -->
+
+            <!-- ═══════════════════════════════════════════════════════════════
+                 MAIN CONTENT AREA
+            ═══════════════════════════════════════════════════════════════ -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="260" MinWidth="180"/>
+                    <ColumnDefinition Width="280" MinWidth="200"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition x:Name="AIPanelColumn" Width="340" MinWidth="250"/>
+                    <ColumnDefinition x:Name="AIPanelColumn" Width="380" MinWidth="280"/>
                 </Grid.ColumnDefinitions>
                 
-                <!-- File Explorer - Kiro style -->
-                <Border Background="#0d1117" BorderBrush="#30363d" BorderThickness="0,0,1,0">
+                <!-- ═══════════════════════════════════════════════════════════════
+                     LEFT SIDEBAR - File Explorer
+                ═══════════════════════════════════════════════════════════════ -->
+                <Border Background="#08080c" BorderBrush="#ffffff08" BorderThickness="0,0,1,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         
-                        <Border Background="#161b22" Padding="12,10" BorderBrush="#30363d" BorderThickness="0,0,0,1">
+                        <!-- Explorer Header -->
+                        <Border Padding="16,12" BorderBrush="#ffffff08" BorderThickness="0,0,0,1">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#0c0c14" Offset="0"/>
+                                    <GradientStop Color="#10101a" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
                             <Grid>
-                                <TextBlock x:Name="WorkspaceLabel" Text="EXPLORER" FontSize="11" FontWeight="SemiBold" 
-                                           Foreground="#8b949e" VerticalAlignment="Center"/>
-                                <Button Content="⟳" Style="{StaticResource ToolBtn}" HorizontalAlignment="Right" 
-                                        Click="RefreshTree_Click" ToolTip="Refresh" Padding="6,4"/>
+                                <TextBlock x:Name="SidePanelTitle" Text="EXPLORER" FontSize="11" FontWeight="Bold" 
+                                           Foreground="#64748b" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Content="+" Style="{StaticResource NeonBtn}" Click="NewFile_Click" 
+                                            ToolTip="New File" Padding="6,4" FontSize="14"/>
+                                    <Button Content="⟳" Style="{StaticResource NeonBtn}" Click="RefreshTree_Click" 
+                                            ToolTip="Refresh" Padding="6,4"/>
+                                </StackPanel>
                             </Grid>
                         </Border>
                         
+                        <!-- File Tree -->
                         <TreeView x:Name="FileTree" Grid.Row="1" Background="Transparent" BorderThickness="0"
-                                  ItemContainerStyle="{StaticResource TreeItemStyle}"
+                                  ItemContainerStyle="{StaticResource NeonTreeItem}"
                                   SelectedItemChanged="FileTree_SelectedItemChanged"
                                   MouseDoubleClick="FileTree_MouseDoubleClick"
-                                  Padding="8,4"/>
+                                  Padding="8,8"/>
                     </Grid>
                 </Border>
                 
-                <GridSplitter Grid.Column="1" Width="1" Background="#30363d" HorizontalAlignment="Center"/>
-                
-                <!-- Editor Area -->
+                <GridSplitter Grid.Column="1" Width="1" Background="#22d3ee20" HorizontalAlignment="Center"/>
+
+                <!-- ═══════════════════════════════════════════════════════════════
+                     CENTER - Code Editor Area
+                ═══════════════════════════════════════════════════════════════ -->
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition x:Name="TerminalRow" Height="0"/>
+                        <RowDefinition x:Name="BottomPanelRow" Height="0"/>
                     </Grid.RowDefinitions>
                     
-                    <!-- Tabs -->
-                    <Border Background="#161b22" BorderBrush="#30363d" BorderThickness="0,0,0,1">
+                    <!-- Tab Bar -->
+                    <Border BorderBrush="#ffffff08" BorderThickness="0,0,0,1">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#0c0c14" Offset="0"/>
+                                <GradientStop Color="#08080c" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                            <StackPanel x:Name="TabBar" Orientation="Horizontal" Margin="4,0"/>
+                            <StackPanel x:Name="TabBar" Orientation="Horizontal"/>
                         </ScrollViewer>
                     </Border>
                     
-                    <!-- Code Editor - Kiro style -->
-                    <Border Grid.Row="1" Background="#0d1117">
+                    <!-- Code Editor -->
+                    <Border Grid.Row="1" Background="#050508">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             
-                            <!-- Line numbers -->
-                            <Border Background="#0d1117" BorderBrush="#21262d" BorderThickness="0,0,1,0">
+                            <!-- Line Numbers -->
+                            <Border Background="#08080c" BorderBrush="#ffffff08" BorderThickness="0,0,1,0">
                                 <TextBox x:Name="LineNumbers" IsReadOnly="True" Background="Transparent" 
-                                         Foreground="#484f58" BorderThickness="0" FontFamily="Cascadia Code, Consolas, monospace"
-                                         FontSize="14" Padding="8,12" TextAlignment="Right"
+                                         Foreground="#475569" BorderThickness="0" 
+                                         FontFamily="Cascadia Code, Consolas, monospace"
+                                         FontSize="13" Padding="8,14" TextAlignment="Right"
                                          VerticalScrollBarVisibility="Hidden" Text="1"/>
                             </Border>
                             
-                            <!-- Code text -->
+                            <!-- Code Text Area -->
                             <TextBox x:Name="CodeEditor" Grid.Column="1" 
                                      AcceptsReturn="True" AcceptsTab="True"
-                                     Background="Transparent" Foreground="#c9d1d9"
+                                     Background="Transparent" Foreground="#f1f5f9"
                                      BorderThickness="0" FontFamily="Cascadia Code, Consolas, monospace"
-                                     FontSize="14" Padding="12"
+                                     FontSize="13" Padding="14"
                                      VerticalScrollBarVisibility="Auto"
                                      HorizontalScrollBarVisibility="Auto"
                                      TextWrapping="NoWrap"
-                                     CaretBrush="#58a6ff"
-                                     SelectionBrush="#1f6feb60"
+                                     CaretBrush="#22d3ee"
+                                     SelectionBrush="#8b5cf640"
                                      TextChanged="CodeEditor_TextChanged"
                                      PreviewKeyDown="CodeEditor_PreviewKeyDown"/>
                             
-                            <!-- No file open message -->
+                            <!-- Welcome Screen -->
+                            <Border x:Name="WelcomeScreen" Grid.ColumnSpan="2" Background="#050508" Visibility="Collapsed">
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,24">
+                                        <TextBlock.Text>⚡</TextBlock.Text>
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect Color="#22d3ee" BlurRadius="20" ShadowDepth="0" Opacity="0.8"/>
+                                        </TextBlock.Effect>
+                                    </TextBlock>
+                                    <TextBlock Text="ATLAS CODE" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8">
+                                        <TextBlock.Foreground>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Color="#22d3ee" Offset="0"/>
+                                                <GradientStop Color="#8b5cf6" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                    <TextBlock Text="AI-Powered Code Editor" Foreground="#64748b" FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,32"/>
+                                    
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="📂 Open Folder" Style="{StaticResource VioletAccentBtn}" Click="OpenFolder_Click" Margin="0,0,12,0"/>
+                                        <Button Content="📄 New File" Style="{StaticResource CyanAccentBtn}" Click="NewFile_Click"/>
+                                    </StackPanel>
+                                    
+                                    <TextBlock Text="or drag &amp; drop a folder here" Foreground="#475569" FontSize="13" 
+                                               HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- No File Message -->
                             <StackPanel x:Name="NoFileMessage" Grid.ColumnSpan="2" 
                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       Visibility="Visible">
-                                <TextBlock Text="Open a folder or file to start coding" 
-                                           Foreground="#8b949e" FontSize="16" TextAlignment="Center" Margin="0,0,0,16"/>
-                                <TextBlock Text="📂 Drag &amp; drop a folder here" 
-                                           Foreground="#484f58" FontSize="14" TextAlignment="Center"/>
-                                <TextBlock Text="or use Open Folder button" 
-                                           Foreground="#484f58" FontSize="14" TextAlignment="Center"/>
+                                       Visibility="Collapsed">
+                                <TextBlock Text="Select a file to edit" Foreground="#64748b" FontSize="15" TextAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </Border>
-                    
-                    <!-- Terminal Panel -->
-                    <Border x:Name="TerminalPanel" Grid.Row="2" Background="#0d1117" Visibility="Collapsed"
-                            BorderBrush="#30363d" BorderThickness="0,1,0,0">
+
+                    <!-- ═══════════════════════════════════════════════════════════════
+                         BOTTOM PANEL - Terminal / Problems / Output
+                    ═══════════════════════════════════════════════════════════════ -->
+                    <Border x:Name="BottomPanel" Grid.Row="2" Visibility="Collapsed"
+                            BorderBrush="#ffffff08" BorderThickness="0,1,0,0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#0a0a10" Offset="0"/>
+                                <GradientStop Color="#08080c" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             
-                            <!-- Terminal Header -->
-                            <Border Background="#161b22" Padding="12,8">
+                            <!-- Panel Tabs -->
+                            <Border Padding="12,6" BorderBrush="#ffffff08" BorderThickness="0,0,0,1">
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="TERMINAL" FontSize="11" FontWeight="SemiBold" Foreground="#8b949e" 
-                                                   VerticalAlignment="Center"/>
-                                        <Border Background="#21262d" CornerRadius="4" Padding="8,3" Margin="12,0,0,0">
-                                            <TextBlock x:Name="TerminalShellLabel" Text="PowerShell" FontSize="11" Foreground="#8b949e"/>
-                                        </Border>
+                                        <Button x:Name="ProblemsTabBtn" Content="PROBLEMS" Style="{StaticResource PanelTabBtn}" 
+                                                Click="ShowProblems_Click" Foreground="#64748b"/>
+                                        <Button x:Name="OutputTabBtn" Content="OUTPUT" Style="{StaticResource PanelTabBtn}" 
+                                                Click="ShowOutput_Click" Foreground="#64748b" Margin="8,0,0,0"/>
+                                        <Button x:Name="TerminalTabBtn" Content="TERMINAL" Style="{StaticResource PanelTabBtn}" 
+                                                Click="ShowTerminal_Click" Foreground="#22d3ee" Margin="8,0,0,0"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button Content="🗑" Style="{StaticResource ToolBtn}" Click="ClearTerminal_Click" ToolTip="Clear" Padding="6,4"/>
-                                        <Button Content="✕" Style="{StaticResource ToolBtn}" Click="CloseTerminal_Click" ToolTip="Close" Padding="6,4"/>
+                                        <Button Content="🗑" Style="{StaticResource NeonBtn}" Click="ClearTerminal_Click" 
+                                                ToolTip="Clear" Padding="6,4"/>
+                                        <Button Content="✕" Style="{StaticResource NeonBtn}" Click="CloseTerminal_Click" 
+                                                ToolTip="Close Panel" Padding="6,4"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
                             
-                            <!-- Terminal Output -->
-                            <Border Grid.Row="1" Background="#0d1117">
+                            <!-- Problems Panel -->
+                            <Border x:Name="ProblemsPanel" Grid.Row="1" Visibility="Collapsed">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <StackPanel x:Name="ProblemsList" Margin="12"/>
+                                </ScrollViewer>
+                            </Border>
+                            
+                            <!-- Output Panel -->
+                            <Border x:Name="OutputPanel" Grid.Row="1" Visibility="Collapsed">
+                                <RichTextBox x:Name="OutputRichText" IsReadOnly="True"
+                                             Background="Transparent" Foreground="#94a3b8"
+                                             BorderThickness="0" FontFamily="Cascadia Code, Consolas"
+                                             FontSize="12" Padding="12"
+                                             VerticalScrollBarVisibility="Auto"/>
+                            </Border>
+                            
+                            <!-- Terminal Panel -->
+                            <Grid x:Name="TerminalPanel" Grid.Row="1" Visibility="Visible">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <!-- Terminal Output -->
                                 <RichTextBox x:Name="TerminalRichOutput" IsReadOnly="True"
-                                             Background="Transparent" Foreground="#c9d1d9"
-                                             BorderThickness="0" FontFamily="Cascadia Code, Consolas, monospace"
-                                             FontSize="13" Padding="12,8"
+                                             Background="Transparent" Foreground="#94a3b8"
+                                             BorderThickness="0" FontFamily="Cascadia Code, Consolas"
+                                             FontSize="12" Padding="12"
                                              VerticalScrollBarVisibility="Auto"
-                                             HorizontalScrollBarVisibility="Auto"
                                              IsDocumentEnabled="True">
                                     <RichTextBox.Resources>
                                         <Style TargetType="Paragraph">
@@ -291,39 +542,49 @@
                                         </Style>
                                     </RichTextBox.Resources>
                                 </RichTextBox>
-                            </Border>
-                            
-                            <!-- Terminal Input -->
-                            <Border Grid.Row="2" Background="#161b22" Padding="12,8">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock x:Name="TerminalPromptDir" Text="~" Foreground="#3fb950" 
-                                                   FontFamily="Cascadia Code, Consolas" FontSize="13" FontWeight="SemiBold"/>
-                                        <TextBlock Text=" ❯ " Foreground="#58a6ff" FontFamily="Cascadia Code, Consolas" FontSize="13"/>
-                                    </StackPanel>
-                                    
-                                    <TextBox x:Name="TerminalInput" Grid.Column="1" Background="Transparent" 
-                                             Foreground="#c9d1d9" BorderThickness="0" FontFamily="Cascadia Code, Consolas"
-                                             FontSize="13" CaretBrush="#58a6ff" VerticalAlignment="Center"
-                                             PreviewKeyDown="TerminalInput_PreviewKeyDown"/>
-                                </Grid>
-                            </Border>
+                                
+                                <!-- Terminal Input -->
+                                <Border Grid.Row="1" Padding="12,8" BorderBrush="#ffffff08" BorderThickness="0,1,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock x:Name="TerminalPromptDir" Text="~" Foreground="#22d3ee" 
+                                                       FontFamily="Cascadia Code, Consolas" FontSize="12" FontWeight="SemiBold"/>
+                                            <TextBlock Text=" ❯ " Foreground="#8b5cf6" FontFamily="Cascadia Code, Consolas" FontSize="12"/>
+                                        </StackPanel>
+                                        
+                                        <TextBox x:Name="TerminalInput" Grid.Column="1" Background="Transparent" 
+                                                 Foreground="#f1f5f9" BorderThickness="0" FontFamily="Cascadia Code, Consolas"
+                                                 FontSize="12" CaretBrush="#22d3ee" VerticalAlignment="Center"
+                                                 PreviewKeyDown="TerminalInput_PreviewKeyDown"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
                         </Grid>
                     </Border>
                     
-                    <GridSplitter x:Name="TerminalSplitter" Grid.Row="2" Height="1" Background="#30363d" 
+                    <GridSplitter x:Name="BottomSplitter" Grid.Row="2" Height="1" Background="#22d3ee30" 
                                   VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
                 </Grid>
                 
-                <GridSplitter Grid.Column="3" Width="1" Background="#30363d" HorizontalAlignment="Center"/>
-                
-                <!-- AI Assistant Panel - Kiro style -->
-                <Border Grid.Column="4" Background="#0d1117" BorderBrush="#30363d" BorderThickness="1,0,0,0">
+                <GridSplitter Grid.Column="3" Width="1" Background="#8b5cf620" HorizontalAlignment="Center"/>
+
+                <!-- ═══════════════════════════════════════════════════════════════
+                     RIGHT SIDEBAR - AI Assistant Panel (Kiro-like)
+                ═══════════════════════════════════════════════════════════════ -->
+                <Border Grid.Column="4" BorderBrush="#ffffff08" BorderThickness="1,0,0,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#08080c" Offset="0"/>
+                            <GradientStop Color="#0a0a12" Offset="0.5"/>
+                            <GradientStop Color="#08080c" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -331,69 +592,114 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         
-                        <Border Background="#161b22" Padding="14,12" BorderBrush="#30363d" BorderThickness="0,0,0,1">
+                        <!-- AI Header -->
+                        <Border Padding="16,14" BorderBrush="#ffffff08" BorderThickness="0,0,0,1">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#0c0c14" Offset="0"/>
+                                    <GradientStop Color="#10101a" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
                             <Grid>
-                                <TextBlock Text="🤖 AI ASSISTANT" FontSize="13" FontWeight="SemiBold" Foreground="#e6edf3"/>
-                                <Button Content="🗑" Style="{StaticResource ToolBtn}" HorizontalAlignment="Right" 
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="🤖" FontSize="16" VerticalAlignment="Center" Margin="0,0,8,0">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect Color="#8b5cf6" BlurRadius="8" ShadowDepth="0" Opacity="0.6"/>
+                                        </TextBlock.Effect>
+                                    </TextBlock>
+                                    <TextBlock Text="AI ASSISTANT" FontSize="12" FontWeight="Bold" 
+                                               Foreground="#f1f5f9" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button Content="🗑" Style="{StaticResource NeonBtn}" HorizontalAlignment="Right" 
                                         Click="ClearChat_Click" ToolTip="Clear chat" Padding="6,4"/>
                             </Grid>
                         </Border>
                         
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <!-- AI Chat Messages -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" x:Name="AIChatScroller">
                             <StackPanel x:Name="AIChat" Margin="16">
-                                <TextBlock Text="I can help you with:" Foreground="#e6edf3" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,16"/>
-                                <TextBlock Text="• Explain code and concepts" Foreground="#c9d1d9" FontSize="15" Margin="0,6"/>
-                                <TextBlock Text="• Find and fix bugs" Foreground="#c9d1d9" FontSize="15" Margin="0,6"/>
-                                <TextBlock Text="• Refactor and optimize" Foreground="#c9d1d9" FontSize="15" Margin="0,6"/>
-                                <TextBlock Text="• Write new functions" Foreground="#c9d1d9" FontSize="15" Margin="0,6"/>
-                                <TextBlock Text="• Add documentation" Foreground="#c9d1d9" FontSize="15" Margin="0,6"/>
-                                <TextBlock Text="• Convert between languages" Foreground="#c9d1d9" FontSize="15" Margin="0,6"/>
-                                <Border Background="#238636" CornerRadius="8" Padding="14,12" Margin="0,20,0,0">
+                                <!-- Welcome Message -->
+                                <Border Background="#8b5cf615" CornerRadius="12" Padding="16" Margin="0,0,0,16"
+                                        BorderBrush="#8b5cf630" BorderThickness="1">
+                                    <StackPanel>
+                                        <TextBlock Text="I can help you with:" Foreground="#f1f5f9" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                                        <TextBlock Text="• Write and generate code" Foreground="#94a3b8" FontSize="13" Margin="0,4"/>
+                                        <TextBlock Text="• Explain code and concepts" Foreground="#94a3b8" FontSize="13" Margin="0,4"/>
+                                        <TextBlock Text="• Find and fix bugs" Foreground="#94a3b8" FontSize="13" Margin="0,4"/>
+                                        <TextBlock Text="• Refactor and optimize" Foreground="#94a3b8" FontSize="13" Margin="0,4"/>
+                                        <TextBlock Text="• Open apps, websites, run commands" Foreground="#94a3b8" FontSize="13" Margin="0,4"/>
+                                        <TextBlock Text="• Execute system tasks" Foreground="#94a3b8" FontSize="13" Margin="0,4"/>
+                                    </StackPanel>
+                                </Border>
+                                
+                                <Border CornerRadius="10" Padding="14" Margin="0,8,0,0"
+                                        BorderBrush="#22d3ee30" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#22d3ee10" Offset="0"/>
+                                            <GradientStop Color="#06b6d408" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
                                     <TextBlock Text="💡 Drop a folder to enable full workspace access!" 
-                                               Foreground="White" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                               Foreground="#22d3ee" FontSize="13" TextWrapping="Wrap"/>
                                 </Border>
                             </StackPanel>
                         </ScrollViewer>
-                        
-                        <Border Grid.Row="2" Background="#161b22" Padding="14" BorderBrush="#30363d" BorderThickness="0,1,0,0">
+
+                        <!-- AI Input Area -->
+                        <Border Grid.Row="2" Padding="16" BorderBrush="#ffffff08" BorderThickness="0,1,0,0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#0c0c14" Offset="0"/>
+                                    <GradientStop Color="#08080c" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 
-                                <Border Background="#0d1117" BorderBrush="#30363d" BorderThickness="1" CornerRadius="8">
-                                    <TextBox x:Name="AIInput" Background="Transparent" Foreground="#e6edf3"
-                                             BorderThickness="0" Padding="14,12"
-                                             FontSize="15" AcceptsReturn="False" TextWrapping="Wrap"
-                                             MaxHeight="120" VerticalScrollBarVisibility="Auto"
-                                             CaretBrush="#58a6ff"
-                                             PreviewKeyDown="AIInput_KeyDown">
-                                        <TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Style.Triggers>
-                                                    <Trigger Property="Text" Value="">
-                                                        <Setter Property="Background">
-                                                            <Setter.Value>
-                                                                <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
-                                                                    <VisualBrush.Visual>
-                                                                        <TextBlock Text="Ask me anything about your code..." Foreground="#6e7681" FontSize="15" Margin="14,12"/>
-                                                                    </VisualBrush.Visual>
-                                                                </VisualBrush>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBox.Style>
-                                    </TextBox>
+                                <!-- Input Box -->
+                                <Border CornerRadius="10" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#12121a" Offset="0"/>
+                                            <GradientStop Color="#16161f" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.BorderBrush>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#22d3ee30" Offset="0"/>
+                                            <GradientStop Color="#8b5cf630" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.BorderBrush>
+                                    
+                                    <Grid>
+                                        <TextBlock x:Name="AIInputPlaceholder" 
+                                                   Text="Ask anything... code, open apps, run commands" 
+                                                   Foreground="#475569" FontSize="13" 
+                                                   VerticalAlignment="Center" Margin="14,0"
+                                                   IsHitTestVisible="False"/>
+                                        <TextBox x:Name="AIInput" Background="Transparent" Foreground="#f1f5f9"
+                                                 BorderThickness="0" Padding="14,12"
+                                                 FontSize="13" AcceptsReturn="False" TextWrapping="Wrap"
+                                                 MaxHeight="100" VerticalScrollBarVisibility="Auto"
+                                                 CaretBrush="#22d3ee"
+                                                 TextChanged="AIInput_TextChanged"
+                                                 PreviewKeyDown="AIInput_KeyDown"/>
+                                    </Grid>
                                 </Border>
                                 
+                                <!-- Action Buttons -->
                                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,12,0,0">
-                                    <Button Content="📎 Add File" Style="{StaticResource ToolBtn}" Click="AttachFile_Click" FontSize="14"/>
-                                    <Button Content="▶ Send" Style="{StaticResource AccentBtn}" Click="SendAI_Click" Margin="8,0,0,0" FontSize="14"/>
-                                    <Button Content="✨ Apply" Style="{StaticResource AccentBtn}" Click="ApplyChanges_Click" 
-                                            Margin="8,0,0,0" x:Name="ApplyBtn" Visibility="Collapsed" FontSize="14"/>
+                                    <Button Content="📎 File" Style="{StaticResource NeonBtn}" Click="AttachFile_Click" FontSize="12"/>
+                                    <Button Content="📋 Code" Style="{StaticResource NeonBtn}" Click="AttachCode_Click" FontSize="12" Margin="4,0,0,0"/>
+                                    <Button Content="▶ Send" Style="{StaticResource CyanAccentBtn}" Click="SendAI_Click" 
+                                            Margin="8,0,0,0" FontSize="12" Padding="14,8"/>
+                                    <Button x:Name="ApplyBtn" Content="✨ Apply" Style="{StaticResource VioletAccentBtn}" 
+                                            Click="ApplyChanges_Click" Margin="4,0,0,0" Visibility="Collapsed" FontSize="12" Padding="14,8"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -401,23 +707,38 @@
                 </Border>
             </Grid>
             
-            <!-- Status Bar - Kiro style -->
-            <Border Grid.Row="2" Background="#161b22" BorderBrush="#30363d" BorderThickness="0,1,0,0" Padding="12,4">
+            <!-- ═══════════════════════════════════════════════════════════════
+                 STATUS BAR
+            ═══════════════════════════════════════════════════════════════ -->
+            <Border Grid.Row="2" BorderBrush="#ffffff08" BorderThickness="0,1,0,0" Padding="16,6">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#0c0c14" Offset="0"/>
+                        <GradientStop Color="#10101a" Offset="0.5"/>
+                        <GradientStop Color="#0c0c14" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     
-                    <TextBlock x:Name="StatusText" Text="Ready" Foreground="#8b949e" FontSize="12"/>
-                    <TextBlock x:Name="CursorPosition" Grid.Column="1" Text="Ln 1, Col 1" Foreground="#484f58" FontSize="12" Margin="20,0"/>
-                    <TextBlock x:Name="LanguageLabel" Grid.Column="2" Text="C#" Foreground="#58a6ff" FontSize="12" Margin="20,0"/>
-                    <TextBlock x:Name="EncodingLabel" Grid.Column="3" Text="UTF-8" Foreground="#484f58" FontSize="12"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="8" Height="8" Fill="#22c55e" Margin="0,0,8,0"/>
+                        <TextBlock x:Name="StatusText" Text="Ready" Foreground="#64748b" FontSize="11"/>
+                    </StackPanel>
+                    
+                    <TextBlock x:Name="CursorPosition" Grid.Column="1" Text="Ln 1, Col 1" Foreground="#475569" FontSize="11" Margin="24,0"/>
+                    <TextBlock x:Name="LanguageLabel" Grid.Column="2" Text="Plain Text" Foreground="#22d3ee" FontSize="11" Margin="24,0"/>
+                    <TextBlock x:Name="EncodingLabel" Grid.Column="3" Text="UTF-8" Foreground="#475569" FontSize="11" Margin="24,0"/>
+                    <TextBlock x:Name="IndentLabel" Grid.Column="4" Text="Spaces: 4" Foreground="#475569" FontSize="11"/>
                 </Grid>
             </Border>
         </Grid>
     </Border>
 </Window>
-
