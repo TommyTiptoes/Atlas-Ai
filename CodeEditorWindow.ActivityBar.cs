@@ -12,6 +12,7 @@ namespace AtlasAI
     {
         #region Activity Bar
 
+        // TODO: Call InitializeActivityBar() from main CodeEditorWindow constructor when UI is ready
         private void InitializeActivityBar()
         {
             // Initialize activity bar items
@@ -36,6 +37,7 @@ namespace AtlasAI
             // This would add items to the activity bar UI element
         }
 
+        // TODO: Wire this event handler to activity bar Button elements in XAML
         private void OnActivityBarItemClick(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.Tag is ActivityBarItem item)
