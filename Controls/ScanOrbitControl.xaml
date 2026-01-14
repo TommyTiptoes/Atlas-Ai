@@ -5,7 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400"
-             x:Name="ScanOrbitRoot">
+             x:Name="ScanOrbitRoot"
+             RenderOptions.BitmapScalingMode="LowQuality"
+             RenderOptions.CachingHint="Cache"
+             RenderOptions.EdgeMode="Aliased">
+    
+    <UserControl.CacheMode>
+        <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+    </UserControl.CacheMode>
     
     <UserControl.Resources>
         <!-- Scan Icon Button Style -->
@@ -27,6 +34,9 @@
     
     <!-- Main container - orbiting icons around center -->
     <Grid x:Name="OrbitContainer" Width="400" Height="400">
+        <Grid.CacheMode>
+            <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+        </Grid.CacheMode>
         
         <!-- Orbit ring visual (subtle) -->
         <Ellipse Width="320" Height="320" Stroke="#22d3ee15" StrokeThickness="1" 
@@ -37,7 +47,12 @@
         <!-- Rotating container for scan icons -->
         <Canvas x:Name="OrbitCanvas" Width="400" Height="400" 
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="0.5,0.5"
+                RenderOptions.BitmapScalingMode="LowQuality"
+                RenderOptions.CachingHint="Cache">
+            <Canvas.CacheMode>
+                <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+            </Canvas.CacheMode>
             <Canvas.RenderTransform>
                 <RotateTransform x:Name="OrbitRotation" Angle="0"/>
             </Canvas.RenderTransform>

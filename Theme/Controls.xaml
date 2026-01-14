@@ -300,10 +300,10 @@
         <Border x:Name="PART_ContentHost" Focusable="False" Background="Transparent"/>
     </ControlTemplate>
     
-    <!-- ComboBox Item Style - DARK TEXT ON DARK BACKGROUND -->
+    <!-- ComboBox Item Style - DARK TEXT FOR READABILITY -->
     <Style x:Key="AtlasComboBoxItem" TargetType="ComboBoxItem">
-        <Setter Property="Background" Value="#161b22"/>
-        <Setter Property="Foreground" Value="#e6edf3"/>
+        <Setter Property="Background" Value="#f6f8fa"/>
+        <Setter Property="Foreground" Value="#1a1a2e"/>
         <Setter Property="Padding" Value="10,8"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -315,12 +315,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="#00d4aa30"/>
-                            <Setter Property="Foreground" Value="#00d4aa"/>
+                            <Setter TargetName="bd" Property="Background" Value="#e1e4e8"/>
+                            <Setter Property="Foreground" Value="#0d1117"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="#00d4aa25"/>
-                            <Setter Property="Foreground" Value="#00d4aa"/>
+                            <Setter TargetName="bd" Property="Background" Value="#dfe2e5"/>
+                            <Setter Property="Foreground" Value="#0d1117"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -367,11 +367,11 @@
                                AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                             <Grid x:Name="DropDown" SnapsToDevicePixels="True"
                                   MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border x:Name="DropDownBorder" Background="#161b22" 
-                                        BorderBrush="#30363d" BorderThickness="1" CornerRadius="6"
+                                <Border x:Name="DropDownBorder" Background="#ffffff" 
+                                        BorderBrush="#d0d7de" BorderThickness="1" CornerRadius="6"
                                         Margin="0,2,0,0">
                                     <Border.Effect>
-                                        <DropShadowEffect Color="#000000" BlurRadius="12" ShadowDepth="4" Opacity="0.4"/>
+                                        <DropShadowEffect Color="#000000" BlurRadius="12" ShadowDepth="4" Opacity="0.15"/>
                                     </Border.Effect>
                                 </Border>
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
