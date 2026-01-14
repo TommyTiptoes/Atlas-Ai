@@ -328,6 +328,34 @@
         </Setter>
     </Style>
     
+    <!-- Default ComboBoxItem Style - Light text for readability on dark dropdown -->
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="#161b22"/>
+        <Setter Property="Foreground" Value="#e6edf3"/>
+        <Setter Property="Padding" Value="10,8"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="bd" Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="#00d4aa30"/>
+                            <Setter Property="Foreground" Value="#00d4aa"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="#00d4aa25"/>
+                            <Setter Property="Foreground" Value="#00d4aa"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <!-- Main ComboBox Style -->
     <Style x:Key="AtlasComboBox" TargetType="ComboBox">
         <Setter Property="Background" Value="#21262d"/>
