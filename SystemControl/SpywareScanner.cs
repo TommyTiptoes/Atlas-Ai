@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     public class SpywareScanner
     {

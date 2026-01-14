@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace MinimalApp.ScreenCapture
+namespace AtlasAI.ScreenCapture
 {
     public class CaptureHistoryItem
     {

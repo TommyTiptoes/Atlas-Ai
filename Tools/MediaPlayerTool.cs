@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     /// <summary>
     /// Unified media player tool supporting multiple platforms with learning capabilities

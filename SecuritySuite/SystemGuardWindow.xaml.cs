@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using MinimalApp.AI;
+using AtlasAI.AI;
 
-namespace MinimalApp.SecuritySuite
+namespace AtlasAI.SecuritySuite
 {
     public partial class SystemGuardWindow : Window
     {

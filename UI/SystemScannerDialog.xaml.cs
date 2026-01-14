@@ -12,7 +12,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Path = System.IO.Path;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     /// <summary>
     /// Futuristic system scanner dialog with animated visualization and real metrics

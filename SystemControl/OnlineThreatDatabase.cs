@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     /// <summary>
     /// Online threat database that fetches real malware signatures from public sources

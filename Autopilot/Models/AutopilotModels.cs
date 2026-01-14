@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.Autopilot.Models
+namespace AtlasAI.Autopilot.Models
 {
     // ============ AUTONOMY LEVELS ============
     

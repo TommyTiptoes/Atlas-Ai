@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Features
+namespace AtlasAI.Features
 {
     /// <summary>
     /// Smart features that make Atlas feel more advanced and useful

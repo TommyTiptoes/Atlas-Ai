@@ -13,7 +13,7 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using MouseButtonEventArgs = System.Windows.Input.MouseButtonEventArgs;
 using MouseButtonState = System.Windows.Input.MouseButtonState;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class MainWindow : Window
     {

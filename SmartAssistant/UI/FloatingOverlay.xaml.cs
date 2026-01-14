@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace MinimalApp.SmartAssistant.UI
+namespace AtlasAI.SmartAssistant.UI
 {
     /// <summary>
     /// Floating overlay for quick Atlas access via global hotkey

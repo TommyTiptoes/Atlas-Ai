@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 
-namespace MinimalApp.SecuritySuite
+namespace AtlasAI.SecuritySuite
 {
     public partial class SecuritySuiteWindow : Window
     {

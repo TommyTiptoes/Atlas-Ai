@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 
-namespace MinimalApp.SecuritySuite.AI
+namespace AtlasAI.SecuritySuite.AI
 {
     public partial class AIDiagnosticWindow : Window
     {

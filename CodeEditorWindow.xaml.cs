@@ -12,10 +12,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
-using MinimalApp.AI;
-using MinimalApp.Coding;
+using AtlasAI.AI;
+using AtlasAI.Agent;
+using AtlasAI.Coding;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class CodeEditorWindow : Window
     {
@@ -33,6 +34,8 @@ namespace MinimalApp
         // Services
         private readonly CodeAssistantService _codeAssistant = new();
         private readonly CodeToolExecutor _toolExecutor;
+        private AgentOrchestrator? _agentOrchestrator;
+        private string _agentWorkspacePath = "";
         
         // Terminal
         private bool _terminalVisible = false;
@@ -1164,6 +1167,96 @@ namespace MinimalApp
 
             try
             {
+                // Check if AI provider is configured
+                var provider = AIManager.GetActiveProviderInstance();
+                if (!provider?.IsConfigured ?? true)
+                {
+                    AddAIMessage("error", "⚠️ No AI provider configured. Go to Settings → AI to add your API key.");
+                    return;
+                }
+
+                // Initialize AgentOrchestrator if needed (or when workspace changes)
+                if (_agentOrchestrator == null || _agentWorkspacePath != _workspacePath)
+                {
+                    _agentWorkspacePath = _workspacePath ?? Environment.CurrentDirectory;
+                    _agentOrchestrator = new AgentOrchestrator(_agentWorkspacePath);
+                    
+                    // Wire up events to update UI
+                    _agentOrchestrator.OnThinking += (s, msg) => 
+                    {
+                        Dispatcher.Invoke(() => AddAIMessage("thinking", msg));
+                    };
+                    
+                    _agentOrchestrator.OnToolExecuting += (s, tool) => 
+                    {
+                        Dispatcher.Invoke(() => AddAIMessage("tool", tool));
+                    };
+                    
+                    _agentOrchestrator.OnToolResult += (s, result) => 
+                    {
+                        Dispatcher.Invoke(() => 
+                        {
+                            RemoveThinkingMessage();
+                            var resultMsg = result.Success 
+                                ? $"✅ {result.Tool}: {result.Output}" 
+                                : $"❌ {result.Tool} failed: {result.Output}";
+                            AddAIMessage("tool", resultMsg);
+                            
+                            // Refresh UI if files were modified
+                            if (result.Success && (result.Tool == "write_file" || result.Tool == "delete_file" || result.Tool == "create_file"))
+                            {
+                                if (!string.IsNullOrEmpty(_workspacePath))
+                                    PopulateFileTree(_workspacePath);
+                                
+                                // Reload open files if they were modified
+                                var modifiedPath = result.Params.GetValueOrDefault("path")?.ToString();
+                                if (!string.IsNullOrEmpty(modifiedPath))
+                                {
+                                    var fullPath = Path.IsPathRooted(modifiedPath) 
+                                        ? modifiedPath 
+                                        : Path.Combine(_workspacePath ?? "", modifiedPath);
+                                    
+                                    if (_openTabs.TryGetValue(fullPath, out var tab) && File.Exists(fullPath))
+                                    {
+                                        try
+                                        {
+                                            var newContent = File.ReadAllText(fullPath);
+                                            tab.Content = newContent;
+                                            if (_activeTab == tab)
+                                            {
+                                                _isInitializing = true;
+                                                CodeEditor.Text = newContent;
+                                                _isInitializing = false;
+                                            }
+                                            tab.IsDirty = false;
+                                            UpdateTabTitle(tab);
+                                        }
+                                        catch { }
+                                    }
+                                }
+                            }
+                        });
+                    };
+                    
+                    _agentOrchestrator.OnResponse += (s, response) => 
+                    {
+                        Dispatcher.Invoke(() => 
+                        {
+                            RemoveThinkingMessage();
+                            AddAIMessage("assistant", response);
+                        });
+                    };
+                    
+                    _agentOrchestrator.OnError += (s, error) => 
+                    {
+                        Dispatcher.Invoke(() => 
+                        {
+                            RemoveThinkingMessage();
+                            AddAIMessage("error", error);
+                        });
+                    };
+                }
+
                 // Build context for this message
                 var contextBuilder = new StringBuilder();
                 
@@ -1203,68 +1296,14 @@ namespace MinimalApp
                     ? $"{contextBuilder}\n\nUser: {prompt}"
                     : prompt;
 
-                // Add to conversation history
+                // Add to conversation history for context tracking
                 _conversationHistory.Add(new { role = "user", content = userMessage });
 
-                // Build messages with system prompt + history
-                var messages = new List<object>
-                {
-                    new { role = "system", content = GetAgenticSystemPrompt() }
-                };
+                // Run the agent loop - it will handle tools and iterations
+                var finalResponse = await _agentOrchestrator.RunAsync(userMessage);
                 
-                // Add conversation history (last 10 messages for context)
-                var historyToInclude = _conversationHistory.Count > 10 
-                    ? _conversationHistory.Skip(_conversationHistory.Count - 10).ToList()
-                    : _conversationHistory;
-                messages.AddRange(historyToInclude);
-
-                AddAIMessage("thinking", "Working on it...");
-
-                // Call AI
-                var provider = AIManager.GetActiveProviderInstance();
-                var providerType = AIManager.GetActiveProvider();
-                System.Diagnostics.Debug.WriteLine($"[CodeEditor] Provider: {providerType}, Configured: {provider?.IsConfigured}");
-
-                var response = await AIManager.SendMessageAsync(messages, 4096);
-
-                // Remove thinking message
-                RemoveThinkingMessage();
-
-                if (response == null || !response.Success)
-                {
-                    // Try fallback provider
-                    if (providerType == AIProviderType.Claude)
-                    {
-                        var openAiProvider = AIManager.GetProvider(AIProviderType.OpenAI);
-                        if (openAiProvider?.IsConfigured == true)
-                        {
-                            AddAIMessage("system", "Trying OpenAI...");
-                            await AIManager.SetActiveProviderAsync(AIProviderType.OpenAI);
-                            response = await AIManager.SendMessageAsync(messages, 4096);
-                            await AIManager.SetActiveProviderAsync(AIProviderType.Claude);
-                        }
-                    }
-                    
-                    if (response == null || !response.Success)
-                    {
-                        var errorMsg = response?.Error ?? "No response. Check API keys in Settings.";
-                        AddAIMessage("error", errorMsg);
-                        return;
-                    }
-                }
-
-                var responseText = response.Content ?? "";
-                if (string.IsNullOrEmpty(responseText))
-                {
-                    AddAIMessage("error", "Empty response from AI.");
-                    return;
-                }
-
-                // Add to conversation history
-                _conversationHistory.Add(new { role = "assistant", content = responseText });
-
-                // Execute any tool calls in the response
-                await ExecuteToolsAndRespond(responseText, messages);
+                // The response will be shown via events, but we keep it in history
+                _conversationHistory.Add(new { role = "assistant", content = finalResponse });
             }
             catch (Exception ex)
             {

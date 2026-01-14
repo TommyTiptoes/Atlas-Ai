@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     // Enums and supporting classes first
     public enum ThreatType

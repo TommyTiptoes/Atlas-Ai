@@ -8,7 +8,7 @@ using System.ServiceProcess;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     public enum SystemIssueType
     {

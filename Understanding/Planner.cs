@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace MinimalApp.Understanding
+namespace AtlasAI.Understanding
 {
     /// <summary>
     /// Chooses the best action path: execute tool, ask clarifying question, or provide guide.

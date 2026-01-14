@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MinimalApp.Autopilot.Models;
+using AtlasAI.Autopilot.Models;
 
-namespace MinimalApp.Autopilot.Services
+namespace AtlasAI.Autopilot.Services
 {
     /// <summary>
     /// Parses plain English rules into executable conditions and actions

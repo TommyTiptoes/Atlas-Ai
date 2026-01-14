@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.ActionHistory
+namespace AtlasAI.ActionHistory
 {
     public enum ActionType
     {

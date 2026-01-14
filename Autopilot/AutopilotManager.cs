@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.Autopilot.Models;
-using MinimalApp.Autopilot.Services;
+using AtlasAI.Autopilot.Models;
+using AtlasAI.Autopilot.Services;
 
-namespace MinimalApp.Autopilot
+namespace AtlasAI.Autopilot
 {
     /// <summary>
     /// Central manager for the Autopilot system - coordinates all autopilot services

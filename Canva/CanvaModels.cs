@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.Canva
+namespace AtlasAI.Canva
 {
     /// <summary>
     /// Canva integration mode - API preferred, UI automation as fallback

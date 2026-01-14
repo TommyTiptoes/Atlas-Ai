@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AtlasAI.Avatar;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class AvatarSelectionWindow : Window
     {

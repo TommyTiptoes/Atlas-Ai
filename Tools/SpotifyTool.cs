@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
-using MinimalApp.Voice;
+using AtlasAI.Voice;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     public static class SpotifyTool
     {

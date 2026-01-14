@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Memory
+namespace AtlasAI.Memory
 {
     /// <summary>
     /// Central memory manager - coordinates all memory systems

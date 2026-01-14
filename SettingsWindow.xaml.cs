@@ -12,13 +12,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Microsoft.Win32;
-using MinimalApp.Voice;
-using MinimalApp.AI;
-using MinimalApp.Conversation.Models;
+using AtlasAI.Voice;
+using AtlasAI.AI;
+using AtlasAI.Conversation.Models;
 using NAudio.Wave;
 using NAudio.CoreAudioApi;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class SettingsWindow : Window
     {

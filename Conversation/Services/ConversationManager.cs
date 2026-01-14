@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MinimalApp.Conversation.Models;
+using AtlasAI.Conversation.Models;
 
-namespace MinimalApp.Conversation.Services
+namespace AtlasAI.Conversation.Services
 {
     /// <summary>
     /// Manages the current conversation session and coordinates with storage

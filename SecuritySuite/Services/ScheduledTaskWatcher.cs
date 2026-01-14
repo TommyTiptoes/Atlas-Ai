@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.Win32.TaskScheduler;
-using MinimalApp.Ledger;
+using AtlasAI.Ledger;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Watches Windows Task Scheduler for task creation, modification, and deletion.

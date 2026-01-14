@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.Autopilot.Models;
+using AtlasAI.Autopilot.Models;
 
-namespace MinimalApp.Autopilot.Services
+namespace AtlasAI.Autopilot.Services
 {
     /// <summary>
     /// Monitors system state and generates proactive suggestions

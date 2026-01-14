@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
-using MinimalApp.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Models;
 
-namespace MinimalApp.InAppAssistant.Services
+namespace AtlasAI.InAppAssistant.Services
 {
     /// <summary>
     /// Executes in-app actions with confirmation and logging

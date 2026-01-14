@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MinimalApp.AI
+namespace AtlasAI.AI
 {
     public class OpenAIProvider : IAIProvider
     {

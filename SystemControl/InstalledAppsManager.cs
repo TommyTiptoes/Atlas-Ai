@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     /// <summary>
     /// Manages installed applications - scans, remembers, and launches apps

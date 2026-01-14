@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using MinimalApp.InAppAssistant.Models;
-using MinimalApp.InAppAssistant.Services;
+using AtlasAI.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Services;
 
-namespace MinimalApp.InAppAssistant
+namespace AtlasAI.InAppAssistant
 {
     /// <summary>
     /// Always-on-top overlay window for Atlas In-App Assistant

@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     /// <summary>
     /// Norton-style REAL malware scanner - scans ALL files on ALL drives

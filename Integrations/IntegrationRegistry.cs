@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MinimalApp.Integrations
+namespace AtlasAI.Integrations
 {
     /// <summary>
     /// Central registry of all Atlas AI integrations and their capabilities

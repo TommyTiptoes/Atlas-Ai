@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MinimalApp.Ledger;
+using AtlasAI.Ledger;
 
-namespace MinimalApp.SecuritySuite.Models
+namespace AtlasAI.SecuritySuite.Models
 {
     #region Enums
     

@@ -11,7 +11,7 @@ using NAudio.Wave;
 using NAudio.CoreAudioApi;
 using NAudio.MediaFoundation;
 
-namespace MinimalApp.Voice
+namespace AtlasAI.Voice
 {
     /// <summary>
     /// OpenAI Whisper-based speech recognition with automatic silence detection

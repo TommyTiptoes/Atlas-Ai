@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using MinimalApp.Agent;
+using AtlasAI.Agent;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     public partial class SecurityAlertWindow : Window, INotifyPropertyChanged
     {

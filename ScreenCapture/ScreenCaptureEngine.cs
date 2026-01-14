@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MinimalApp.ScreenCapture
+namespace AtlasAI.ScreenCapture
 {
     public class ScreenCaptureEngine
     {

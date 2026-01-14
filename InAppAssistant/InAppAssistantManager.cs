@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
-using MinimalApp.InAppAssistant.Models;
-using MinimalApp.InAppAssistant.Services;
-using MinimalApp.InAppAssistant.Skills;
-using MinimalApp.Understanding;
+using AtlasAI.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Services;
+using AtlasAI.InAppAssistant.Skills;
+using AtlasAI.Understanding;
 
-namespace MinimalApp.InAppAssistant
+namespace AtlasAI.InAppAssistant
 {
     /// <summary>
     /// Main manager for the In-App Assistant feature

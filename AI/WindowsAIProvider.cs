@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MinimalApp.AI
+namespace AtlasAI.AI
 {
     /// <summary>
     /// Windows AI Provider - Placeholder for Microsoft's Phi Silica local LLM
