@@ -133,21 +133,31 @@ namespace AtlasAI
         /// <summary>Switch between Lottie animation and particle orb</summary>
         public void SetOrbStyle(bool useLottie, string? animationFile = null)
         {
+            System.Diagnostics.Debug.WriteLine($"[ChatWindow] SetOrbStyle called - useLottie: {useLottie}, animationFile: {animationFile}");
+            System.Diagnostics.Debug.WriteLine($"[ChatWindow] AtlasCore null? {AtlasCore == null}, LottieOrb null? {LottieOrb == null}");
+            
             if (useLottie)
             {
                 AtlasCore.Visibility = Visibility.Collapsed;
                 LottieOrb.Visibility = Visibility.Visible;
+                System.Diagnostics.Debug.WriteLine($"[ChatWindow] Switched to Lottie orb - LottieOrb.Visibility: {LottieOrb.Visibility}");
                 
                 // If a specific animation file is provided, load it
                 if (!string.IsNullOrEmpty(animationFile))
                 {
                     LottieOrb.LoadAnimationByName(animationFile);
+                    System.Diagnostics.Debug.WriteLine($"[ChatWindow] Loaded animation: {animationFile}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[ChatWindow] No animation file specified, using default");
                 }
             }
             else
             {
                 AtlasCore.Visibility = Visibility.Visible;
                 LottieOrb.Visibility = Visibility.Collapsed;
+                System.Diagnostics.Debug.WriteLine($"[ChatWindow] Switched to particle orb - AtlasCore.Visibility: {AtlasCore.Visibility}");
             }
             System.Diagnostics.Debug.WriteLine($"[ChatWindow] Orb style set to: {(useLottie ? $"Lottie ({animationFile})" : "Particles")}");
         }

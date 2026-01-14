@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
@@ -42,19 +43,40 @@ namespace AtlasAI.Controls
             {
                 var filePath = Path.Combine(_animationsFolder, fileName);
                 
+                Debug.WriteLine($"[LottieOrb] Attempting to load animation from: {filePath}");
+                Debug.WriteLine($"[LottieOrb] Animations folder: {_animationsFolder}");
+                Debug.WriteLine($"[LottieOrb] Folder exists: {Directory.Exists(_animationsFolder)}");
+                
                 if (File.Exists(filePath))
                 {
                     LottieAnimation.FileName = filePath;
-                    Debug.WriteLine($"[LottieOrb] Loaded animation: {fileName}");
+                    Debug.WriteLine($"[LottieOrb] Successfully loaded animation: {fileName}");
                 }
                 else
                 {
-                    Debug.WriteLine($"[LottieOrb] Animation not found: {filePath}");
+                    Debug.WriteLine($"[LottieOrb] Animation file not found: {filePath}");
+                    
+                    // Try to list available animations
+                    if (Directory.Exists(_animationsFolder))
+                    {
+                        var availableFiles = Directory.GetFiles(_animationsFolder, "*.json");
+                        Debug.WriteLine($"[LottieOrb] Available animations in folder: {string.Join(", ", availableFiles.Select(Path.GetFileName))}");
+                        
+                        // Try to load the first available animation as fallback
+                        if (availableFiles.Length > 0)
+                        {
+                            LottieAnimation.FileName = availableFiles[0];
+                            Debug.WriteLine($"[LottieOrb] Loaded fallback animation: {Path.GetFileName(availableFiles[0])}");
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"[LottieOrb] Error loading animation: {ex.Message}");
+#if DEBUG
+                Debug.WriteLine($"[LottieOrb] Stack trace: {ex.StackTrace}");
+#endif
             }
         }
         
