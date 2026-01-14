@@ -11,6 +11,13 @@
 
 ## 🆕 Recent Updates (January 2026)
 
+### Voice System Improvements (Latest)
+- **Balanced Speech Rate**: ElevenLabs voices now play at 0.65x speed (65%) for natural, clear speech
+- **MediaPlayer Speed Control**: Applied SpeedRatio to audio playback for accurate rate control
+- **Lottie Animation Cleanup**: Removed broken animations (Floating Particles, Siri Animation)
+- **Default Orb**: Changed to "AI Assistant.json" for reliable animation
+- **80 Welcome Messages**: Expanded JARVIS-style greetings to prevent repetition
+
 ### Code Editor Redesign
 - **Neon Futuristic Theme**: Complete redesign with violet/cyan color spectrum
 - **Kiro-like Interface**: AI-powered code assistant panel with chat capabilities
