@@ -15,6 +15,7 @@ namespace AtlasAI
         private void InitializeActivityBar()
         {
             // Initialize activity bar items
+            // TODO: Replace emoji icons with proper icon resources (font icons or images)
             var items = new List<ActivityBarItem>
             {
                 new ActivityBarItem { Icon = "📁", Label = "Explorer", IsActive = true },
@@ -31,7 +32,7 @@ namespace AtlasAI
 
         private void AddActivityBarItem(ActivityBarItem item)
         {
-            // Implementation for adding activity bar items
+            // TODO: Implementation for adding activity bar items to the UI
             // This would add items to the activity bar UI element
         }
 
@@ -46,7 +47,7 @@ namespace AtlasAI
 
         private void SetActiveActivityBarItem(ActivityBarItem item)
         {
-            // Set the active item and update UI
+            // TODO: Set the active item and update UI accordingly
         }
 
         #endregion
