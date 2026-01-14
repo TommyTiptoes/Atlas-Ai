@@ -242,16 +242,18 @@ namespace AtlasAI.Voice
                 Debug.WriteLine($"[ElevenLabs] Synthesizing with voice settings - Stability: {CurrentVoiceSettings.Stability}, Similarity: {CurrentVoiceSettings.SimilarityBoost}, Style: {CurrentVoiceSettings.Style}, Speaker Boost: {CurrentVoiceSettings.UseSpeakerBoost}");
                 
                 // ElevenLabs request with optimized voice settings for calm, premium AI assistant
+                // Using turbo model with speed control for better pacing
                 var request = new
                 {
                     text = text,
-                    model_id = "eleven_monolingual_v1",
+                    model_id = "eleven_turbo_v2_5",
                     voice_settings = new
                     {
                         stability = CurrentVoiceSettings.Stability,
                         similarity_boost = CurrentVoiceSettings.SimilarityBoost,
                         style = CurrentVoiceSettings.Style,
-                        use_speaker_boost = CurrentVoiceSettings.UseSpeakerBoost
+                        use_speaker_boost = CurrentVoiceSettings.UseSpeakerBoost,
+                        speed = 0.85  // Slightly slower than normal (1.0 = normal, 0.5 = slowest, 4.0 = fastest)
                     }
                 };
 
