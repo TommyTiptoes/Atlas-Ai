@@ -5,9 +5,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.SecuritySuite.Models;
+using AtlasAI.SecuritySuite.Models;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Manages quarantined files - secure storage with restore/delete capability

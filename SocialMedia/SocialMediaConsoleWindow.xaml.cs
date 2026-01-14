@@ -6,10 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using MinimalApp.SocialMedia.Models;
-using MinimalApp.SocialMedia.Services;
+using AtlasAI.SocialMedia.Models;
+using AtlasAI.SocialMedia.Services;
 
-namespace MinimalApp.SocialMedia
+namespace AtlasAI.SocialMedia
 {
     public partial class SocialMediaConsoleWindow : Window
     {

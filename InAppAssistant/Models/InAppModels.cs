@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MinimalApp.InAppAssistant.Models
+namespace AtlasAI.InAppAssistant.Models
 {
     /// <summary>
     /// Represents the context of the currently active Windows application

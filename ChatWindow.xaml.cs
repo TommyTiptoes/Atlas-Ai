@@ -17,24 +17,24 @@ using System.Windows.Interop;
 using System.Windows.Documents; // Add for Hyperlink and Run
 using Shapes = System.Windows.Shapes; // Alias to avoid conflict with System.IO.Path
 using System.Runtime.InteropServices;
-using MinimalApp.Voice;
-using MinimalApp.AI;
-using MinimalApp.ScreenCapture;
-using MinimalApp.SystemControl;
-using MinimalApp.Tools;
+using AtlasAI.Voice;
+using AtlasAI.AI;
+using AtlasAI.ScreenCapture;
+using AtlasAI.SystemControl;
+using AtlasAI.Tools;
 using AtlasAI.Avatar; // Add avatar integration
-using MinimalApp.Understanding; // Understanding & Reasoning Layer
-using MinimalApp.InAppAssistant; // In-App Assistant for controlling other apps
-using MinimalApp.UI; // Toast notifications and Inspector panel
-using MinimalApp.Conversation.Services; // Conversation, Sessions, Memory
-using MinimalApp.Conversation.Models;
-using MinimalApp.Conversation.UI;
-using MinimalApp.Integrations; // Integration Hub
+using AtlasAI.Understanding; // Understanding & Reasoning Layer
+using AtlasAI.InAppAssistant; // In-App Assistant for controlling other apps
+using AtlasAI.UI; // Toast notifications and Inspector panel
+using AtlasAI.Conversation.Services; // Conversation, Sessions, Memory
+using AtlasAI.Conversation.Models;
+using AtlasAI.Conversation.UI;
+using AtlasAI.Integrations; // Integration Hub
 using AtlasAI.ITManagement; // IT Management System
-using MinimalApp.Memory; // Long-term Memory & Learning Layer
-using MinimalApp.Controls; // Atlas Core Control
+using AtlasAI.Memory; // Long-term Memory & Learning Layer
+using AtlasAI.Controls; // Atlas Core Control
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class ChatWindow : Window
     {

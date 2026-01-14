@@ -9,7 +9,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace MinimalApp.Controls
+namespace AtlasAI.Controls
 {
     public enum AtlasVisualState
     {

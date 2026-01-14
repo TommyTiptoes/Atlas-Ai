@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MinimalApp.Integrations
+namespace AtlasAI.Integrations
 {
     public partial class IntegrationHubWindow : Window
     {

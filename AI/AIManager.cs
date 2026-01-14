@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MinimalApp.AI
+namespace AtlasAI.AI
 {
     public static class AIManager
     {

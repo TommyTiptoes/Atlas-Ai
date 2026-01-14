@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Interop;
 
-namespace MinimalApp.InAppAssistant
+namespace AtlasAI.InAppAssistant
 {
     /// <summary>
     /// Manages global hotkeys for the In-App Assistant overlay

@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using MinimalApp.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Models;
 
-namespace MinimalApp.InAppAssistant.Services
+namespace AtlasAI.InAppAssistant.Services
 {
     /// <summary>
     /// Captures context about the currently active Windows application

@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MinimalApp.ActionHistory
+namespace AtlasAI.ActionHistory
 {
     /// <summary>
     /// Tracks actions performed by Atlas and allows undoing them

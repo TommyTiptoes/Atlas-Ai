@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public class ClipboardItem
     {

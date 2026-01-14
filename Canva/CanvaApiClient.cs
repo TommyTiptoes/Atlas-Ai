@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Canva
+namespace AtlasAI.Canva
 {
     /// <summary>
     /// Canva Connect API Client

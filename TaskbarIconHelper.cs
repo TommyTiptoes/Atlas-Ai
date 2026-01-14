@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     /// <summary>
     /// Helper class to show a proper taskbar icon for borderless WPF windows

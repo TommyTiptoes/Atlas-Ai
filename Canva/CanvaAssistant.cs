@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace MinimalApp.Canva
+namespace AtlasAI.Canva
 {
     /// <summary>
     /// Canva Assistant - Helps users create designs in Canva

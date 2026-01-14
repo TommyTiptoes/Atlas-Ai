@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.ActionHistory;
-using MinimalApp.SystemControl;
-using MinimalApp.SecuritySuite.Services;
-using MinimalApp.SecuritySuite.Models;
+using AtlasAI.ActionHistory;
+using AtlasAI.SystemControl;
+using AtlasAI.SecuritySuite.Services;
+using AtlasAI.SecuritySuite.Models;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     public static class ToolExecutor
     {

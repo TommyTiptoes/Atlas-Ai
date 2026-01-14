@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using AtlasAI.Avatar;
 
-namespace MinimalApp
+namespace AtlasAI
 {
     public partial class AddAvatarDialog : Window
     {

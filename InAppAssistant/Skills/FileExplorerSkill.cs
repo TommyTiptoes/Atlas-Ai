@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
-using MinimalApp.InAppAssistant.Models;
-using MinimalApp.InAppAssistant.Services;
+using AtlasAI.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Services;
 
-namespace MinimalApp.InAppAssistant.Skills
+namespace AtlasAI.InAppAssistant.Skills
 {
     /// <summary>
     /// Skills for File Explorer automation

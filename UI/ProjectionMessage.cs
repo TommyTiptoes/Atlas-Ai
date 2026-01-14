@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     /// <summary>
     /// Represents a holographic projection message in the diegetic UI

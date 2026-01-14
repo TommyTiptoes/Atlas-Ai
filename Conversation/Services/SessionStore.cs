@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.Conversation.Models;
+using AtlasAI.Conversation.Models;
 
-namespace MinimalApp.Conversation.Services
+namespace AtlasAI.Conversation.Services
 {
     /// <summary>
     /// Persistent storage for chat sessions, user profile, and memory

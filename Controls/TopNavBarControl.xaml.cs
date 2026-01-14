@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace MinimalApp.Controls
+namespace AtlasAI.Controls
 {
     public partial class TopNavBarControl : UserControl
     {

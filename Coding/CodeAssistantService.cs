@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MinimalApp.Coding
+namespace AtlasAI.Coding
 {
     /// <summary>
     /// Code Assistant Service - Provides IDE-like coding capabilities

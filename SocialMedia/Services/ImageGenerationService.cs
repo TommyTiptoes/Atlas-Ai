@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace MinimalApp.SocialMedia.Services
+namespace AtlasAI.SocialMedia.Services
 {
     /// <summary>
     /// AI Image Generation Service for Social Media Posts

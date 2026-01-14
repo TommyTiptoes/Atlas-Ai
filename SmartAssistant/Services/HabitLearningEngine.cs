@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MinimalApp.SmartAssistant.Models;
+using AtlasAI.SmartAssistant.Models;
 
-namespace MinimalApp.SmartAssistant.Services
+namespace AtlasAI.SmartAssistant.Services
 {
     /// <summary>
     /// Learns user habits and patterns to provide proactive suggestions

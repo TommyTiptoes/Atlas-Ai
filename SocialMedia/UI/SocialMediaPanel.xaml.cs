@@ -2,11 +2,11 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using MinimalApp.SocialMedia.Services;
-using MinimalApp.SocialMedia.UI.ViewModels;
+using AtlasAI.SocialMedia.Services;
+using AtlasAI.SocialMedia.UI.ViewModels;
 using Microsoft.Win32;
 
-namespace MinimalApp.SocialMedia.UI
+namespace AtlasAI.SocialMedia.UI
 {
     public partial class SocialMediaPanel : UserControl
     {

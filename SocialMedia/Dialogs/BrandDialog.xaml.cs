@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using MinimalApp.SocialMedia.Models;
+using AtlasAI.SocialMedia.Models;
 
-namespace MinimalApp.SocialMedia
+namespace AtlasAI.SocialMedia
 {
     public partial class BrandDialog : Window
     {

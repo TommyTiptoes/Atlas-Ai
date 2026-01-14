@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MinimalApp.Tools
+namespace AtlasAI.Tools
 {
     public static class WebSearchTool
     {

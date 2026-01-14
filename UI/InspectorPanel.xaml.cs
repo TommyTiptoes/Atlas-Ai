@@ -4,12 +4,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using MinimalApp.Voice;
-using MinimalApp.InAppAssistant.Models;
-using MinimalApp.InAppAssistant.Services;
-using MinimalApp.SecuritySuite.Services;
+using AtlasAI.Voice;
+using AtlasAI.InAppAssistant.Models;
+using AtlasAI.InAppAssistant.Services;
+using AtlasAI.SecuritySuite.Services;
 
-namespace MinimalApp.UI
+namespace AtlasAI.UI
 {
     /// <summary>
     /// Inspector Panel - Right-side collapsible panel showing:

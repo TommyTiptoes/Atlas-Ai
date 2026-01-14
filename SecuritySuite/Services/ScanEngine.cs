@@ -5,14 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MinimalApp.SecuritySuite.Models;
-using MinimalApp.SystemControl;
+using AtlasAI.SecuritySuite.Models;
+using AtlasAI.SystemControl;
 
 // Type aliases to avoid ambiguity
 using SysThreatCategory = MinimalApp.SystemControl.ThreatCategory;
 using ModelThreatCategory = MinimalApp.SecuritySuite.Models.ThreatCategory;
 
-namespace MinimalApp.SecuritySuite.Services
+namespace AtlasAI.SecuritySuite.Services
 {
     /// <summary>
     /// Security scan engine - wraps UnifiedScanner with job-based execution

@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace MinimalApp.SystemControl
+namespace AtlasAI.SystemControl
 {
     public class ThreatRemover
     {

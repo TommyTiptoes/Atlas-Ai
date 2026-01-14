@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MinimalApp.Security.Permissions
+namespace AtlasAI.Security.Permissions
 {
     #region Enums
 

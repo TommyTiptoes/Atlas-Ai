@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
 
-namespace MinimalApp.Controls
+namespace AtlasAI.Controls
 {
     public partial class LottieOrbControl : UserControl
     {
