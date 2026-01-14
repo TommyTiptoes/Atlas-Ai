@@ -74,45 +74,10 @@ namespace AtlasAI
         {
             if (_navigationService == null) return;
             
-            // Register routes for major features
-            // For now, we'll just create placeholder TextBlocks
-            // In a full implementation, these would be proper UserControls
-            _navigationService.RegisterRoute("chat", () =>
-            {
-                var placeholder = new TextBlock
-                {
-                    Text = "Chat View - Feature windows are still separate for now.\nDouble-click the avatar or use Ctrl+Alt+A to open the Chat window.",
-                    FontSize = 16,
-                    Foreground = System.Windows.Media.Brushes.White,
-                    Margin = new Thickness(20),
-                    TextWrapping = TextWrapping.Wrap
-                };
-                return placeholder;
-            });
-            
-            _navigationService.RegisterRoute("settings", () =>
-            {
-                var placeholder = new TextBlock
-                {
-                    Text = "Settings View - Opening Settings Window...",
-                    FontSize = 16,
-                    Foreground = System.Windows.Media.Brushes.White,
-                    Margin = new Thickness(20)
-                };
-                return placeholder;
-            });
-            
-            _navigationService.RegisterRoute("system", () =>
-            {
-                var placeholder = new TextBlock
-                {
-                    Text = "System Control View - Opening System Control Window...",
-                    FontSize = 16,
-                    Foreground = System.Windows.Media.Brushes.White,
-                    Margin = new Thickness(20)
-                };
-                return placeholder;
-            });
+            // Register routes for major features using the new UserControl views
+            _navigationService.RegisterRoute("chat", () => new Views.ChatView());
+            _navigationService.RegisterRoute("settings", () => new Views.SettingsView());
+            _navigationService.RegisterRoute("system", () => new Views.SystemControlView());
         }
         
         private void RegisterModules()
@@ -187,7 +152,7 @@ namespace AtlasAI
             }
         }
 
-        private void OpenChatWindow()
+        public void OpenChatWindow()
         {
             if (chatWindow == null || !chatWindow.IsLoaded)
             {
@@ -201,7 +166,7 @@ namespace AtlasAI
             }
         }
         
-        private void OpenSettingsWindow()
+        public void OpenSettingsWindow()
         {
             if (settingsWindow == null || !settingsWindow.IsLoaded)
             {
@@ -215,7 +180,7 @@ namespace AtlasAI
             }
         }
         
-        private void OpenSystemControlWindow()
+        public void OpenSystemControlWindow()
         {
             if (systemControlWindow == null || !systemControlWindow.IsLoaded)
             {
