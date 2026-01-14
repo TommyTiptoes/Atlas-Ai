@@ -111,7 +111,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsHighlighted" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#22d3ee30"/>
+                                <Setter TargetName="bd" Property="Background" Value="#3022d3ee"/>
                                 <Setter Property="Foreground" Value="#0d1117"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">

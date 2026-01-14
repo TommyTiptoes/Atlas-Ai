@@ -74,7 +74,9 @@ namespace AtlasAI.Controls
             catch (Exception ex)
             {
                 Debug.WriteLine($"[LottieOrb] Error loading animation: {ex.Message}");
+#if DEBUG
                 Debug.WriteLine($"[LottieOrb] Stack trace: {ex.StackTrace}");
+#endif
             }
         }
         
