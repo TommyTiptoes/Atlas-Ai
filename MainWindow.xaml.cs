@@ -240,11 +240,9 @@ namespace AtlasAI
                 WindowStyle = WindowStyle.None;
                 AllowsTransparency = false;
                 Background = System.Windows.Media.Brushes.Black;
-                Width = 1200;
-                Height = 800;
+                ResizeMode = ResizeMode.CanResize;
                 WindowState = WindowState.Maximized;
                 ShowInTaskbar = true;
-                ResizeMode = ResizeMode.CanResize;
                 
                 // Navigate to chat by default
                 if (_navigationService != null && _navigationService.CanNavigate("chat"))
@@ -273,7 +271,8 @@ namespace AtlasAI
             if (_navigationService != null)
             {
                 _navigationService.Navigate("chat");
-                OpenChatWindow(); // For now, still open the window
+                // In shell mode, also show the window if preferred
+                // For now, navigation shows the view which has a button to open the window
             }
         }
         
@@ -282,7 +281,6 @@ namespace AtlasAI
             if (_navigationService != null)
             {
                 _navigationService.Navigate("settings");
-                OpenSettingsWindow(); // For now, still open the window
             }
         }
         
@@ -291,7 +289,6 @@ namespace AtlasAI
             if (_navigationService != null)
             {
                 _navigationService.Navigate("system");
-                OpenSystemControlWindow(); // For now, still open the window
             }
         }
         

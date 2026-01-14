@@ -19,10 +19,10 @@
         <!-- Content -->
         <Border Grid.Row="1" Padding="20">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="🚀 Chat View" FontSize="32" FontWeight="Bold" Foreground="#FF22d3ee" HorizontalAlignment="Center"/>
+                <TextBlock Text="💬 Chat View" FontSize="32" FontWeight="Bold" Foreground="#FF22d3ee" HorizontalAlignment="Center"/>
                 <TextBlock Text="The full Chat interface is available in the separate Chat window." 
                           FontSize="16" Foreground="#FF94a3b8" Margin="0,16,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" MaxWidth="500" TextAlignment="Center"/>
-                <TextBlock Text="Use double-click on the avatar or Ctrl+Alt+A to open the Chat window." 
+                <TextBlock Text="Click below to access the full Chat experience with voice, AI assistance, and more." 
                           FontSize="14" Foreground="#FF64748b" Margin="0,8,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" MaxWidth="500" TextAlignment="Center"/>
                 <Button Content="Open Chat Window" 
                         Margin="0,24,0,0" 
