@@ -24,7 +24,7 @@ namespace AtlasAI.Voice
         private VoiceInfo? _selectedVoice;
         private bool _speechEnabled = true;
         private double _volume = 1.0;
-        private double _rate = 0.85; // Slower default rate for more natural speech
+        private double _rate = 0.7; // Much slower rate for natural speech
         private CancellationTokenSource? _playbackCts;
 
         public event EventHandler? SpeechStarted;

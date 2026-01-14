@@ -2188,7 +2188,7 @@ namespace AtlasAI
                     
                     if (root.TryGetProperty("orbStyle", out var orbStyle))
                     {
-                        var style = orbStyle.GetString() ?? "Siri Animation.json";
+                        var style = orbStyle.GetString() ?? "AI Assistant.json";
                         for (int i = 0; i < OrbStyleCombo.Items.Count; i++)
                         {
                             if (OrbStyleCombo.Items[i] is ComboBoxItem item && item.Tag as string == style)
@@ -2200,8 +2200,8 @@ namespace AtlasAI
                     }
                     else
                     {
-                        // Default to Siri Animation (index 1)
-                        OrbStyleCombo.SelectedIndex = 1;
+                        // Default to AI Assistant (index 0)
+                        OrbStyleCombo.SelectedIndex = 0;
                     }
                     
                     if (root.TryGetProperty("animationSpeed", out var speed))
@@ -2218,14 +2218,14 @@ namespace AtlasAI
                 {
                     // No settings file - set defaults
                     OrbColorCombo.SelectedIndex = 0; // Cyan
-                    OrbStyleCombo.SelectedIndex = 1; // Siri Animation
+                    OrbStyleCombo.SelectedIndex = 0; // AI Assistant
                 }
             }
             catch 
             {
                 // On error, set defaults
                 if (OrbColorCombo.SelectedIndex < 0) OrbColorCombo.SelectedIndex = 0;
-                if (OrbStyleCombo.SelectedIndex < 0) OrbStyleCombo.SelectedIndex = 1;
+                if (OrbStyleCombo.SelectedIndex < 0) OrbStyleCombo.SelectedIndex = 0;
             }
         }
         
@@ -2243,7 +2243,7 @@ namespace AtlasAI
                 if (OrbColorCombo.SelectedItem is ComboBoxItem item && item.Tag is string preset)
                     colorPreset = preset;
                 
-                var orbStyle = "Siri Animation.json";
+                var orbStyle = "AI Assistant.json";
                 if (OrbStyleCombo.SelectedItem is ComboBoxItem styleItem && styleItem.Tag is string style)
                     orbStyle = style;
                 
@@ -2279,7 +2279,7 @@ namespace AtlasAI
                     var root = doc.RootElement;
                     
                     var colorPreset = root.TryGetProperty("colorPreset", out var c) ? c.GetString() ?? "cyan" : "cyan";
-                    var orbStyle = root.TryGetProperty("orbStyle", out var o) ? o.GetString() ?? "Siri Animation.json" : "Siri Animation.json";
+                    var orbStyle = root.TryGetProperty("orbStyle", out var o) ? o.GetString() ?? "AI Assistant.json" : "AI Assistant.json";
                     var speed = root.TryGetProperty("animationSpeed", out var s) ? s.GetDouble() : 1.0;
                     var particles = root.TryGetProperty("particleCount", out var p) ? p.GetInt32() : 180;
                     
@@ -2287,7 +2287,7 @@ namespace AtlasAI
                 }
             }
             catch { }
-            return ("cyan", "Siri Animation.json", 1.0, 180);
+            return ("cyan", "AI Assistant.json", 1.0, 180);
         }
         
         #endregion
