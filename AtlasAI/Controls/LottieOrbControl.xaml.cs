@@ -10,10 +10,19 @@ namespace AtlasAI.Controls
     {
         private AtlasVisualState _currentState = AtlasVisualState.Idle;
         private string _animationsFolder;
-        private string _currentAnimationFile = "AI Assistant.json"; // Track user's selected animation
+        private string _currentAnimationFile = "Sphere.json"; // Track user's selected animation
         
         // Default animation (used if no custom selection)
-        private const string DEFAULT_ANIMATION = "AI Assistant.json";
+        private const string DEFAULT_ANIMATION = "Sphere.json";
+        
+        // Fallback animations to try if primary animation fails
+        private static readonly string[] FALLBACK_ANIMATIONS = new[] 
+        { 
+            "Sphere.json", 
+            "circle.json", 
+            "waves.json",
+            "path.json"
+        };
         
         public LottieOrbControl()
         {
@@ -50,6 +59,31 @@ namespace AtlasAI.Controls
                 else
                 {
                     Debug.WriteLine($"[LottieOrb] Animation not found: {filePath}");
+                    
+                    // Try fallback animations
+                    bool fallbackLoaded = false;
+                    foreach (var fallbackName in FALLBACK_ANIMATIONS)
+                    {
+                        var fallbackPath = Path.Combine(_animationsFolder, fallbackName);
+                        if (File.Exists(fallbackPath))
+                        {
+                            LottieAnimation.FileName = fallbackPath;
+                            Debug.WriteLine($"[LottieOrb] Loaded fallback animation: {fallbackName}");
+                            fallbackLoaded = true;
+                            break;
+                        }
+                    }
+                    
+                    // If none of the fallbacks worked, try any available animation
+                    if (!fallbackLoaded && Directory.Exists(_animationsFolder))
+                    {
+                        var availableFiles = Directory.GetFiles(_animationsFolder, "*.json");
+                        if (availableFiles.Length > 0)
+                        {
+                            LottieAnimation.FileName = availableFiles[0];
+                            Debug.WriteLine($"[LottieOrb] Loaded first available animation: {Path.GetFileName(availableFiles[0])}");
+                        }
+                    }
                 }
             }
             catch (Exception ex)
