@@ -497,6 +497,11 @@ namespace AtlasAI.Voice
                     System.Diagnostics.Debug.WriteLine($"[VoiceManager] Error waiting for media open: {ex.Message}");
                 }
                 
+                // Apply playback speed for ElevenLabs and other cloud providers
+                // MediaPlayer.SpeedRatio: 1.0 = normal, 0.7 = 70% speed (slower), 1.5 = 150% speed (faster)
+                _mediaPlayer.SpeedRatio = _rate;
+                System.Diagnostics.Debug.WriteLine($"[VoiceManager] Playback speed set to {_rate}x");
+                
                 // Increased buffer to ensure audio device is ready and no audio is cut off
                 // This is critical for Bluetooth/USB audio devices which have higher latency
                 await Task.Delay(150, ct);

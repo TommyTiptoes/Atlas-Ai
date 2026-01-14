@@ -380,7 +380,17 @@ Before we begin, what would you like me to call you?";
                 $"Good morning. I've been keeping things tidy while you rested. What's on the agenda?",
                 $"Good morning, sir. Splendid day ahead. What shall we tackle first?",
                 $"Morning. All quiet on the digital front. How can I help?",
-                $"Good morning. I'm fully operational and at your service."
+                $"Good morning. I'm fully operational and at your service.",
+                $"Rise and shine, sir. Systems are primed and ready. What's first on the list?",
+                $"Good morning. A fresh start awaits. How may I be of service?",
+                $"Morning, sir. All diagnostics complete. Everything's running perfectly. What do you need?",
+                $"Good morning. The day is yours to command. Where shall we begin?",
+                $"Morning. I've prepared everything for your day. What would you like to start with?",
+                $"Good morning, sir. Bright and early, I see. What can I assist with?",
+                $"Morning. Systems nominal, coffee optional. How can I help?",
+                $"Good morning. Another opportunity to be of service. What's on your mind?",
+                $"Morning, sir. I've been monitoring things overnight. All is well. What do you need?",
+                $"Good morning. Ready to make today productive. What shall I handle first?"
             };
             
             var afternoonGreetings = new[]
@@ -394,7 +404,17 @@ Before we begin, what would you like me to call you?";
                 $"Good afternoon, sir. Shall I assist with something?",
                 $"Afternoon. I'm here whenever you need me. What's on your mind?",
                 $"Good afternoon. How may I be of service?",
-                $"Afternoon, sir. What can I do for you?"
+                $"Afternoon, sir. What can I do for you?",
+                $"Good afternoon. The day progresses nicely. What requires attention?",
+                $"Afternoon, sir. I trust you're making excellent progress. How can I assist?",
+                $"Good afternoon. Midday check-in. What would you like me to handle?",
+                $"Afternoon. All systems continue to perform flawlessly. What do you need?",
+                $"Good afternoon, sir. Ready to tackle the afternoon tasks. What's first?",
+                $"Afternoon. I've been keeping watch. Everything's in order. How can I help?",
+                $"Good afternoon. The afternoon is yours. What shall we accomplish?",
+                $"Afternoon, sir. Productivity levels optimal. What's next on the agenda?",
+                $"Good afternoon. I remain at your disposal. What can I do?",
+                $"Afternoon. Halfway through the day. What would you like me to take care of?"
             };
             
             var eveningGreetings = new[]
@@ -408,7 +428,17 @@ Before we begin, what would you like me to call you?";
                 $"Good evening, sir. Shall I attend to something for you?",
                 $"Evening. I trust you've had a productive day. What do you need?",
                 $"Good evening. How may I be of service?",
-                $"Evening, sir. Ready and waiting. What can I do?"
+                $"Evening, sir. Ready and waiting. What can I do?",
+                $"Good evening. The evening hours approach. What requires attention?",
+                $"Evening, sir. Day's end draws near. How can I assist?",
+                $"Good evening. Time to wind down, or shall we continue? What do you need?",
+                $"Evening. The sun sets but I remain operational. What can I do?",
+                $"Good evening, sir. Another day well spent. What's left to accomplish?",
+                $"Evening. Twilight hours. I'm here for whatever you need.",
+                $"Good evening. The day concludes but I'm still at your service. What can I help with?",
+                $"Evening, sir. Shall we wrap up the day's tasks? What do you need?",
+                $"Good evening. Darkness falls but I remain bright and ready. How can I assist?",
+                $"Evening. The world quiets down. What would you like me to handle?"
             };
             
             var lateNightGreetings = new[]
@@ -422,7 +452,17 @@ Before we begin, what would you like me to call you?";
                 $"Late night, sir. I'm fully operational. What do you need?",
                 $"Midnight approaches, but duty calls. How can I help?",
                 $"Working through the night, sir? I'm right here with you. What's needed?",
-                $"The world sleeps, but we press on. What can I do for you, sir?"
+                $"The world sleeps, but we press on. What can I do for you, sir?",
+                $"Quite the late hour, sir. Dedication noted. What requires attention?",
+                $"The night is young, or perhaps old. Either way, I'm here. What do you need?",
+                $"Burning the candle at both ends, sir? How can I assist?",
+                $"Late night productivity session. I'm with you all the way. What's first?",
+                $"The stars are out, and so are we. What can I help with?",
+                $"Nocturnal operations in progress. What do you need, sir?",
+                $"The witching hour approaches. I remain vigilant. How can I assist?",
+                $"Late night, sir. Most are asleep, but not us. What's on the agenda?",
+                $"The moon is high, and so is your dedication. What can I do?",
+                $"Graveyard shift engaged. I'm here for whatever you need, sir."
             };
             
             // Select appropriate array based on time
