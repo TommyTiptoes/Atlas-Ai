@@ -17,10 +17,10 @@ namespace AtlasAI.Voice
     public class ElevenLabsVoiceSettings
     {
         /// <summary>Stability (0.0-1.0) - Higher values = slower, more measured speech. Max for JARVIS-like calm delivery</summary>
-        public double Stability { get; set; } = 1.0;
+        public double Stability { get; set; } = 0.85;
         
         /// <summary>Similarity boost (0.0-1.0) - How closely to match the original voice</summary>
-        public double SimilarityBoost { get; set; } = 0.70;
+        public double SimilarityBoost { get; set; } = 0.75;
         
         /// <summary>Style (0.0-1.0) - How much style to apply (0 = neutral, 1 = maximum style). Zero for calm delivery</summary>
         public double Style { get; set; } = 0.0;
