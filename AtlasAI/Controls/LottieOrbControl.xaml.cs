@@ -10,10 +10,10 @@ namespace AtlasAI.Controls
     {
         private AtlasVisualState _currentState = AtlasVisualState.Idle;
         private string _animationsFolder;
-        private string _currentAnimationFile = "Siri Animation.json"; // Track user's selected animation
+        private string _currentAnimationFile = "AI Assistant.json"; // Track user's selected animation
         
         // Default animation (used if no custom selection)
-        private const string DEFAULT_ANIMATION = "Siri Animation.json";
+        private const string DEFAULT_ANIMATION = "AI Assistant.json";
         
         public LottieOrbControl()
         {

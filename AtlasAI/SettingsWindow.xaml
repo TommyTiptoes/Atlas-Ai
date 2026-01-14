@@ -362,10 +362,11 @@
                             <TextBlock Text="Style" Style="{StaticResource FieldLabel}"/>
                             <ComboBox x:Name="OrbStyleCombo" Style="{StaticResource AtlasComboBox}"
                                       SelectionChanged="OrbStyle_Changed" Margin="0,0,0,16">
-                                <ComboBoxItem Content="🔮 Floating Particles" Tag="particles"/>
-                                <ComboBoxItem Content="✨ Siri Animation" Tag="Siri Animation.json"/>
                                 <ComboBoxItem Content="🤖 AI Assistant" Tag="AI Assistant.json"/>
                                 <ComboBoxItem Content="⚡ Loading Animation" Tag="Loading animation.json"/>
+                                <ComboBoxItem Content="🔥 Fire Ball" Tag="Fire Ball.json"/>
+                                <ComboBoxItem Content="🌀 Energy Orb" Tag="Looping Energy Orb.json"/>
+                                <ComboBoxItem Content="💫 Circle Animation" Tag="Circle Animation.json"/>
                             </ComboBox>
                             
                             <TextBlock Text="Color Theme" Style="{StaticResource FieldLabel}"/>
