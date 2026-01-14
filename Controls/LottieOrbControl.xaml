@@ -2,16 +2,34 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:lottie="clr-namespace:LottieSharp.WPF;assembly=LottieSharp"
-             Width="220" Height="220">
+             Width="220" Height="220"
+             RenderOptions.BitmapScalingMode="LowQuality"
+             RenderOptions.CachingHint="Cache"
+             RenderOptions.EdgeMode="Aliased">
+    
+    <UserControl.CacheMode>
+        <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+    </UserControl.CacheMode>
     
     <Grid>
-        <!-- Lottie Animation -->
+        <Grid.CacheMode>
+            <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+        </Grid.CacheMode>
+        
+        <!-- Lottie Animation with GPU acceleration -->
         <lottie:LottieAnimationView x:Name="LottieAnimation"
                                     AutoPlay="True"
                                     RepeatCount="-1"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Width="200" Height="200"/>
+                                    Width="200" Height="200"
+                                    RenderOptions.BitmapScalingMode="LowQuality"
+                                    RenderOptions.CachingHint="Cache"
+                                    RenderOptions.EdgeMode="Aliased">
+            <lottie:LottieAnimationView.CacheMode>
+                <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+            </lottie:LottieAnimationView.CacheMode>
+        </lottie:LottieAnimationView>
         
         <!-- State Label Overlay -->
         <TextBlock x:Name="StateLabel"

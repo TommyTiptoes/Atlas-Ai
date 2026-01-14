@@ -138,19 +138,28 @@ namespace AtlasAI
             
             if (useLottie)
             {
+                // FORCE visibility change and z-order
                 AtlasCore.Visibility = Visibility.Collapsed;
                 LottieOrb.Visibility = Visibility.Visible;
+                LottieOrb.BringIntoView(); // Ensure it's in front
                 System.Diagnostics.Debug.WriteLine($"[ChatWindow] Switched to Lottie orb - LottieOrb.Visibility: {LottieOrb.Visibility}");
                 
-                // If a specific animation file is provided, load it
+                // Load animation - if no file specified, try to load default or log error
                 if (!string.IsNullOrEmpty(animationFile))
                 {
-                    LottieOrb.LoadAnimationByName(animationFile);
-                    System.Diagnostics.Debug.WriteLine($"[ChatWindow] Loaded animation: {animationFile}");
+                    try
+                    {
+                        LottieOrb.LoadAnimationByName(animationFile);
+                        System.Diagnostics.Debug.WriteLine($"[ChatWindow] Successfully loaded animation: {animationFile}");
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[ChatWindow] ERROR loading animation '{animationFile}': {ex.Message}");
+                    }
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"[ChatWindow] No animation file specified, using default");
+                    System.Diagnostics.Debug.WriteLine($"[ChatWindow] WARNING: No animation file specified! LottieOrb will be visible but empty.");
                 }
             }
             else

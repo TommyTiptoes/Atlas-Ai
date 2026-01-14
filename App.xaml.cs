@@ -50,6 +50,9 @@ namespace AtlasAI
                 return;
             }
             
+            // Enable GPU hardware acceleration globally for better performance
+            System.Windows.Media.RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
+            
             base.OnStartup(e);
             
             // Override WPF-UI accent color to cyan AFTER base startup loads resources

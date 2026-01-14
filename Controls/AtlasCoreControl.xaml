@@ -5,19 +5,40 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="220" d:DesignWidth="220"
-             x:Name="AtlasCoreRoot">
+             x:Name="AtlasCoreRoot"
+             RenderOptions.BitmapScalingMode="LowQuality"
+             RenderOptions.CachingHint="Cache"
+             RenderOptions.EdgeMode="Aliased">
+
+    <UserControl.CacheMode>
+        <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+    </UserControl.CacheMode>
 
     <!-- ATLAS CORE - Pure particle visualization, no orb -->
     <Grid x:Name="CoreContainer" Width="220" Height="220">
+        <Grid.CacheMode>
+            <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+        </Grid.CacheMode>
         
         <!-- All particles rendered here dynamically -->
         <Canvas x:Name="ParticleCanvas" Width="220" Height="220" 
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                ClipToBounds="False"/>
+                ClipToBounds="False"
+                RenderOptions.BitmapScalingMode="LowQuality"
+                RenderOptions.CachingHint="Cache">
+            <Canvas.CacheMode>
+                <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+            </Canvas.CacheMode>
+        </Canvas>
         
         <!-- Orange center glow when speaking - BIGGER and more visible -->
         <Ellipse x:Name="SpeakingGlow" Width="50" Height="50" Opacity="0"
-                 HorizontalAlignment="Center" VerticalAlignment="Center">
+                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                 RenderOptions.BitmapScalingMode="LowQuality"
+                 RenderOptions.CachingHint="Cache">
+            <Ellipse.CacheMode>
+                <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+            </Ellipse.CacheMode>
             <Ellipse.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#f97316" Offset="0"/>

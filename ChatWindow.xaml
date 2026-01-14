@@ -277,7 +277,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════
          MAIN STAGE - Dark volumetric environment (not a panel)
     ═══════════════════════════════════════════════════════════════════════ -->
-    <Border CornerRadius="0" ClipToBounds="True">
+    <Border CornerRadius="0" ClipToBounds="True" RenderOptions.ProcessRenderMode="Default">
         <!-- Deep space background with vignette -->
         <Border.Background>
             <RadialGradientBrush Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8">
@@ -695,10 +695,12 @@
                                                        ScanStarted="ScanOrbit_ScanStarted"/>
                             
                             <!-- Original particle orb (default) -->
-                            <controls:AtlasCoreControl x:Name="AtlasCore" ShowStateLabel="True" Visibility="Visible"/>
+                            <controls:AtlasCoreControl x:Name="AtlasCore" ShowStateLabel="True" Visibility="Visible"
+                                                       Panel.ZIndex="1"/>
                             
-                            <!-- New Lottie orb (hidden by default) -->
-                            <controls:LottieOrbControl x:Name="LottieOrb" Visibility="Collapsed"/>
+                            <!-- New Lottie orb (hidden by default but will be shown when selected in settings) -->
+                            <controls:LottieOrbControl x:Name="LottieOrb" Visibility="Visible"
+                                                       Panel.ZIndex="2"/>
                             
                             <!-- ═══════════════════════════════════════════════════════
                                  SUMMONED RADIAL CONTROLS - 8 buttons evenly spaced in circle
@@ -707,7 +709,12 @@
                             ═══════════════════════════════════════════════════════ -->
                             <Canvas x:Name="RadialControlsCanvas" Opacity="1" IsHitTestVisible="True"
                                     Width="280" Height="280" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    Panel.ZIndex="100" RenderTransformOrigin="0.5,0.5">
+                                    Panel.ZIndex="100" RenderTransformOrigin="0.5,0.5"
+                                    RenderOptions.BitmapScalingMode="LowQuality"
+                                    RenderOptions.CachingHint="Cache">
+                                <Canvas.CacheMode>
+                                    <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"/>
+                                </Canvas.CacheMode>
                                 <Canvas.RenderTransform>
                                     <RotateTransform x:Name="RadialCanvasRotation" Angle="0"/>
                                 </Canvas.RenderTransform>
