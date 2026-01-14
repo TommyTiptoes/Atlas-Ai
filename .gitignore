@@ -3,6 +3,9 @@ bin/
 obj/
 publish/
 
+# AtlasAI subfolder (duplicate/backup - not part of build)
+AtlasAI/
+
 # Visual Studio
 .vs/
 *.user
