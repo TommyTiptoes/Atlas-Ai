@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AtlasAI.Core;
 
 namespace AtlasAI.AI
 {
@@ -14,10 +15,27 @@ namespace AtlasAI.AI
 
         public OpenAIProvider()
         {
-            // Load API key from user's settings file
-            LoadApiKeyFromSettings();
+            // Load API key from centralized manager
+            LoadApiKeyFromManager();
             
             // Initialize HTTP client with API key
+            InitializeHttpClient();
+            
+            // Subscribe to key changes
+            ApiKeyManager.KeyChanged += OnApiKeyChanged;
+        }
+        
+        private void LoadApiKeyFromManager()
+        {
+            apiKey = ApiKeyManager.GetApiKey("openai");
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                System.Diagnostics.Debug.WriteLine($"OpenAIProvider: Loaded key from ApiKeyManager");
+            }
+        }
+        
+        private void InitializeHttpClient()
+        {
             if (!string.IsNullOrEmpty(apiKey))
             {
                 httpClient.DefaultRequestHeaders.Clear();
@@ -25,56 +43,13 @@ namespace AtlasAI.AI
             }
         }
         
-        private void LoadApiKeyFromSettings()
+        private void OnApiKeyChanged(string provider)
         {
-            try
+            if (provider.ToLower() == "openai")
             {
-                var appDataPath = System.IO.Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AtlasAI");
-                
-                // First check ai_keys.json (where keys are stored)
-                var keysPath = System.IO.Path.Combine(appDataPath, "ai_keys.json");
-                if (System.IO.File.Exists(keysPath))
-                {
-                    var json = System.IO.File.ReadAllText(keysPath);
-                    using var doc = JsonDocument.Parse(json);
-                    if (doc.RootElement.TryGetProperty("openai", out var openaiKey))
-                    {
-                        var key = openaiKey.GetString();
-                        if (!string.IsNullOrEmpty(key))
-                        {
-                            apiKey = key;
-                            System.Diagnostics.Debug.WriteLine($"OpenAIProvider: Loaded key from ai_keys.json");
-                            return;
-                        }
-                    }
-                }
-                
-                // Try openai_key.txt
-                var settingsPath = System.IO.Path.Combine(appDataPath, "openai_key.txt");
-                if (System.IO.File.Exists(settingsPath))
-                {
-                    apiKey = System.IO.File.ReadAllText(settingsPath).Trim();
-                    System.Diagnostics.Debug.WriteLine($"OpenAIProvider: Loaded key from openai_key.txt");
-                    return;
-                }
-                
-                // Also check settings.txt for backward compatibility
-                var oldSettingsPath = System.IO.Path.Combine(appDataPath, "settings.txt");
-                if (System.IO.File.Exists(oldSettingsPath))
-                {
-                    var content = System.IO.File.ReadAllText(oldSettingsPath).Trim();
-                    // Check if it looks like an OpenAI API key
-                    if (content.StartsWith("sk-") && !content.StartsWith("sk-ant-"))
-                    {
-                        apiKey = content;
-                        System.Diagnostics.Debug.WriteLine($"OpenAIProvider: Loaded key from settings.txt");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"OpenAIProvider: Error loading key: {ex.Message}");
+                LoadApiKeyFromManager();
+                InitializeHttpClient();
+                System.Diagnostics.Debug.WriteLine("OpenAIProvider: API key updated");
             }
         }
 
@@ -86,22 +61,26 @@ namespace AtlasAI.AI
         {
             if (config.TryGetValue("ApiKey", out var key))
             {
-                apiKey = key;
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-                
-                // Save API key to file for persistence
-                try
+                // Validate key format before saving
+                if (!ApiKeyManager.IsValidKeyFormat("openai", key))
                 {
-                    var settingsDir = System.IO.Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AtlasAI");
-                    if (!System.IO.Directory.Exists(settingsDir))
-                        System.IO.Directory.CreateDirectory(settingsDir);
-                    System.IO.File.WriteAllText(System.IO.Path.Combine(settingsDir, "openai_key.txt"), apiKey);
+                    System.Diagnostics.Debug.WriteLine("OpenAIProvider: Invalid API key format");
+                    return Task.FromResult(false);
                 }
-                catch { }
                 
-                return Task.FromResult(true);
+                // Save to centralized manager
+                if (ApiKeyManager.SaveApiKey("openai", key))
+                {
+                    apiKey = key;
+                    InitializeHttpClient();
+                    
+                    // Clear connection status to force retest
+                    ApiConnectionStatus.Instance.ClearStatus("openai");
+                    
+                    return Task.FromResult(true);
+                }
+                
+                return Task.FromResult(false);
             }
             return Task.FromResult(false);
         }
@@ -153,7 +132,19 @@ namespace AtlasAI.AI
         public async Task<AIResponse> SendMessageAsync(List<object> messages, string model = "", int maxTokens = 500)
         {
             if (!IsConfigured)
-                return new AIResponse { Success = false, Error = "🔑 OpenAI API key not configured. Please add your OpenAI API key in Settings → AI Provider." };
+            {
+                ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.NoApiKey, "No API key configured");
+                return new AIResponse { 
+                    Success = false, 
+                    Error = "🔑 **OpenAI API Key Required**\n\n" +
+                           "To use OpenAI:\n" +
+                           "1. Get an API key from: https://platform.openai.com/api-keys\n" +
+                           "2. Open Settings → AI Provider\n" +
+                           "3. Select OpenAI and enter your API key\n" +
+                           "4. Click Test Connection to verify\n\n" +
+                           "💡 **Alternative:** Switch to Claude in Settings if you have an Anthropic API key."
+                };
+            }
 
             try
             {
@@ -206,6 +197,7 @@ namespace AtlasAI.AI
                     
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
+                        ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.InvalidKey, "Invalid API key");
                         return new AIResponse 
                         { 
                             Success = false, 
@@ -215,8 +207,22 @@ namespace AtlasAI.AI
                                    "1. Get a valid API key from: https://platform.openai.com/api-keys\n" +
                                    "2. Open Settings → AI Provider\n" +
                                    "3. Enter your new API key\n" +
-                                   "4. Test the connection\n\n" +
+                                   "4. Click Test Connection to verify\n\n" +
                                    "📱 **Alternative:** Switch to Claude in Settings if you have an Anthropic API key."
+                        };
+                    }
+                    
+                    if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                    {
+                        ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.RateLimited, "Rate limited");
+                        return new AIResponse 
+                        { 
+                            Success = false, 
+                            Error = "⏸️ **Rate Limit Exceeded**\n\nYou've made too many requests. Please wait a moment and try again.\n\n" +
+                                   "💡 **Tips:**\n" +
+                                   "- Wait 1-2 minutes before trying again\n" +
+                                   "- Consider upgrading your OpenAI plan for higher limits\n" +
+                                   "- Switch to Claude temporarily if available"
                         };
                     }
                     
@@ -230,6 +236,7 @@ namespace AtlasAI.AI
                         };
                     }
                     
+                    ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.Disconnected, $"API error: {response.StatusCode}");
                     return new AIResponse 
                     { 
                         Success = false, 
@@ -290,6 +297,9 @@ namespace AtlasAI.AI
                         tokensUsed = completionTokens.GetInt32();
                 }
 
+                // Update connection status on success
+                ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.Connected);
+                
                 return new AIResponse
                 {
                     Success = true,
@@ -300,37 +310,63 @@ namespace AtlasAI.AI
             }
             catch (TaskCanceledException)
             {
-                return new AIResponse { Success = false, Error = "⏱️ **Request Timed Out**\n\nThe request took too long. Please try again." };
+                ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.Disconnected, "Request timeout");
+                return new AIResponse { 
+                    Success = false, 
+                    Error = "⏱️ **Request Timed Out**\n\n" +
+                           "The request took too long (60s limit).\n\n" +
+                           "💡 **What to try:**\n" +
+                           "- Check your internet connection\n" +
+                           "- Try again in a moment\n" +
+                           "- Use a smaller/faster model if available"
+                };
             }
             catch (HttpRequestException ex)
             {
-                return new AIResponse { Success = false, Error = $"🔴 **Network Error**\n\n{ex.Message}\n\nCheck your internet connection." };
+                ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.Disconnected, "Network error");
+                return new AIResponse { 
+                    Success = false, 
+                    Error = $"🔴 **Network Error**\n\n{ex.Message}\n\n" +
+                           "💡 **Troubleshooting:**\n" +
+                           "- Check your internet connection\n" +
+                           "- Verify firewall/proxy settings\n" +
+                           "- Try switching networks (WiFi/mobile data)"
+                };
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[OpenAI] Exception: {ex}");
+                ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.Disconnected, ex.Message);
                 return new AIResponse { Success = false, Error = $"🔴 **OpenAI Error**\n\n{ex.Message}" };
             }
         }
 
         public async Task<bool> TestConnectionAsync()
         {
-            if (!IsConfigured) return false;
-
-            try
+            if (!IsConfigured)
             {
-                var testMessages = new List<object>
-                {
-                    new { role = "user", content = "Hello" }
-                };
-
-                var response = await SendMessageAsync(testMessages, "", 10);
-                return response.Success;
-            }
-            catch
-            {
+                ApiConnectionStatus.Instance.UpdateStatus("openai", ConnectionStatus.NoApiKey);
                 return false;
             }
+
+            // Use the connection status manager for testing with retry logic
+            return await ApiConnectionStatus.Instance.TestConnectionAsync("openai", async () =>
+            {
+                try
+                {
+                    var testMessages = new List<object>
+                    {
+                        new { role = "user", content = "test" }
+                    };
+
+                    var response = await SendMessageAsync(testMessages, "", 10);
+                    return response.Success;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
         }
     }
 }

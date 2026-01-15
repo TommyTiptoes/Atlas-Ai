@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AtlasAI.Core;
 
 namespace AtlasAI.AI
 {
@@ -17,11 +18,23 @@ namespace AtlasAI.AI
             httpClient = new HttpClient();
             httpClient.Timeout = TimeSpan.FromSeconds(30); // 30 second timeout to prevent hanging
             
-            // Load API key from user's settings file
-            LoadApiKeyFromSettings();
+            // Load API key from centralized manager
+            LoadApiKeyFromManager();
             
             // Initialize HTTP client with API key
             InitializeHttpClient();
+            
+            // Subscribe to key changes
+            ApiKeyManager.KeyChanged += OnApiKeyChanged;
+        }
+        
+        private void LoadApiKeyFromManager()
+        {
+            apiKey = ApiKeyManager.GetApiKey("claude");
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                System.Diagnostics.Debug.WriteLine($"ClaudeProvider: Loaded key from ApiKeyManager");
+            }
         }
         
         private void InitializeHttpClient()
@@ -46,58 +59,13 @@ namespace AtlasAI.AI
             }
         }
         
-        private void LoadApiKeyFromSettings()
+        private void OnApiKeyChanged(string provider)
         {
-            try
+            if (provider.ToLower() == "claude" || provider.ToLower() == "anthropic")
             {
-                var appDataPath = System.IO.Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AtlasAI");
-                
-                // First check ai_keys.json (where keys are stored)
-                var keysPath = System.IO.Path.Combine(appDataPath, "ai_keys.json");
-                if (System.IO.File.Exists(keysPath))
-                {
-                    var json = System.IO.File.ReadAllText(keysPath);
-                    using var doc = JsonDocument.Parse(json);
-                    if (doc.RootElement.TryGetProperty("claude", out var claudeKey))
-                    {
-                        var key = claudeKey.GetString();
-                        if (!string.IsNullOrEmpty(key))
-                        {
-                            apiKey = key;
-                            System.Diagnostics.Debug.WriteLine($"ClaudeProvider: Loaded key from ai_keys.json");
-                            return;
-                        }
-                    }
-                }
-                
-                // Check settings.txt
-                var settingsPath = System.IO.Path.Combine(appDataPath, "settings.txt");
-                if (System.IO.File.Exists(settingsPath))
-                {
-                    var content = System.IO.File.ReadAllText(settingsPath).Trim();
-                    if (content.StartsWith("sk-ant-"))
-                    {
-                        apiKey = content;
-                        System.Diagnostics.Debug.WriteLine($"ClaudeProvider: Loaded key from settings.txt");
-                        return;
-                    }
-                }
-                
-                // Also check claude_key.txt
-                var claudeKeyPath = System.IO.Path.Combine(appDataPath, "claude_key.txt");
-                if (System.IO.File.Exists(claudeKeyPath))
-                {
-                    apiKey = System.IO.File.ReadAllText(claudeKeyPath).Trim();
-                    System.Diagnostics.Debug.WriteLine($"ClaudeProvider: Loaded key from claude_key.txt");
-                    return;
-                }
-                
-                System.Diagnostics.Debug.WriteLine("ClaudeProvider: No API key file found");
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"ClaudeProvider: Error loading key: {ex.Message}");
+                LoadApiKeyFromManager();
+                InitializeHttpClient();
+                System.Diagnostics.Debug.WriteLine("ClaudeProvider: API key updated");
             }
         }
 
@@ -109,23 +77,26 @@ namespace AtlasAI.AI
         {
             if (config.TryGetValue("ApiKey", out var key))
             {
-                apiKey = key;
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
-                httpClient.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
-                
-                // Save API key to file for persistence
-                try
+                // Validate key format before saving
+                if (!ApiKeyManager.IsValidKeyFormat("claude", key))
                 {
-                    var settingsDir = System.IO.Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AtlasAI");
-                    if (!System.IO.Directory.Exists(settingsDir))
-                        System.IO.Directory.CreateDirectory(settingsDir);
-                    System.IO.File.WriteAllText(System.IO.Path.Combine(settingsDir, "claude_key.txt"), apiKey);
+                    System.Diagnostics.Debug.WriteLine("ClaudeProvider: Invalid API key format");
+                    return Task.FromResult(false);
                 }
-                catch { }
                 
-                return Task.FromResult(true);
+                // Save to centralized manager
+                if (ApiKeyManager.SaveApiKey("claude", key))
+                {
+                    apiKey = key;
+                    InitializeHttpClient();
+                    
+                    // Clear connection status to force retest
+                    ApiConnectionStatus.Instance.ClearStatus("claude");
+                    
+                    return Task.FromResult(true);
+                }
+                
+                return Task.FromResult(false);
             }
             return Task.FromResult(false);
         }
@@ -155,7 +126,19 @@ namespace AtlasAI.AI
         public async Task<AIResponse> SendMessageAsync(List<object> messages, string model = "", int maxTokens = 500)
         {
             if (!IsConfigured)
-                return new AIResponse { Success = false, Error = "🔑 Claude API key not configured. Please add your Anthropic API key in Settings → AI Provider." };
+            {
+                ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.NoApiKey, "No API key configured");
+                return new AIResponse { 
+                    Success = false, 
+                    Error = "🔑 **Claude API Key Required**\n\n" +
+                           "To use Claude:\n" +
+                           "1. Get an API key from: https://console.anthropic.com/\n" +
+                           "2. Open Settings → AI Provider\n" +
+                           "3. Select Claude and enter your API key\n" +
+                           "4. Click Test Connection to verify\n\n" +
+                           "💡 **Alternative:** Switch to OpenAI in Settings if you have an OpenAI API key."
+                };
+            }
 
             try
             {
@@ -205,6 +188,7 @@ namespace AtlasAI.AI
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
+                        ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.InvalidKey, "Invalid API key");
                         return new AIResponse 
                         { 
                             Success = false, 
@@ -214,10 +198,26 @@ namespace AtlasAI.AI
                                    "1. Get a valid API key from: https://console.anthropic.com/\n" +
                                    "2. Open Settings → AI Provider\n" +
                                    "3. Enter your new API key\n" +
-                                   "4. Test the connection\n\n" +
+                                   "4. Click Test Connection to verify\n\n" +
                                    "📱 **Alternative:** Switch to OpenAI in Settings if you have an OpenAI API key."
                         };
                     }
+                    
+                    if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                    {
+                        ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.RateLimited, "Rate limited");
+                        return new AIResponse 
+                        { 
+                            Success = false, 
+                            Error = "⏸️ **Rate Limit Exceeded**\n\nYou've made too many requests. Please wait a moment and try again.\n\n" +
+                                   "💡 **Tips:**\n" +
+                                   "- Wait 1-2 minutes before trying again\n" +
+                                   "- Consider upgrading your Anthropic plan for higher limits\n" +
+                                   "- Switch to OpenAI temporarily if available"
+                        };
+                    }
+                    
+                    ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.Disconnected, $"API error: {response.StatusCode}");
                     return new AIResponse 
                     { 
                         Success = false, 
@@ -238,6 +238,9 @@ namespace AtlasAI.AI
                         tokensUsed = outputTokens.GetInt32();
                 }
 
+                // Update connection status on success
+                ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.Connected);
+                
                 return new AIResponse
                 {
                     Success = true,
@@ -246,30 +249,68 @@ namespace AtlasAI.AI
                     Model = selectedModel
                 };
             }
+            catch (TaskCanceledException)
+            {
+                ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.Disconnected, "Request timeout");
+                return new AIResponse { 
+                    Success = false, 
+                    Error = "⏱️ **Request Timed Out**\n\n" +
+                           "The request took too long (30s limit).\n\n" +
+                           "💡 **What to try:**\n" +
+                           "- Check your internet connection\n" +
+                           "- Try again in a moment\n" +
+                           "- Use a smaller/faster model if available"
+                };
+            }
+            catch (HttpRequestException ex)
+            {
+                ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.Disconnected, "Network error");
+                return new AIResponse { 
+                    Success = false, 
+                    Error = $"🔴 **Network Error**\n\n{ex.Message}\n\n" +
+                           "💡 **Troubleshooting:**\n" +
+                           "- Check your internet connection\n" +
+                           "- Verify firewall/proxy settings\n" +
+                           "- Try switching networks (WiFi/mobile data)"
+                };
+            }
             catch (Exception ex)
             {
-                return new AIResponse { Success = false, Error = $"🔴 **Claude Connection Error**\n\n{ex.Message}\n\nCheck your internet connection and API key." };
+                ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.Disconnected, ex.Message);
+                return new AIResponse { 
+                    Success = false, 
+                    Error = $"🔴 **Claude Connection Error**\n\n{ex.Message}\n\n" +
+                           "Check your internet connection and API key." 
+                };
             }
         }
 
         public async Task<bool> TestConnectionAsync()
         {
-            if (!IsConfigured) return false;
-
-            try
+            if (!IsConfigured)
             {
-                var testMessages = new List<object>
-                {
-                    new { role = "user", content = "Hello" }
-                };
-
-                var response = await SendMessageAsync(testMessages, "", 10);
-                return response.Success;
-            }
-            catch
-            {
+                ApiConnectionStatus.Instance.UpdateStatus("claude", ConnectionStatus.NoApiKey);
                 return false;
             }
+
+            // Use the connection status manager for testing with retry logic
+            return await ApiConnectionStatus.Instance.TestConnectionAsync("claude", async () =>
+            {
+                try
+                {
+                    var testMessages = new List<object>
+                    {
+                        new { role = "user", content = "test" }
+                    };
+
+                    var response = await SendMessageAsync(testMessages, "", 10);
+                    return response.Success;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
         }
     }
 }
