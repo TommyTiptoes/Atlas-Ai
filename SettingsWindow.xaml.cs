@@ -63,6 +63,34 @@ namespace AtlasAI
             
             // Subscribe to voice recording events to prevent audio interference
             SubscribeToVoiceRecordingEvents();
+            
+            // Subscribe to API connection status changes for live updates
+            Core.ApiConnectionStatus.Instance.StatusChanged += OnApiConnectionStatusChanged;
+            AI.AIManager.ConnectionStatusChanged += OnAIManagerStatusChanged;
+        }
+        
+        private void OnApiConnectionStatusChanged(string provider, Core.ConnectionStatus status)
+        {
+            // Update UI on dispatcher thread
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                // Only update if this is the active provider
+                var activeProvider = AI.AIManager.GetActiveProvider().ToString().ToLower();
+                if (provider.ToLower() == activeProvider)
+                {
+                    UpdateApiStatusDisplay();
+                }
+            }));
+        }
+        
+        private void OnAIManagerStatusChanged(string statusMessage)
+        {
+            // Update UI on dispatcher thread
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                Debug.WriteLine($"[Settings] AI Manager status changed: {statusMessage}");
+                UpdateApiStatusDisplay();
+            }));
         }
         
         /// <summary>
@@ -120,6 +148,10 @@ namespace AtlasAI
         {
             StopAudioMonitor();
             AudioCoordinator.UnregisterMonitor(this);
+            
+            // Unsubscribe from events
+            Core.ApiConnectionStatus.Instance.StatusChanged -= OnApiConnectionStatusChanged;
+            AI.AIManager.ConnectionStatusChanged -= OnAIManagerStatusChanged;
         }
         
         // Audio system coordination to prevent interference

@@ -177,18 +177,51 @@ namespace AtlasAI.AI
             
             // Provide helpful guidance when no API key is configured
             var providerName = activeProvider == AIProviderType.Claude ? "Claude (Anthropic)" : "OpenAI";
+            var providerNameLower = activeProvider.ToString().ToLower();
+            var hasKey = ApiKeyManager.HasApiKey(providerNameLower);
+            
+            if (!hasKey)
+            {
+                return new AIResponse 
+                { 
+                    Success = false, 
+                    Error = $"🔑 **{providerName} API Key Required**\n\n" +
+                           $"Atlas needs an API key to provide AI-powered features.\n\n" +
+                           $"**Quick Setup:**\n" +
+                           $"1. Click the ⚙️ **Settings** button below\n" +
+                           $"2. Go to **AI Provider** section\n" +
+                           $"3. Enter your {providerName} API key\n" +
+                           $"4. Click **🔌 Test** to verify the connection\n" +
+                           $"5. Click **Save**\n\n" +
+                           $"**Get API Keys:**\n" +
+                           $"• Claude: https://console.anthropic.com/ (Recommended)\n" +
+                           $"• OpenAI: https://platform.openai.com/api-keys\n\n" +
+                           $"💡 **Why do I need this?**\n" +
+                           $"Atlas uses advanced AI models for:\n" +
+                           $"• Natural conversations and assistance\n" +
+                           $"• Screenshot analysis and understanding\n" +
+                           $"• Code generation and debugging\n" +
+                           $"• Smart task automation\n\n" +
+                           $"**Other features work without API keys:**\n" +
+                           $"• Screenshots (Ctrl+Alt+S)\n" +
+                           $"• System monitoring\n" +
+                           $"• Quick commands\n" +
+                           $"• File management"
+                };
+            }
+            
+            // Have a key but not configured in provider
             return new AIResponse 
             { 
                 Success = false, 
-                Error = $"🔑 **{providerName} API Key Required**\n\n" +
-                       $"To use AI features like screenshot analysis and smart responses:\n" +
+                Error = $"🔴 **{providerName} Not Configured**\n\n" +
+                       $"An API key was found but the provider is not properly configured.\n\n" +
+                       $"**Try these steps:**\n" +
                        $"1. Open Settings → AI Provider\n" +
-                       $"2. Add your {providerName} API key\n" +
-                       $"3. Test the connection\n\n" +
-                       $"💡 **Get API Keys:**\n" +
-                       $"• Claude: https://console.anthropic.com/\n" +
-                       $"• OpenAI: https://platform.openai.com/api-keys\n\n" +
-                       $"Basic features like screenshots, system scan, and commands work without API keys."
+                       $"2. Select {providerName}\n" +
+                       $"3. Click **🔌 Test** to check the connection\n" +
+                       $"4. If the test fails, re-enter your API key\n" +
+                       $"5. Click **Save**"
             };
         }
 
