@@ -114,6 +114,7 @@ namespace AtlasAI.Core
             UpdateStatus(provider, ConnectionStatus.Testing);
             
             var retryCount = _retryCount.TryGetValue(key, out var count) ? count : 0;
+            const int MaxDelayMs = 30000; // Maximum 30 second delay
             
             for (int attempt = 0; attempt <= MaxRetries; attempt++)
             {
@@ -171,10 +172,10 @@ namespace AtlasAI.Core
                     }
                 }
                 
-                // Wait before retry with exponential backoff
+                // Wait before retry with exponential backoff and max delay cap
                 if (attempt < MaxRetries)
                 {
-                    var delay = RetryDelayMs * (int)Math.Pow(2, attempt);
+                    var delay = Math.Min(RetryDelayMs * (int)Math.Pow(2, attempt), MaxDelayMs);
                     await Task.Delay(delay, cancellationToken);
                 }
             }

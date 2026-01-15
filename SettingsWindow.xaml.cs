@@ -1561,6 +1561,18 @@ namespace AtlasAI
             }
         }
         
+        // Cached brushes for performance
+        private static readonly SolidColorBrush ConnectedBrush = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e)) { Opacity = 0.1 };
+        private static readonly SolidColorBrush ConnectedTextBrush = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e));
+        private static readonly SolidColorBrush ErrorBrush = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44)) { Opacity = 0.1 };
+        private static readonly SolidColorBrush ErrorTextBrush = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44));
+        private static readonly SolidColorBrush WarningBrush = new SolidColorBrush(Color.FromRgb(0xf5, 0x9e, 0x0b)) { Opacity = 0.1 };
+        private static readonly SolidColorBrush WarningTextBrush = new SolidColorBrush(Color.FromRgb(0xf5, 0x9e, 0x0b));
+        private static readonly SolidColorBrush InfoBrush = new SolidColorBrush(Color.FromRgb(0x22, 0xd3, 0xee)) { Opacity = 0.1 };
+        private static readonly SolidColorBrush InfoTextBrush = new SolidColorBrush(Color.FromRgb(0x22, 0xd3, 0xee));
+        private static readonly SolidColorBrush NeutralBrush = new SolidColorBrush(Color.FromRgb(0x94, 0xa3, 0xb8)) { Opacity = 0.1 };
+        private static readonly SolidColorBrush NeutralTextBrush = new SolidColorBrush(Color.FromRgb(0x94, 0xa3, 0xb8));
+        
         private void UpdateApiStatusDisplay()
         {
             try
@@ -1570,29 +1582,29 @@ namespace AtlasAI
                 
                 ApiStatusText.Text = statusMessage;
                 
-                // Update colors based on status
+                // Update colors based on status using cached brushes
                 switch (status)
                 {
                     case Core.ConnectionStatus.Connected:
-                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e)) { Opacity = 0.1 };
-                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e));
+                        ApiStatusBorder.Background = ConnectedBrush;
+                        ApiStatusText.Foreground = ConnectedTextBrush;
                         break;
                     case Core.ConnectionStatus.NoApiKey:
                     case Core.ConnectionStatus.InvalidKey:
-                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44)) { Opacity = 0.1 };
-                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44));
+                        ApiStatusBorder.Background = ErrorBrush;
+                        ApiStatusText.Foreground = ErrorTextBrush;
                         break;
                     case Core.ConnectionStatus.RateLimited:
-                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0xf5, 0x9e, 0x0b)) { Opacity = 0.1 };
-                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xf5, 0x9e, 0x0b));
+                        ApiStatusBorder.Background = WarningBrush;
+                        ApiStatusText.Foreground = WarningTextBrush;
                         break;
                     case Core.ConnectionStatus.Testing:
-                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0x22, 0xd3, 0xee)) { Opacity = 0.1 };
-                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x22, 0xd3, 0xee));
+                        ApiStatusBorder.Background = InfoBrush;
+                        ApiStatusText.Foreground = InfoTextBrush;
                         break;
                     default:
-                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0x94, 0xa3, 0xb8)) { Opacity = 0.1 };
-                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x94, 0xa3, 0xb8));
+                        ApiStatusBorder.Background = NeutralBrush;
+                        ApiStatusText.Foreground = NeutralTextBrush;
                         break;
                 }
             }
@@ -1605,7 +1617,7 @@ namespace AtlasAI
         private void AIApiKey_Changed(object sender, RoutedEventArgs e)
         {
             // Just mark that the key has changed - actual save happens on Save_Click
-            if (!_isLoadingSettings && !string.IsNullOrEmpty(AIApiKeyBox.Password))
+            if (!_isLoadingSettings && AIApiKeyBox != null && !string.IsNullOrEmpty(AIApiKeyBox.Password))
             {
                 ApiKeyStatusText.Text = "💾 Key changed - click Save to apply";
                 ApiKeyStatusText.Visibility = Visibility.Visible;

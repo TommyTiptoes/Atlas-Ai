@@ -8,10 +8,11 @@ using AtlasAI.Core;
 
 namespace AtlasAI.AI
 {
-    public class ClaudeProvider : IAIProvider
+    public class ClaudeProvider : IAIProvider, IDisposable
     {
         private readonly HttpClient httpClient;
         private string apiKey = "";
+        private bool _disposed = false;
 
         public ClaudeProvider()
         {
@@ -26,6 +27,33 @@ namespace AtlasAI.AI
             
             // Subscribe to key changes
             ApiKeyManager.KeyChanged += OnApiKeyChanged;
+        }
+        
+        ~ClaudeProvider()
+        {
+            Dispose(false);
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // Unsubscribe from events to prevent memory leaks
+                    ApiKeyManager.KeyChanged -= OnApiKeyChanged;
+                    
+                    // Dispose HttpClient
+                    httpClient?.Dispose();
+                }
+                _disposed = true;
+            }
         }
         
         private void LoadApiKeyFromManager()

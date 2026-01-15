@@ -8,10 +8,11 @@ using AtlasAI.Core;
 
 namespace AtlasAI.AI
 {
-    public class OpenAIProvider : IAIProvider
+    public class OpenAIProvider : IAIProvider, IDisposable
     {
         private static readonly HttpClient httpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(60) };
         private string apiKey = "";
+        private bool _disposed = false;
 
         public OpenAIProvider()
         {
@@ -23,6 +24,30 @@ namespace AtlasAI.AI
             
             // Subscribe to key changes
             ApiKeyManager.KeyChanged += OnApiKeyChanged;
+        }
+        
+        ~OpenAIProvider()
+        {
+            Dispose(false);
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // Unsubscribe from events to prevent memory leaks
+                    ApiKeyManager.KeyChanged -= OnApiKeyChanged;
+                }
+                _disposed = true;
+            }
         }
         
         private void LoadApiKeyFromManager()

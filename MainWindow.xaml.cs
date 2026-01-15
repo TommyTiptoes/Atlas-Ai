@@ -65,8 +65,8 @@ namespace AtlasAI
         {
             try
             {
-                // Check if we have any API keys configured
-                var hasAnyKey = AI.AIManager.GetConfiguredProviders().Count > 0;
+                // Check if we have any API keys configured (efficient check)
+                var hasAnyKey = AI.AIManager.HasActiveProviderApiKey();
                 
                 if (!hasAnyKey)
                 {
