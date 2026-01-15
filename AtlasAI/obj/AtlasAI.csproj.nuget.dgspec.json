@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\littl\\VisualAIVirtualAssistant\\AtlasAI\\AtlasAI.csproj": {}
+    "/home/runner/work/Atlas-Ai/Atlas-Ai/AtlasAI/AtlasAI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\littl\\VisualAIVirtualAssistant\\AtlasAI\\AtlasAI.csproj": {
+    "/home/runner/work/Atlas-Ai/Atlas-Ai/AtlasAI/AtlasAI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\littl\\VisualAIVirtualAssistant\\AtlasAI\\AtlasAI.csproj",
+        "projectUniqueName": "/home/runner/work/Atlas-Ai/Atlas-Ai/AtlasAI/AtlasAI.csproj",
         "projectName": "VisualAIAssistant",
-        "projectPath": "C:\\Users\\littl\\VisualAIVirtualAssistant\\AtlasAI\\AtlasAI.csproj",
-        "packagesPath": "C:\\Users\\littl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\littl\\VisualAIVirtualAssistant\\AtlasAI\\obj\\",
+        "projectPath": "/home/runner/work/Atlas-Ai/Atlas-Ai/AtlasAI/AtlasAI.csproj",
+        "packagesPath": "/home/runner/work/Atlas-Ai/.codeql-scratch/dbs/csharp/working/packages",
+        "outputPath": "/home/runner/work/Atlas-Ai/Atlas-Ai/AtlasAI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\littl\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0-windows"
@@ -88,6 +88,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.22, 8.0.22]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -96,7 +114,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
