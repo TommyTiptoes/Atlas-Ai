@@ -1478,6 +1478,13 @@ namespace AtlasAI
             
             if (AIProviderComboBox.SelectedIndex < 0 && AIProviderComboBox.Items.Count > 0)
                 AIProviderComboBox.SelectedIndex = 0;
+            
+            // Load API key and status for the selected provider
+            if (activeProvider != default)
+            {
+                LoadApiKeyForProvider(activeProvider);
+                UpdateApiStatusDisplay();
+            }
         }
 
         private async void AIProviderComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1486,6 +1493,162 @@ namespace AtlasAI
             {
                 await AIManager.SetActiveProviderAsync(type);
                 await LoadAIModelsAsync();
+                
+                // Load API key for selected provider
+                LoadApiKeyForProvider(type);
+                
+                // Update connection status display
+                UpdateApiStatusDisplay();
+            }
+        }
+        
+        private void LoadApiKeyForProvider(AIProviderType providerType)
+        {
+            try
+            {
+                var providerName = providerType.ToString().ToLower();
+                var apiKey = Core.ApiKeyManager.GetApiKey(providerName);
+                
+                if (!string.IsNullOrEmpty(apiKey))
+                {
+                    // Show masked key
+                    AIApiKeyBox.Password = apiKey;
+                    ApiKeyStatusText.Text = $"🔑 Loaded: {Core.ApiKeyManager.MaskApiKey(apiKey)}";
+                    ApiKeyStatusText.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    AIApiKeyBox.Password = "";
+                    ApiKeyStatusText.Text = "🔑 No API key configured";
+                    ApiKeyStatusText.Visibility = Visibility.Visible;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Settings] Error loading API key: {ex.Message}");
+            }
+        }
+        
+        private void UpdateApiStatusDisplay()
+        {
+            try
+            {
+                var statusMessage = AIManager.GetActiveProviderStatusMessage();
+                var status = AIManager.GetActiveProviderStatus();
+                
+                ApiStatusText.Text = statusMessage;
+                
+                // Update colors based on status
+                switch (status)
+                {
+                    case Core.ConnectionStatus.Connected:
+                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e)) { Opacity = 0.1 };
+                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e));
+                        break;
+                    case Core.ConnectionStatus.NoApiKey:
+                    case Core.ConnectionStatus.InvalidKey:
+                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44)) { Opacity = 0.1 };
+                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44));
+                        break;
+                    case Core.ConnectionStatus.RateLimited:
+                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0xf5, 0x9e, 0x0b)) { Opacity = 0.1 };
+                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xf5, 0x9e, 0x0b));
+                        break;
+                    case Core.ConnectionStatus.Testing:
+                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0x22, 0xd3, 0xee)) { Opacity = 0.1 };
+                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x22, 0xd3, 0xee));
+                        break;
+                    default:
+                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0x94, 0xa3, 0xb8)) { Opacity = 0.1 };
+                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x94, 0xa3, 0xb8));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Settings] Error updating API status: {ex.Message}");
+            }
+        }
+        
+        private void AIApiKey_Changed(object sender, RoutedEventArgs e)
+        {
+            // Just mark that the key has changed - actual save happens on Save_Click
+            if (!_isLoadingSettings && !string.IsNullOrEmpty(AIApiKeyBox.Password))
+            {
+                ApiKeyStatusText.Text = "💾 Key changed - click Save to apply";
+                ApiKeyStatusText.Visibility = Visibility.Visible;
+            }
+        }
+        
+        private async void TestApiConnection_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TestApiConnectionBtn.IsEnabled = false;
+                TestApiConnectionBtn.Content = "⏳ Testing...";
+                
+                // Save the API key first if it has changed
+                var currentProvider = AIManager.GetActiveProvider();
+                var providerName = currentProvider.ToString().ToLower();
+                var apiKey = AIApiKeyBox.Password;
+                
+                if (!string.IsNullOrEmpty(apiKey))
+                {
+                    // Validate and save the key
+                    if (Core.ApiKeyManager.IsValidKeyFormat(providerName, apiKey))
+                    {
+                        Core.ApiKeyManager.SaveApiKey(providerName, apiKey);
+                        
+                        // Configure the provider
+                        await AIManager.ConfigureProviderAsync(currentProvider, new Dictionary<string, string>
+                        {
+                            { "ApiKey", apiKey }
+                        });
+                    }
+                    else
+                    {
+                        ApiStatusText.Text = $"❌ Invalid API key format for {currentProvider}";
+                        ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44)) { Opacity = 0.1 };
+                        ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44));
+                        TestApiConnectionBtn.IsEnabled = true;
+                        TestApiConnectionBtn.Content = "🔌 Test";
+                        return;
+                    }
+                }
+                
+                // Test connection
+                ApiStatusText.Text = "🔄 Testing connection...";
+                UpdateApiStatusDisplay();
+                
+                var success = await AIManager.TestProviderConnectionAsync(currentProvider);
+                
+                // Update status display
+                UpdateApiStatusDisplay();
+                
+                if (success)
+                {
+                    ApiKeyStatusText.Text = $"✅ Connection successful!";
+                    ApiKeyStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0x22, 0xc5, 0x5e));
+                }
+                else
+                {
+                    var error = Core.ApiConnectionStatus.Instance.GetLastError(providerName);
+                    ApiKeyStatusText.Text = $"❌ Connection failed: {error}";
+                    ApiKeyStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44));
+                }
+                ApiKeyStatusText.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                ApiStatusText.Text = $"❌ Error: {ex.Message}";
+                ApiStatusBorder.Background = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44)) { Opacity = 0.1 };
+                ApiStatusText.Foreground = new SolidColorBrush(Color.FromRgb(0xef, 0x44, 0x44));
+                Debug.WriteLine($"[Settings] Test connection error: {ex.Message}");
+            }
+            finally
+            {
+                TestApiConnectionBtn.IsEnabled = true;
+                TestApiConnectionBtn.Content = "🔌 Test";
             }
         }
 

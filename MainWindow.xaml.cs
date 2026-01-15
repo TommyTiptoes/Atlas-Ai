@@ -57,8 +57,48 @@ namespace AtlasAI
             // Register Ctrl+Alt+A hotkey
             RegisterHotKey(helper.Handle, HOTKEY_ID, MOD_CTRL | MOD_ALT, VK_A);
             
-            // Auto-open chat window on startup so voice recognition starts immediately
-            OpenChatWindow();
+            // Check API status before auto-opening ChatWindow
+            CheckApiStatusAndOpenChat();
+        }
+        
+        private async void CheckApiStatusAndOpenChat()
+        {
+            try
+            {
+                // Check if we have any API keys configured
+                var hasAnyKey = AI.AIManager.GetConfiguredProviders().Count > 0;
+                
+                if (!hasAnyKey)
+                {
+                    // First time user - wait a moment then auto-open chat which will show setup guidance
+                    await Task.Delay(500);
+                    OpenChatWindow();
+                    return;
+                }
+                
+                // We have keys - check connection status
+                var status = AI.AIManager.GetActiveProviderStatus();
+                
+                // Auto-open chat window if status is good or unknown (we'll test in background)
+                if (status == Core.ConnectionStatus.Connected || 
+                    status == Core.ConnectionStatus.Unknown ||
+                    status == Core.ConnectionStatus.Testing)
+                {
+                    OpenChatWindow();
+                }
+                else
+                {
+                    // Connection issues - still open but user will see error messages in chat
+                    // This is better than leaving them with just the avatar
+                    await Task.Delay(500);
+                    OpenChatWindow();
+                }
+            }
+            catch
+            {
+                // On any error, just open ChatWindow normally
+                OpenChatWindow();
+            }
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

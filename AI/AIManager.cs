@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AtlasAI.Core;
 
 namespace AtlasAI.AI
 {
@@ -18,6 +19,7 @@ namespace AtlasAI.AI
             "AtlasAI", "ai_settings.json");
 
         public static event Action<AIProviderType>? ProviderChanged;
+        public static event Action<string>? ConnectionStatusChanged;
 
         static AIManager()
         {
@@ -26,6 +28,14 @@ namespace AtlasAI.AI
             providers[AIProviderType.OpenAI] = new OpenAIProvider();
             
             LoadSettings();
+            
+            // Subscribe to connection status changes
+            ApiConnectionStatus.Instance.StatusChanged += OnConnectionStatusChanged;
+        }
+        
+        private static void OnConnectionStatusChanged(string provider, ConnectionStatus status)
+        {
+            ConnectionStatusChanged?.Invoke($"{provider}: {status}");
         }
 
         public static async Task<bool> ConfigureProviderAsync(AIProviderType providerType, Dictionary<string, string> config)
@@ -36,10 +46,60 @@ namespace AtlasAI.AI
                 if (success)
                 {
                     SaveSettings();
+                    
+                    // Test connection after configuration
+                    _ = TestProviderConnectionAsync(providerType);
                 }
                 return success;
             }
             return false;
+        }
+        
+        /// <summary>
+        /// Test connection to a specific provider
+        /// </summary>
+        public static async Task<bool> TestProviderConnectionAsync(AIProviderType providerType)
+        {
+            if (providers.TryGetValue(providerType, out var provider))
+            {
+                try
+                {
+                    return await provider.TestConnectionAsync();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"AIManager: Test connection failed for {providerType}: {ex.Message}");
+                    return false;
+                }
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// Get connection status for the active provider
+        /// </summary>
+        public static ConnectionStatus GetActiveProviderStatus()
+        {
+            var providerName = activeProvider.ToString().ToLower();
+            return ApiConnectionStatus.Instance.GetStatus(providerName);
+        }
+        
+        /// <summary>
+        /// Get connection status message for the active provider
+        /// </summary>
+        public static string GetActiveProviderStatusMessage()
+        {
+            var providerName = activeProvider.ToString().ToLower();
+            return ApiConnectionStatus.Instance.GetStatusMessage(providerName);
+        }
+        
+        /// <summary>
+        /// Check if active provider has an API key configured
+        /// </summary>
+        public static bool HasActiveProviderApiKey()
+        {
+            var providerName = activeProvider.ToString().ToLower();
+            return ApiKeyManager.HasApiKey(providerName);
         }
 
         public static async Task<bool> SetActiveProviderAsync(AIProviderType providerType)
