@@ -65,6 +65,44 @@ namespace AtlasAI
             
             // Set default icon for all windows
             EventManager.RegisterClassHandler(typeof(Window), Window.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
+            
+            // Check API connectivity on startup (async, non-blocking)
+            Task.Run(async () => await CheckApiConnectivityAsync());
+        }
+        
+        /// <summary>
+        /// Check API connectivity on startup to provide early feedback
+        /// </summary>
+        private async Task CheckApiConnectivityAsync()
+        {
+            try
+            {
+                var activeProvider = AI.AIManager.GetActiveProvider();
+                var hasApiKey = AI.AIManager.HasActiveProviderApiKey();
+                
+                if (!hasApiKey)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[App] No API key configured for {activeProvider}");
+                    return;
+                }
+                
+                // Test connection to active provider in background
+                System.Diagnostics.Debug.WriteLine($"[App] Testing connection to {activeProvider}...");
+                var connected = await AI.AIManager.TestProviderConnectionAsync(activeProvider);
+                
+                if (connected)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[App] Successfully connected to {activeProvider}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"[App] Failed to connect to {activeProvider}");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[App] Error checking API connectivity: {ex.Message}");
+            }
         }
         
         private void ApplyCyanAccentColor()

@@ -197,7 +197,48 @@
                             
                             <TextBlock Text="Model" Style="{StaticResource FieldLabel}"/>
                             <ComboBox x:Name="AIModelComboBox" Style="{StaticResource AtlasComboBox}"
-                                      SelectionChanged="AIModelComboBox_SelectionChanged"/>
+                                      SelectionChanged="AIModelComboBox_SelectionChanged" Margin="0,0,0,16"/>
+                            
+                            <!-- API Key Input and Status -->
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="API Key" Style="{StaticResource FieldLabel}"/>
+                                    <PasswordBox x:Name="AIApiKeyBox" Style="{StaticResource AtlasPasswordBox}"
+                                                 PasswordChanged="AIApiKey_Changed"/>
+                                </StackPanel>
+                                <Button x:Name="TestApiConnectionBtn" Grid.Column="1" Content="🔌 Test"
+                                        Width="80" Height="36" Click="TestApiConnection_Click" VerticalAlignment="Bottom"
+                                        Background="#22c55e20" Foreground="#22c55e" BorderThickness="0"
+                                        Margin="8,0,0,0">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="bd" Property="Background" Value="#22c55e30"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                            
+                            <!-- Connection Status -->
+                            <Border x:Name="ApiStatusBorder" Background="#22d3ee10" CornerRadius="4" Padding="10" Margin="0,0,0,0">
+                                <StackPanel>
+                                    <TextBlock x:Name="ApiStatusText" Text="❓ Connection status unknown - click Test to check" 
+                                               Foreground="#94a3b8" FontSize="11" TextWrapping="Wrap"/>
+                                    <TextBlock x:Name="ApiKeyStatusText" Text="" 
+                                               Foreground="#94a3b8" FontSize="10" Margin="0,5,0,0"
+                                               Visibility="Collapsed"/>
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
                     </Border>
                     
